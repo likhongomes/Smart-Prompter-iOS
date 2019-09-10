@@ -11,22 +11,27 @@ import UIKit
 class NewAlarmVC: UIViewController {
     
     let backButton = UIButton()
+    let saveButton = UIButton()
+    let cancelButton = UIButton()
+    let deleteButton = UIButton()
+    let buttonStack = UIStackView()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
         view.addNavigationBar(viewControllerName: "Create New Alarm", leftButton: backButton)
         backButtonSetup()
+        buttonStackSetup()
+        saveButtonSetup()
+        cancelButtonSetup()
+        deleteButtonSetup()
         // Do any additional setup after loading the view.
     }
     
     func backButtonSetup() {
         backButton.translatesAutoresizingMaskIntoConstraints = false
-        //backButton.leadingAnchor.constraint(equalTo: navView.leadingAnchor, constant: 5).isActive = true
-        //backButton.bottomAnchor.constraint(equalTo: navView.bottomAnchor, constant: -5).isActive = true
         backButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
         backButton.widthAnchor.constraint(equalToConstant: 30).isActive = true
-        //backButton.backgroundColor = .blue
         backButton.setBackgroundImage(UIImage(named: "backButton"), for: .normal)
         backButton.contentMode = .scaleAspectFill
         backButton.addTarget(self, action: #selector(backButtonClicked), for: .touchUpInside)
@@ -36,7 +41,40 @@ class NewAlarmVC: UIViewController {
         dismiss(animated: true, completion: nil)
     }
 
+    func saveButtonSetup() {
+        saveButton.translatesAutoresizingMaskIntoConstraints = false
+        saveButton.setTitle("Save", for: .normal)
+        saveButton.backgroundColor = .red
+    }
+    
+    func cancelButtonSetup() {
+        cancelButton.translatesAutoresizingMaskIntoConstraints = false
+        cancelButton.setTitle("Cancel", for: .normal)
+        cancelButton.backgroundColor = .red
+    }
+    
+    func deleteButtonSetup() {
+        deleteButton.translatesAutoresizingMaskIntoConstraints = false
+        deleteButton.setTitle("Delete", for: .normal)
+        deleteButton.backgroundColor = .red
+    }
 
+
+    
+    func buttonStackSetup() {
+        view.addSubview(buttonStack)
+        buttonStack.translatesAutoresizingMaskIntoConstraints = false
+        buttonStack.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10).isActive = true
+        buttonStack.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10).isActive = true
+        buttonStack.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -10).isActive = true
+        buttonStack.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        buttonStack.backgroundColor = .blue
+        buttonStack.addArrangedSubview(saveButton)
+        buttonStack.addArrangedSubview(cancelButton)
+        buttonStack.addArrangedSubview(deleteButton)
+        buttonStack.spacing = 5
+        buttonStack.distribution = .fillEqually
+    }
     
     
 
