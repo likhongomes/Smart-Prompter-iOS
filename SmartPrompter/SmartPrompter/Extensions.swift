@@ -38,7 +38,7 @@ extension UIView {
         leftButton.bottomAnchor.constraint(equalTo: navView.bottomAnchor, constant: -5).isActive = true
         leftButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
         leftButton.widthAnchor.constraint(equalToConstant: 30).isActive = true
-        leftButton.backgroundColor = .blue
+        //leftButton.backgroundColor = .blue
     }
     
     

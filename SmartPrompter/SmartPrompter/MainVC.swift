@@ -106,7 +106,15 @@ class MainVC: UIViewController {
         //viewAlarmButton.widthAnchor.constraint(equalToConstant: 200).isActive = true
         viewAlarmButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
         viewAlarmButton.topAnchor.constraint(equalTo: newAlarmButton.bottomAnchor, constant: 10).isActive = true
+        viewAlarmButton.addTarget(self, action: #selector(viewAlarmButtonClicked), for: .touchUpInside)
     }
+    
+    @objc func viewAlarmButtonClicked() {
+        let vc = CurrentAlarmVC()
+        vc.modalTransitionStyle = .crossDissolve
+        present(vc, animated: true, completion: nil)
+    }
+
     
     func pastAlarmsButtonSetup() {
         //view.addSubview(pastAlarmsButton)
@@ -116,7 +124,16 @@ class MainVC: UIViewController {
         //pastAlarmsButton.widthAnchor.constraint(equalToConstant: 200).isActive = true
         pastAlarmsButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
         pastAlarmsButton.topAnchor.constraint(equalTo: viewAlarmButton.bottomAnchor, constant: 10).isActive = true
+        pastAlarmsButton.addTarget(self, action: #selector(pastAlarmButtonClicked), for: .touchUpInside)
     }
+    
+    @objc func pastAlarmButtonClicked() {
+        let vc = PastAlarmsVC()
+        vc.modalTransitionStyle = .crossDissolve
+        present(vc, animated: true, completion: nil)
+    }
+    
+    
 
 
     

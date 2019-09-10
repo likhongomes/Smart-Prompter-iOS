@@ -1,23 +1,22 @@
 //
-//  NewAlarmVC.swift
+//  PastAlarmsVC.swift
 //  SmartPrompter
 //
-//  Created by Likhon Gomes on 9/9/19.
+//  Created by Likhon Gomes on 9/10/19.
 //  Copyright © 2019 Likhon Gomes. All rights reserved.
 //
 
 import UIKit
 
-class NewAlarmVC: UIViewController {
-    
-    let backButton = UIButton()
+class PastAlarmsVC: UIViewController {
 
+    let backButton = UIButton()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.addNavigationBar(viewControllerName: "Past Alarms", leftButton: backButton)
         view.backgroundColor = .white
-        view.addNavigationBar(viewControllerName: "Create New Alarm", leftButton: backButton)
         backButtonSetup()
-        // Do any additional setup after loading the view.
     }
     
     func backButtonSetup() {
@@ -35,19 +34,5 @@ class NewAlarmVC: UIViewController {
     @objc func backButtonClicked() {
         dismiss(animated: true, completion: nil)
     }
-
-
-    
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }
