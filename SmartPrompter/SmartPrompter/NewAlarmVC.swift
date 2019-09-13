@@ -15,18 +15,128 @@ class NewAlarmVC: UIViewController {
     let cancelButton = UIButton()
     let deleteButton = UIButton()
     let buttonStack = UIStackView()
+    
+    let alarmDetailsLabel = UILabel()
+    let alarmNameLabel = UILabel()
+    let dateLabel = UILabel()
+    let timeLabel = UILabel()
+    
+    
+    let alarmNameTextField = UITextField()
+    let alarmDateTextField = UITextField()
+    let alarmTimeTextField = UITextField()
+    let statusLabel = UILabel()
+    let statusStatusLabel = UILabel()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
         view.addNavigationBar(viewControllerName: "Create New Alarm", leftButton: backButton)
+        alarmDetailsLabelSetup()
+        alarmNameLabelSetup()
+        
+        
+        alarmNameTextFieldSetup()
+        dateLabelSetup()
+        alarmDateTextFieldSetup()
+        timeLabelSetup()
+        alarmTimeTextFieldSetup()
+        statusLabelSetup()
+        statusStatusLabelSetup()
         backButtonSetup()
         buttonStackSetup()
         saveButtonSetup()
         cancelButtonSetup()
         deleteButtonSetup()
-        // Do any additional setup after loading the view.
     }
+    
+    func alarmNameTextFieldSetup() {
+        view.addSubview(alarmNameTextField)
+        alarmNameTextField.translatesAutoresizingMaskIntoConstraints = false
+        alarmNameTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10).isActive = true
+        alarmNameTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10).isActive = true
+        alarmNameTextField.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        alarmNameTextField.topAnchor.constraint(equalTo: alarmNameLabel.bottomAnchor, constant: 2).isActive = true
+        alarmNameTextField.placeholder = "Label"
+        alarmNameTextField.layer.borderColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
+        alarmNameTextField.layer.borderWidth = 0.5
+    }
+    
+    func alarmDateTextFieldSetup() {
+        view.addSubview(alarmDateTextField)
+        alarmDateTextField.translatesAutoresizingMaskIntoConstraints = false
+        alarmDateTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10).isActive = true
+        alarmDateTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10).isActive = true
+        alarmDateTextField.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        alarmDateTextField.topAnchor.constraint(equalTo: dateLabel.bottomAnchor, constant: 2).isActive = true
+        alarmDateTextField.placeholder = "Date"
+        alarmDateTextField.layer.borderColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
+        alarmDateTextField.layer.borderWidth = 0.5
+    }
+    
+    func alarmTimeTextFieldSetup() {
+        view.addSubview(alarmTimeTextField)
+        alarmTimeTextField.translatesAutoresizingMaskIntoConstraints = false
+        alarmTimeTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10).isActive = true
+        alarmTimeTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10).isActive = true
+        alarmTimeTextField.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        alarmTimeTextField.topAnchor.constraint(equalTo: timeLabel.bottomAnchor, constant: 2).isActive = true
+        alarmTimeTextField.placeholder = "Time"
+        alarmTimeTextField.layer.borderColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
+        alarmTimeTextField.layer.borderWidth = 0.5
+    }
+    
+    func statusLabelSetup() {
+        view.addSubview(statusLabel)
+        statusLabel.translatesAutoresizingMaskIntoConstraints = false
+        statusLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        statusLabel.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        statusLabel.topAnchor.constraint(equalTo: alarmTimeTextField.bottomAnchor, constant: 10).isActive = true
+        statusLabel.text = "Status"
+    }
+    
+    func alarmNameLabelSetup() {
+        view.addSubview(alarmNameLabel)
+        alarmNameLabel.translatesAutoresizingMaskIntoConstraints = false
+        alarmNameLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        alarmNameLabel.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        alarmNameLabel.topAnchor.constraint(equalTo: alarmDetailsLabel.bottomAnchor, constant: 5).isActive = true
+        alarmNameLabel.text = "Label"
+    }
+    
+    func alarmDetailsLabelSetup() {
+        view.addSubview(alarmDetailsLabel)
+        alarmDetailsLabel.translatesAutoresizingMaskIntoConstraints = false
+        alarmDetailsLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        alarmDetailsLabel.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        alarmDetailsLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 70).isActive = true
+        alarmDetailsLabel.text = "Alarm Details"
+        alarmDetailsLabel.font = UIFont.systemFont(ofSize: 30)
+    }
+
+    
+    func dateLabelSetup() {
+        view.addSubview(dateLabel)
+        dateLabel.translatesAutoresizingMaskIntoConstraints = false
+        dateLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        dateLabel.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        dateLabel.topAnchor.constraint(equalTo: alarmNameTextField.bottomAnchor, constant: 10).isActive = true
+        dateLabel.text = "Date"
+    }
+    
+    func timeLabelSetup() {
+        view.addSubview(timeLabel)
+        timeLabel.translatesAutoresizingMaskIntoConstraints = false
+        timeLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        timeLabel.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        timeLabel.topAnchor.constraint(equalTo: alarmDateTextField.bottomAnchor, constant: 10).isActive = true
+        timeLabel.text = "Time"
+    }
+
+
+    
+    
+    
     
     func backButtonSetup() {
         backButton.translatesAutoresizingMaskIntoConstraints = false
@@ -45,21 +155,36 @@ class NewAlarmVC: UIViewController {
         saveButton.translatesAutoresizingMaskIntoConstraints = false
         saveButton.setTitle("Save", for: .normal)
         saveButton.backgroundColor = .red
+        saveButton.addTarget(self, action: #selector(saveButtonClicked), for: .touchUpInside)
+    }
+    
+    @objc func saveButtonClicked() {
+        
     }
     
     func cancelButtonSetup() {
         cancelButton.translatesAutoresizingMaskIntoConstraints = false
         cancelButton.setTitle("Cancel", for: .normal)
         cancelButton.backgroundColor = .red
+        cancelButton.addTarget(self, action: #selector(cancelButtonClicked), for: .touchUpInside)
+    }
+    
+    @objc func cancelButtonClicked() {
+        
     }
     
     func deleteButtonSetup() {
         deleteButton.translatesAutoresizingMaskIntoConstraints = false
         deleteButton.setTitle("Delete", for: .normal)
         deleteButton.backgroundColor = .red
+        deleteButton.addTarget(self, action: #selector(deleteButtonClicked), for: .touchUpInside)
+    }
+    
+    @objc func deleteButtonClicked() {
+        
     }
 
-
+    
     
     func buttonStackSetup() {
         view.addSubview(buttonStack)
@@ -76,16 +201,15 @@ class NewAlarmVC: UIViewController {
         buttonStack.distribution = .fillEqually
     }
     
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    func statusStatusLabelSetup() {
+        view.addSubview(statusStatusLabel)
+        statusStatusLabel.translatesAutoresizingMaskIntoConstraints = false
+        statusStatusLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        statusStatusLabel.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        statusStatusLabel.topAnchor.constraint(equalTo: statusLabel.bottomAnchor, constant: 2).isActive = true
+        statusStatusLabel.textColor = #colorLiteral(red: 0.2745098174, green: 0.4862745106, blue: 0.1411764771, alpha: 1)
+        statusStatusLabel.text = "Active"
+        statusStatusLabel.font = UIFont.boldSystemFont(ofSize: 20)
     }
-    */
 
 }
