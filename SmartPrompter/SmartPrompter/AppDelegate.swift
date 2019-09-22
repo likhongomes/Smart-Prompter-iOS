@@ -7,11 +7,18 @@
 //
 
 import UIKit
+import GRDB
+import CoreData
+import UserNotifications
+
+var dbQueue: DatabaseQueue!
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
+    var dbQueue: DatabaseQueue!
+    //let alarmDB = AlarmDB()
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
@@ -21,6 +28,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let rootView = ViewController()
         self.window?.rootViewController = MainVC()
         window?.makeKeyAndVisible()
+        try! setupDatabase(application)
+        askPermissionForNotification()
         
         return true
     }
@@ -47,6 +56,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
 
-
+    private func setupDatabase(_ application: UIApplication) throws {
+        let databaseURL = try FileManager.default
+            .url(for: .applicationSupportDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
+            .appendingPathComponent("SmartPrompter.sqlite")
+        dbQueue = try AppDatabase.openDatabase(atPath: databaseURL.path)
+        print("DB Path\(dbQueue.path)")
+        // Be a nice iOS citizen, and don't consume too much memory
+        // See https://github.com/groue/GRDB.swift/blob/master/README.md#memory-management
+        dbQueue.setupMemoryManagement(in: application)
+    }
+    
+    func askPermissionForNotification() {
+        let center = UNUserNotificationCenter.current()
+        // Request permission to display alerts and play sounds.
+        center.requestAuthorization(options: [.alert, .sound])
+        { (granted, error) in
+            // Enable or disable features based on authorization.
+        }
+    }
 }
 
