@@ -12,23 +12,29 @@ import CoreData
 import UserNotifications
 
 var dbQueue: DatabaseQueue!
+let alarmDB = AlarmDB()
+var activeAlarm = [Alarm]()
+var inactiveAlarm = [Alarm]()
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-    var dbQueue: DatabaseQueue!
+    //var dbQueue: DatabaseQueue!
     //let alarmDB = AlarmDB()
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        try! setupDatabase(application)
+        activeAlarm = alarmDB.getActiveAlarms()
+        inactiveAlarm = alarmDB.getInactiveAlarms()
+        print("activeAlarm Count \(activeAlarm.count)")
         
         window = UIWindow(frame: UIScreen.main.bounds)
         let rootView = ViewController()
         self.window?.rootViewController = MainVC()
         window?.makeKeyAndVisible()
-        try! setupDatabase(application)
         askPermissionForNotification()
         
         return true

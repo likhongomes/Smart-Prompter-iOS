@@ -27,6 +27,10 @@ class NewAlarmVC: UIViewController {
     let alarmTimeTextField = UITextField()
     let statusLabel = UILabel()
     let statusStatusLabel = UILabel()
+    
+    let datePicker = UIDatePicker()
+    let timePicker = UIDatePicker()
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -48,7 +52,66 @@ class NewAlarmVC: UIViewController {
         saveButtonSetup()
         cancelButtonSetup()
         deleteButtonSetup()
+        showDatePicker()
+        showTimePicker()
     }
+    
+    func showDatePicker(){
+        //Formate Date
+        datePicker.datePickerMode = .date
+        
+        //ToolBar
+        let toolbar = UIToolbar();
+        toolbar.sizeToFit()
+        let doneButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(donedatePicker));
+        let spaceButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace, target: nil, action: nil)
+        let cancelButton = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelDatePicker));
+        
+        toolbar.setItems([doneButton,spaceButton,cancelButton], animated: false)
+        
+        alarmDateTextField.inputAccessoryView = toolbar
+        alarmDateTextField.inputView = datePicker
+        
+    }
+    
+    func showTimePicker(){
+        //Formate Date
+        timePicker.datePickerMode = .time
+        
+        //ToolBar
+        let toolbar = UIToolbar();
+        toolbar.sizeToFit()
+        let doneButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(donetimePicker));
+        let spaceButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace, target: nil, action: nil)
+        let cancelButton = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelDatePicker));
+        
+        toolbar.setItems([doneButton,spaceButton,cancelButton], animated: false)
+        
+        alarmTimeTextField.inputAccessoryView = toolbar
+        alarmTimeTextField.inputView = timePicker
+        
+    }
+    
+    @objc func donedatePicker(){
+        
+        let formatter = DateFormatter()
+        formatter.dateFormat = "MM/dd/yyyy"
+        alarmDateTextField.text = formatter.string(from: datePicker.date)
+        self.view.endEditing(true)
+    }
+    
+    @objc func donetimePicker(){
+        
+        let formatter = DateFormatter()
+        formatter.dateFormat = "hh:mm a"
+        alarmTimeTextField.text = formatter.string(from: timePicker.date)
+        self.view.endEditing(true)
+    }
+    
+    @objc func cancelDatePicker(){
+        self.view.endEditing(true)
+    }
+
     
     func alarmNameTextFieldSetup() {
         view.addSubview(alarmNameTextField)
@@ -57,19 +120,26 @@ class NewAlarmVC: UIViewController {
         alarmNameTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10).isActive = true
         alarmNameTextField.heightAnchor.constraint(equalToConstant: 30).isActive = true
         alarmNameTextField.topAnchor.constraint(equalTo: alarmNameLabel.bottomAnchor, constant: 2).isActive = true
+        alarmNameTextField.textAlignment = .center
         alarmNameTextField.placeholder = "Label"
         alarmNameTextField.layer.borderColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
         alarmNameTextField.layer.borderWidth = 0.5
     }
     
     func alarmDateTextFieldSetup() {
+        let date = Date()
+        let format = DateFormatter()
+        format.dateFormat = "MM/dd/yyyy"
+        let formattedDate = format.string(from: date)
+        
         view.addSubview(alarmDateTextField)
         alarmDateTextField.translatesAutoresizingMaskIntoConstraints = false
         alarmDateTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10).isActive = true
         alarmDateTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10).isActive = true
         alarmDateTextField.heightAnchor.constraint(equalToConstant: 30).isActive = true
         alarmDateTextField.topAnchor.constraint(equalTo: dateLabel.bottomAnchor, constant: 2).isActive = true
-        alarmDateTextField.placeholder = "Date"
+        alarmDateTextField.text = formattedDate
+        alarmDateTextField.textAlignment = .center
         alarmDateTextField.layer.borderColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
         alarmDateTextField.layer.borderWidth = 0.5
     }
@@ -82,8 +152,10 @@ class NewAlarmVC: UIViewController {
         alarmTimeTextField.heightAnchor.constraint(equalToConstant: 30).isActive = true
         alarmTimeTextField.topAnchor.constraint(equalTo: timeLabel.bottomAnchor, constant: 2).isActive = true
         alarmTimeTextField.placeholder = "Time"
+        alarmTimeTextField.textAlignment = .center
         alarmTimeTextField.layer.borderColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
         alarmTimeTextField.layer.borderWidth = 0.5
+        
     }
     
     func statusLabelSetup() {
@@ -92,7 +164,9 @@ class NewAlarmVC: UIViewController {
         statusLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         statusLabel.heightAnchor.constraint(equalToConstant: 30).isActive = true
         statusLabel.topAnchor.constraint(equalTo: alarmTimeTextField.bottomAnchor, constant: 10).isActive = true
-        statusLabel.text = "Status"
+        if (statusStatusLabel.text == "1" || statusStatusLabel.text == "0"){
+            statusLabel.text = "Status"
+        }
     }
     
     func alarmNameLabelSetup() {
@@ -160,6 +234,36 @@ class NewAlarmVC: UIViewController {
     
     @objc func saveButtonClicked() {
         
+        if(alarmTimeTextField.text != "" && alarmDateTextField.text != "" && alarmNameTextField.text != ""){
+            let alarm = Alarm(label: alarmNameTextField.text!, date: alarmDateTextField.text!, time: alarmTimeTextField.text!, active: 0)
+            alarmDB.insert(user: alarm)
+            
+            alarmTimeTextField.text = ""
+            alarmDateTextField.text = ""
+            alarmNameTextField.text = ""
+            
+            alarmTimeTextField.layer.borderColor = #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)
+            alarmDateTextField.layer.borderColor = #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)
+            alarmNameTextField.layer.borderColor = #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)
+            
+            activeAlarm = alarmDB.getActiveAlarms()
+            inactiveAlarm = alarmDB.getInactiveAlarms()
+            dismiss(animated: true, completion: nil)
+        } else {
+            if (alarmTimeTextField.text == ""){
+                alarmTimeTextField.layer.borderColor = #colorLiteral(red: 0.9254902005, green: 0.2352941185, blue: 0.1019607857, alpha: 1)
+                alarmTimeTextField.layer.borderWidth = 1
+            }
+            if(alarmDateTextField.text == ""){
+                alarmDateTextField.layer.borderColor = #colorLiteral(red: 0.9254902005, green: 0.2352941185, blue: 0.1019607857, alpha: 1)
+                alarmDateTextField.layer.borderWidth = 1
+            }
+            if(alarmNameTextField.text == ""){
+                alarmNameTextField.layer.borderColor = #colorLiteral(red: 0.9254902005, green: 0.2352941185, blue: 0.1019607857, alpha: 1)
+                alarmNameTextField.layer.borderWidth = 1
+            }
+        }
+        
     }
     
     func cancelButtonSetup() {
@@ -170,7 +274,7 @@ class NewAlarmVC: UIViewController {
     }
     
     @objc func cancelButtonClicked() {
-        
+        dismiss(animated: true, completion: nil)
     }
     
     func deleteButtonSetup() {
@@ -207,8 +311,14 @@ class NewAlarmVC: UIViewController {
         statusStatusLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         statusStatusLabel.heightAnchor.constraint(equalToConstant: 30).isActive = true
         statusStatusLabel.topAnchor.constraint(equalTo: statusLabel.bottomAnchor, constant: 2).isActive = true
-        statusStatusLabel.textColor = #colorLiteral(red: 0.2745098174, green: 0.4862745106, blue: 0.1411764771, alpha: 1)
-        statusStatusLabel.text = "Active"
+        if (statusStatusLabel.text == "1"){
+            statusStatusLabel.text = "Active"
+            statusStatusLabel.textColor = #colorLiteral(red: 0.2745098174, green: 0.4862745106, blue: 0.1411764771, alpha: 1)
+        } else if (statusStatusLabel.text == "0"){
+            statusStatusLabel.text = "Inactive"
+            statusStatusLabel.textColor = #colorLiteral(red: 0.521568656, green: 0.1098039225, blue: 0.05098039284, alpha: 1)
+        }
+        //statusStatusLabel.text = "Active"
         statusStatusLabel.font = UIFont.boldSystemFont(ofSize: 20)
     }
 

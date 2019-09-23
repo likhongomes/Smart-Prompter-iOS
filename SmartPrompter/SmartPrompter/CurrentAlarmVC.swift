@@ -12,16 +12,26 @@ class CurrentAlarmVC: UIViewController, UITableViewDataSource, UITableViewDelega
     
     let backButton = UIButton()
     let alarmTable = UITableView()
-    let data = ["Ula","La","La","La","Le","Yo"]
+    //let data = ["Ula","La","La","La","Le","Yo"]
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return data.count
+        return activeAlarm.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = alarmTable.dequeueReusableCell(withIdentifier: "tableCell", for: indexPath as IndexPath) as! UITableViewCell
-        cell.textLabel?.text = data[indexPath.row]
+        cell.textLabel?.text = activeAlarm[indexPath.row].label
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let vc = NewAlarmVC()
+        vc.alarmDateTextField.text = activeAlarm[indexPath.row].date
+        vc.alarmTimeTextField.text = activeAlarm[indexPath.row].time
+        vc.alarmNameTextField.text = activeAlarm[indexPath.row].label
+        vc.statusStatusLabel.text = "\(activeAlarm[indexPath.row].active!)"
+        vc.modalTransitionStyle = .crossDissolve
+        present(vc, animated: true, completion: nil)
     }
 
 

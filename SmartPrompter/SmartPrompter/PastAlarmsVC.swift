@@ -13,18 +13,25 @@ import GRDB
 class PastAlarmsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     
-    let data = ["Ula","La","La","La","Le","Yo"]
-    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return data.count
+        return inactiveAlarm.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = alarmTable.dequeueReusableCell(withIdentifier: "tableCell", for: indexPath as IndexPath) as! UITableViewCell
-        cell.textLabel?.text = data[indexPath.row]
+        cell.textLabel?.text = inactiveAlarm[indexPath.row].label
         return cell
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let vc = NewAlarmVC()
+        vc.alarmDateTextField.text = inactiveAlarm[indexPath.row].date
+        vc.alarmTimeTextField.text = inactiveAlarm[indexPath.row].time
+        vc.alarmNameTextField.text = inactiveAlarm[indexPath.row].label
+        vc.statusStatusLabel.text = "\(inactiveAlarm[indexPath.row].active!)"
+        vc.modalTransitionStyle = .crossDissolve
+        present(vc, animated: true, completion: nil)
+    }
 
     let backButton = UIButton()
     let alarmTable = UITableView()
