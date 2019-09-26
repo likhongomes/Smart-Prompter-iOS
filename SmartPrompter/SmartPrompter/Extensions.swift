@@ -34,11 +34,11 @@ extension UIView {
         
         navView.addSubview(leftButton)
         leftButton.translatesAutoresizingMaskIntoConstraints = false
-        leftButton.leadingAnchor.constraint(equalTo: navView.leadingAnchor, constant: 5).isActive = true
+        leftButton.leadingAnchor.constraint(equalTo: navView.leadingAnchor, constant: 10).isActive = true
         leftButton.topAnchor.constraint(equalTo: navView.topAnchor, constant: 20).isActive = true
-        leftButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        leftButton.heightAnchor.constraint(equalToConstant: 25).isActive = true
         leftButton.backgroundColor = .clear
-        leftButton.widthAnchor.constraint(equalToConstant: 30).isActive = true
+        leftButton.widthAnchor.constraint(equalToConstant: 25).isActive = true
         //leftButton.backgroundColor = .blue
     }
     

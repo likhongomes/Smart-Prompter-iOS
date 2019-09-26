@@ -34,6 +34,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window = UIWindow(frame: UIScreen.main.bounds)
         let rootView = ViewController()
         self.window?.rootViewController = MainVC()
+        //self.window?.rootViewController = NewAlarmVC()
         window?.makeKeyAndVisible()
         registerForPushNotifications()
         

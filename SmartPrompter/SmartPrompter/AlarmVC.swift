@@ -17,7 +17,7 @@ class AlarmVC: UIViewController {
     let buttonStack = UIStackView()
     
     let alarmDetailsLabel = UILabel()
-    let alarmNameLabel = UILabel()
+    let instructionLabel = UITextView()
     let dateLabel = UILabel()
     let timeLabel = UILabel()
     
@@ -31,6 +31,7 @@ class AlarmVC: UIViewController {
     let datePicker = UIDatePicker()
     let timePicker = UIDatePicker()
     let slider = UISlider()
+    let imageView = UIImageView()
     
 
     override func viewDidLoad() {
@@ -42,24 +43,25 @@ class AlarmVC: UIViewController {
         
         
         alarmNameTextFieldSetup()
-        alarmNameLabelSetup()
-        //dateLabelSetup()
-        //alarmDateTextFieldSetup()
-        //timeLabelSetup()
-        //alarmTimeTextFieldSetup()
-        //statusLabelSetup()
-        //statusStatusLabelSetup()
+        instructionLabelSetup()
         backButtonSetup()
-        //buttonStackSetup()
-        //saveButtonSetup()
-        //cancelButtonSetup()
-        //deleteButtonSetup()
-        //showDatePicker()
-        //showTimePicker()
         sliderSetup()
+        imageViewSetup()
         
     }
     
+    
+    func imageViewSetup() {
+        view.addSubview(imageView)
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.heightAnchor.constraint(equalToConstant: 100).isActive = true
+        imageView.widthAnchor.constraint(equalToConstant: 100).isActive = true
+        imageView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        //imageView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        imageView.topAnchor.constraint(equalTo: view.topAnchor, constant: 70).isActive = true
+        imageView.image = UIImage(named: "alarm")
+        
+    }
     
     func showDatePicker(){
         //Formate Date
@@ -138,18 +140,19 @@ class AlarmVC: UIViewController {
         alarmDateTextField.layer.borderWidth = 0.5
     }
     
-    func alarmNameLabelSetup() {
-        view.addSubview(alarmNameLabel)
-        alarmNameLabel.translatesAutoresizingMaskIntoConstraints = false
-        //alarmNameLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        //alarmNameLabel.heightAnchor.constraint(equalToConstant: 30).isActive = true
-        alarmNameLabel.topAnchor.constraint(equalTo: alarmNameTextField.bottomAnchor, constant: 15).isActive = true
-        alarmNameLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10).isActive = true
-        alarmNameLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10).isActive = true
-        alarmNameLabel.heightAnchor.constraint(equalToConstant: 80).isActive = true
-        //alarmNameLabel.backgroundColor = .black
-        alarmNameLabel.text = "Move the slider to the RIGHT when you're ready to complete the task, or to let the LEFT to set a reminder to do the task later."
-        alarmNameLabel.font = UIFont.systemFont(ofSize: 18)
+    func instructionLabelSetup() {
+        view.addSubview(instructionLabel)
+        instructionLabel.translatesAutoresizingMaskIntoConstraints = false
+        //instructionLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        //instructionLabel.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        instructionLabel.topAnchor.constraint(equalTo: alarmNameTextField.bottomAnchor, constant: 15).isActive = true
+        instructionLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10).isActive = true
+        instructionLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10).isActive = true
+        instructionLabel.heightAnchor.constraint(equalToConstant: 100).isActive = true
+        //instructionLabel.backgroundColor = .black
+        instructionLabel.text = "Move the slider to the RIGHT when you're ready to complete the task, or to let the LEFT to set a reminder to do the task later."
+        instructionLabel.font = UIFont.systemFont(ofSize: 15)
+        instructionLabel.textAlignment = .center
     }
     
     func alarmDetailsLabelSetup() {
@@ -184,7 +187,7 @@ class AlarmVC: UIViewController {
         backButton.translatesAutoresizingMaskIntoConstraints = false
         backButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
         backButton.widthAnchor.constraint(equalToConstant: 30).isActive = true
-        backButton.setBackgroundImage(UIImage(named: "backButton"), for: .normal)
+        backButton.setBackgroundImage(UIImage(named: "back"), for: .normal)
         backButton.contentMode = .scaleAspectFill
         backButton.addTarget(self, action: #selector(backButtonClicked), for: .touchUpInside)
     }
@@ -211,13 +214,18 @@ class AlarmVC: UIViewController {
     }
     
     func sliderSetup() {
-        
-        slider.frame = CGRect(x: 0, y: 0, width: 250, height: 35)
+        self.view.addSubview(slider)
+        //slider.frame = CGRect(x: 0, y: 0, width: 250, height: 35)
+        slider.translatesAutoresizingMaskIntoConstraints = false
+        slider.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 40).isActive = true
+        slider.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -40).isActive = true
+        slider.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -40).isActive = true
+        slider.heightAnchor.constraint(equalToConstant: 20).isActive = true
         slider.center = self.view.center
         
-        slider.minimumTrackTintColor = .green
-        slider.maximumTrackTintColor = .red
-        slider.thumbTintColor = .black
+        slider.minimumTrackTintColor = .gray
+        slider.maximumTrackTintColor = .gray
+        slider.thumbTintColor = .purple
         
         slider.maximumValue = 100
         slider.minimumValue = 0
@@ -225,11 +233,16 @@ class AlarmVC: UIViewController {
         
         slider.addTarget(self, action: #selector(changeVlaue(_:)), for: .valueChanged)
         
-        self.view.addSubview(slider)
+        
     }
     
     @objc func changeVlaue(_ sender: UISlider) {
-        print("value is" , Int(sender.value));
+        //print("value is" , Int(sender.value));
+        if(sender.value == 0){
+            instructionLabel.text = "Remind me later"
+        }else if(sender.value == 100){
+            instructionLabel.text = "On My Way"
+        }
     }
 
 }
