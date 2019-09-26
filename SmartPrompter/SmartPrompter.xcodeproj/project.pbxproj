@@ -13,7 +13,7 @@
 		6E27F52F23343DDB00FDEAFC /* AppDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E27F52E23343DDB00FDEAFC /* AppDatabase.swift */; };
 		6E27F5312334475D00FDEAFC /* Alarm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E27F5302334475D00FDEAFC /* Alarm.swift */; };
 		6E2ABB1D2326154800AC7B86 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E2ABB1C2326154800AC7B86 /* Extensions.swift */; };
-		6E2ABB1F23261C1500AC7B86 /* NewAlarmVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E2ABB1E23261C1500AC7B86 /* NewAlarmVC.swift */; };
+		6E2ABB1F23261C1500AC7B86 /* AlarmVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E2ABB1E23261C1500AC7B86 /* AlarmVC.swift */; };
 		6E30BF7F2320BFDD005ABEFC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E30BF7E2320BFDD005ABEFC /* AppDelegate.swift */; };
 		6E30BF812320BFDD005ABEFC /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E30BF802320BFDD005ABEFC /* ViewController.swift */; };
 		6E30BF862320BFE0005ABEFC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6E30BF852320BFE0005ABEFC /* Assets.xcassets */; };
@@ -53,7 +53,7 @@
 		6E27F52E23343DDB00FDEAFC /* AppDatabase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDatabase.swift; sourceTree = "<group>"; };
 		6E27F5302334475D00FDEAFC /* Alarm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alarm.swift; sourceTree = "<group>"; };
 		6E2ABB1C2326154800AC7B86 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
-		6E2ABB1E23261C1500AC7B86 /* NewAlarmVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewAlarmVC.swift; sourceTree = "<group>"; };
+		6E2ABB1E23261C1500AC7B86 /* AlarmVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmVC.swift; sourceTree = "<group>"; };
 		6E30BF7B2320BFDD005ABEFC /* SmartPrompter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SmartPrompter.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6E30BF7E2320BFDD005ABEFC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		6E30BF802320BFDD005ABEFC /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -67,6 +67,7 @@
 		6E30BF9E2320BFE0005ABEFC /* SmartPrompterUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmartPrompterUITests.swift; sourceTree = "<group>"; };
 		6E30BFA02320BFE0005ABEFC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6E30BFAC2320D07C005ABEFC /* MainVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainVC.swift; sourceTree = "<group>"; };
+		6E6ADAFC23388BC400ACE15B /* SmartPrompter.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SmartPrompter.entitlements; sourceTree = "<group>"; };
 		988BD2957AA41F68A9660081 /* Pods-SmartPrompterTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SmartPrompterTests.debug.xcconfig"; path = "Target Support Files/Pods-SmartPrompterTests/Pods-SmartPrompterTests.debug.xcconfig"; sourceTree = "<group>"; };
 		CAF8385065181ABAA5EB9354 /* Pods-SmartPrompterTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SmartPrompterTests.release.xcconfig"; path = "Target Support Files/Pods-SmartPrompterTests/Pods-SmartPrompterTests.release.xcconfig"; sourceTree = "<group>"; };
 		D34F2B64BD94C49E2B2A2E9D /* Pods_SmartPrompterUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SmartPrompterUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -139,13 +140,14 @@
 		6E30BF7D2320BFDD005ABEFC /* SmartPrompter */ = {
 			isa = PBXGroup;
 			children = (
+				6E6ADAFC23388BC400ACE15B /* SmartPrompter.entitlements */,
 				6E30BF7E2320BFDD005ABEFC /* AppDelegate.swift */,
 				6E30BF802320BFDD005ABEFC /* ViewController.swift */,
 				6E30BF852320BFE0005ABEFC /* Assets.xcassets */,
 				6E30BF872320BFE0005ABEFC /* LaunchScreen.storyboard */,
 				6E30BF8A2320BFE0005ABEFC /* Info.plist */,
 				6E30BFAC2320D07C005ABEFC /* MainVC.swift */,
-				6E2ABB1E23261C1500AC7B86 /* NewAlarmVC.swift */,
+				6E2ABB1E23261C1500AC7B86 /* AlarmVC.swift */,
 				6E27F52C2328571300FDEAFC /* PastAlarmsVC.swift */,
 				6E27F52A232856ED00FDEAFC /* CurrentAlarmVC.swift */,
 				6E2ABB1C2326154800AC7B86 /* Extensions.swift */,
@@ -255,6 +257,11 @@
 				TargetAttributes = {
 					6E30BF7A2320BFDD005ABEFC = {
 						CreatedOnToolsVersion = 10.3;
+						SystemCapabilities = {
+							com.apple.Push = {
+								enabled = 1;
+							};
+						};
 					};
 					6E30BF8E2320BFE0005ABEFC = {
 						CreatedOnToolsVersion = 10.3;
@@ -409,7 +416,7 @@
 				6E27F52F23343DDB00FDEAFC /* AppDatabase.swift in Sources */,
 				6E27F52B232856ED00FDEAFC /* CurrentAlarmVC.swift in Sources */,
 				6E27F52D2328571300FDEAFC /* PastAlarmsVC.swift in Sources */,
-				6E2ABB1F23261C1500AC7B86 /* NewAlarmVC.swift in Sources */,
+				6E2ABB1F23261C1500AC7B86 /* AlarmVC.swift in Sources */,
 				6E30BF7F2320BFDD005ABEFC /* AppDelegate.swift in Sources */,
 				6E2ABB1D2326154800AC7B86 /* Extensions.swift in Sources */,
 			);
@@ -579,14 +586,15 @@
 			baseConfigurationReference = 1CA8672141F9363E3ED757A3 /* Pods-SmartPrompter.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = SmartPrompter/SmartPrompter.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = UJ9M2WLA9Z;
+				DEVELOPMENT_TEAM = N6ESLEE34B;
 				INFOPLIST_FILE = SmartPrompter/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = gomes.likhon.SmartPrompter;
+				PRODUCT_BUNDLE_IDENTIFIER = gomes.likhon.SmartPrompterAdmin;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -598,14 +606,15 @@
 			baseConfigurationReference = 3EE574B6777E7C73599AB4CB /* Pods-SmartPrompter.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = SmartPrompter/SmartPrompter.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = UJ9M2WLA9Z;
+				DEVELOPMENT_TEAM = N6ESLEE34B;
 				INFOPLIST_FILE = SmartPrompter/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = gomes.likhon.SmartPrompter;
+				PRODUCT_BUNDLE_IDENTIFIER = gomes.likhon.SmartPrompterAdmin;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

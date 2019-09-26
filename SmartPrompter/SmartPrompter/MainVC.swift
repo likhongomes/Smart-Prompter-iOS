@@ -8,7 +8,7 @@
 
 import UIKit
 
-class MainVC: UIViewController {
+class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     let newAlarmButton = UIButton()
     let viewAlarmButton = UIButton()
@@ -17,52 +17,129 @@ class MainVC: UIViewController {
     
     let upperQuad = UIView()
     let lowerQuad = UIView()
-    let welcomeTextView = UITextView()
-    let secondTextView = UITextView()
-
+    let welcomeTextView = UILabel()
+    let clockLabel = UILabel()
+    let topBar = UIView()
+    let timeLabel = UILabel()
+    
+    var timer = Timer()
+    var date = Date()
+    let calendar = Calendar.current
+    let dateFormatter = DateFormatter()
+    
+    
+    let alarmTable = UITableView()
+    //let data = ["Ula","La","La","La","Le","Yo"]
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return activeAlarm.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = alarmTable.dequeueReusableCell(withIdentifier: "tableCell", for: indexPath as IndexPath) as! UITableViewCell
+        cell.textLabel?.text = activeAlarm[indexPath.row].label
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let vc = AlarmVC()
+        vc.alarmDateTextField.text = activeAlarm[indexPath.row].date
+        vc.alarmTimeTextField.text = activeAlarm[indexPath.row].time
+        vc.alarmNameTextField.text = activeAlarm[indexPath.row].label
+        vc.statusStatusLabel.text = "\(activeAlarm[indexPath.row].active!)"
+        vc.modalTransitionStyle = .crossDissolve
+        present(vc, animated: true, completion: nil)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
         //view.addNavigationBar(viewControllerName: "SmartPrompter Admin")
-        
+        topViewSetup()
         stackSetup()
         welcomeTextViewSetup()
-        secondTextViewSetup()
+        timeLabelSetup()
+        clockLabelSetup()
         newAlarmButtonSetup()
         viewAlarmButtonSetup()
         pastAlarmsButtonSetup()
+        alarmTableSetup()
+        
+        dateFormatter.dateStyle = .none
+        dateFormatter.timeStyle = .medium
+        timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updateTimeLabel), userInfo: nil, repeats: true);
+    }
+    
+    @objc func updateTimeLabel() {
+        clockLabel.text = dateFormatter.string(from: Date())
+    }
+    
+    func alarmTableSetup() {
+        view.addSubview(alarmTable)
+        alarmTable.translatesAutoresizingMaskIntoConstraints = false
+        alarmTable.topAnchor.constraint(equalTo: topBar.bottomAnchor).isActive = true
+        alarmTable.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        alarmTable.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        alarmTable.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        alarmTable.register(UITableViewCell.self, forCellReuseIdentifier: "tableCell")
+        alarmTable.delegate = self
+        alarmTable.dataSource = self
         
     }
+    
+    
+    func topViewSetup() {
+        view.addSubview(topBar)
+        topBar.translatesAutoresizingMaskIntoConstraints = false
+        topBar.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        topBar.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        topBar.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        topBar.heightAnchor.constraint(equalToConstant: 200).isActive = true
+        topBar.backgroundColor = .purple
+    }
+    
+    func timeLabelSetup() {
+        view.addSubview(timeLabel)
+        timeLabel.translatesAutoresizingMaskIntoConstraints = false
+        timeLabel.topAnchor.constraint(equalTo: welcomeTextView.bottomAnchor, constant: 25).isActive = true
+        timeLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        timeLabel.textColor = .white
+        timeLabel.font = UIFont.boldSystemFont(ofSize: 18)
+        timeLabel.text = "Current Time:"
+    }
+    
     
     func welcomeTextViewSetup() {
         view.addSubview(welcomeTextView)
         welcomeTextView.translatesAutoresizingMaskIntoConstraints = false
         welcomeTextView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
         welcomeTextView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
-        welcomeTextView.topAnchor.constraint(equalTo: view.topAnchor, constant: 70).isActive = true
-        welcomeTextView.heightAnchor.constraint(equalToConstant: 70).isActive = true
+        welcomeTextView.topAnchor.constraint(equalTo: view.topAnchor, constant: 15).isActive = true
+        //welcomeTextView.heightAnchor.constraint(equalToConstant: 70).isActive = true
+        //welcomeTextView.backgroundColor = .clear
         //welcomeTextView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         //welcomeTextView.bottomAnchor.constraint(equalTo: stack.topAnchor, constant: -50).isActive = true
-        welcomeTextView.text = "Welcome to SmartPrompter Admin!"
+        welcomeTextView.text = "SmartPrompter"
         welcomeTextView.textAlignment = .center
-        welcomeTextView.font = UIFont.boldSystemFont(ofSize: 25)
-        welcomeTextView.textColor = .gray
+        welcomeTextView.font = UIFont.boldSystemFont(ofSize: 20)
+        welcomeTextView.textColor = .white
         //welcomeTextView.backgroundColor = .black
     }
     
-    func secondTextViewSetup() {
-        view.addSubview(secondTextView)
-        secondTextView.translatesAutoresizingMaskIntoConstraints = false
-        secondTextView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
-        secondTextView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
-        secondTextView.topAnchor.constraint(equalTo: welcomeTextView.bottomAnchor, constant: 10).isActive = true
-        secondTextView.heightAnchor.constraint(equalToConstant: 100).isActive = true
-        //secondTextView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        //secondTextView.bottomAnchor.constraint(equalTo: stack.topAnchor, constant: -50).isActive = true
-        secondTextView.text = "Please select an opertation from the the options below"
-        secondTextView.textAlignment = .center
-        secondTextView.font = UIFont.systemFont(ofSize: 18)
-        secondTextView.textColor = .gray
+    func clockLabelSetup() {
+        view.addSubview(clockLabel)
+        clockLabel.translatesAutoresizingMaskIntoConstraints = false
+        clockLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
+        clockLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        //clockLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
+        clockLabel.topAnchor.constraint(equalTo: timeLabel.bottomAnchor, constant: 5).isActive = true
+        //clockLabel.heightAnchor.constraint(equalToConstant: 100).isActive = true
+        //clockLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        //clockLabel.bottomAnchor.constraint(equalTo: stack.topAnchor, constant: -50).isActive = true
+        clockLabel.text = "08:31:33 AM"
+        clockLabel.textAlignment = .center
+        clockLabel.font = UIFont.boldSystemFont(ofSize: 40)
+        clockLabel.textColor = .white
     }
     
     
@@ -93,7 +170,7 @@ class MainVC: UIViewController {
     }
     
     @objc func newAlarmButtonClicked() {
-        let vc = NewAlarmVC()
+        let vc = AlarmVC()
         vc.modalTransitionStyle = .crossDissolve
         present(vc, animated: true, completion: nil)
     }
