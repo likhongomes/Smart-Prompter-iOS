@@ -131,10 +131,4 @@ class MainVC: UIViewController {
         vc.modalTransitionStyle = .crossDissolve
         present(vc, animated: true, completion: nil)
     }
-    
-    
-
-
-    
-    
 }
