@@ -10,6 +10,8 @@ import UIKit
 import GRDB
 import CoreData
 import UserNotifications
+import Firebase
+
 
 var dbQueue: DatabaseQueue!
 let alarmDB = AlarmDB()
@@ -23,9 +25,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     //var dbQueue: DatabaseQueue!
     //let alarmDB = AlarmDB()
 
-
+        
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        FirebaseApp.configure()
+        var ref: DatabaseReference!
+        ref = Database.database().reference()
+
         try! setupDatabase(application)
         activeAlarm = alarmDB.getActiveAlarms()
         inactiveAlarm = alarmDB.getInactiveAlarms()

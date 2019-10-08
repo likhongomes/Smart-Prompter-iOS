@@ -7,6 +7,16 @@
 //
 
 import UIKit
+import UserNotifications
+
+extension MainVC:UNUserNotificationCenterDelegate{
+    @available(iOS 10.0, *)
+    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        completionHandler([.alert,.sound,.badge])
+    }
+}
+
+
 
 class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
@@ -48,8 +58,45 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         vc.alarmNameTextField.text = activeAlarm[indexPath.row].label
         vc.statusStatusLabel.text = "\(activeAlarm[indexPath.row].active!)"
         vc.modalTransitionStyle = .crossDissolve
-        present(vc, animated: true, completion: nil)
+                //present(vc, animated: true, completion: nil)
+        scheduleNotification()
     }
+    
+    
+    
+    
+    
+    func scheduleNotification() {
+        
+        //print("In the notif function")
+        
+        if #available(iOS 10.0, *) {
+            let content = UNMutableNotificationContent()
+            content.title = "Notification"
+            content.subtitle = "Subtitle"
+            content.body = "Body"
+            content.sound = UNNotificationSound.default
+            content.badge = 1
+            
+            let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1.0, repeats: false)
+            let request = UNNotificationRequest(identifier: "Identifier", content: content, trigger: trigger)
+            
+            UNUserNotificationCenter.current().add(request) { (error) in
+                print(error as Any)
+                
+            }
+            //print("notification pushed")
+
+        } else {
+            // Fallback on earlier versions
+            print("Notifcation not pushed")
+        }
+        
+    }
+
+    
+    
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -65,9 +112,16 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         pastAlarmsButtonSetup()
         alarmTableSetup()
         
+        if #available(iOS 10.0, *) {
+            UNUserNotificationCenter.current().delegate = self
+        } else {
+            // Fallback on earlier versions
+        }
+        
         dateFormatter.dateStyle = .none
         dateFormatter.timeStyle = .medium
         timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updateTimeLabel), userInfo: nil, repeats: true);
+        
     }
     
     @objc func updateTimeLabel() {

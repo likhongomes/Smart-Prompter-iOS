@@ -5,6 +5,9 @@ target 'SmartPrompter' do
   # Comment the next line if you don't want to use dynamic frameworks
   use_frameworks!
   pod 'GRDB.swift'
+  pod 'Firebase'
+  pod 'Firebase/Database'
+  pod 'Firebase/Analytics'
 
   # Pods for SmartPrompter
 

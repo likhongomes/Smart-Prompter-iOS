@@ -31,6 +31,14 @@ class MainVC: UIViewController {
         newAlarmButtonSetup()
         viewAlarmButtonSetup()
         pastAlarmsButtonSetup()
+        
+        let date = Date(timeIntervalSinceNow: 3600)
+        let triggerDate = Calendar.current.dateComponents([.year,.month,.day,.hour,.minute,.second,], from: date)
+        
+        let trigger = UNCalendarNotificationTrigger(dateMatching: triggerDate, repeats: false)
+        
+        
+        
     }
     
     func welcomeTextViewSetup() {

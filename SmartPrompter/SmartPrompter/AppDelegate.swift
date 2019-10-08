@@ -10,22 +10,31 @@ import UIKit
 import GRDB
 import CoreData
 import UserNotifications
+import Firebase
+import FirebaseDatabase
+import FirebaseAnalytics
 
 var dbQueue: DatabaseQueue!
 let alarmDB = AlarmDB()
 var activeAlarm = [Alarm]()
 var inactiveAlarm = [Alarm]()
 
+@available(iOS 10.0, *)
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
     //var dbQueue: DatabaseQueue!
     //let alarmDB = AlarmDB()
+    
+    var ref: DatabaseReference!
+    let notificationCenter = UNUserNotificationCenter.current()
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        FirebaseApp.configure()
+        ref = Database.database().reference()
         try! setupDatabase(application)
         activeAlarm = alarmDB.getActiveAlarms()
         inactiveAlarm = alarmDB.getInactiveAlarms()
@@ -37,6 +46,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //self.window?.rootViewController = NewAlarmVC()
         window?.makeKeyAndVisible()
         registerForPushNotifications()
+        getNotificationSettings()
         
         return true
     }
@@ -44,6 +54,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillResignActive(_ application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
         // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.
+        
     }
 
     func applicationDidEnterBackground(_ application: UIApplication) {
@@ -62,6 +73,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
+    
+    
     
     func application(
         _ application: UIApplication,
@@ -90,11 +103,32 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func registerForPushNotifications() {
-        UNUserNotificationCenter.current() // 1
-            .requestAuthorization(options: [.alert, .sound, .badge]) { // 2
-                granted, error in
-                print("Permission granted: \(granted)") // 3
+        if #available(iOS 10.0, *) {
+            UNUserNotificationCenter.current() // 1
+                .requestAuthorization(options: [.alert, .sound, .badge]) { // 2
+                    granted, error in
+                    print("Permission granted: \(granted)") // 3
+            }
+        } else {
+            // Fallback on earlier versions
         }
     }
+    
+    
+    
+    func getNotificationSettings() {
+        if #available(iOS 10.0, *) {
+            UNUserNotificationCenter.current().getNotificationSettings { settings in
+                print("Notification settings: \(settings)")
+            }
+        } else {
+            // Fallback on earlier versions
+        }
+    }
+    
+    
+    
+
+    
 }
 

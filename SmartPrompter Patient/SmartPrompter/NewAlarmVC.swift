@@ -235,7 +235,7 @@ class NewAlarmVC: UIViewController {
     @objc func saveButtonClicked() {
         
         if(alarmTimeTextField.text != "" && alarmDateTextField.text != "" && alarmNameTextField.text != ""){
-            let alarm = Alarm(label: alarmNameTextField.text!, date: alarmDateTextField.text!, time: alarmTimeTextField.text!, active: 0)
+            let alarm = Alarm(label: alarmNameTextField.text!, date: alarmDateTextField.text!, time: alarmTimeTextField.text!, active: 1)
             alarmDB.insert(user: alarm)
             
             alarmTimeTextField.text = ""
