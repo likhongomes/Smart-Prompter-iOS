@@ -58,7 +58,7 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         vc.alarmNameTextField.text = activeAlarm[indexPath.row].label
         vc.statusStatusLabel.text = "\(activeAlarm[indexPath.row].active!)"
         vc.modalTransitionStyle = .crossDissolve
-                //present(vc, animated: true, completion: nil)
+        present(vc, animated: true, completion: nil)
         scheduleNotification()
     }
     
@@ -72,13 +72,20 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         
         if #available(iOS 10.0, *) {
             let content = UNMutableNotificationContent()
-            content.title = "Notification"
-            content.subtitle = "Subtitle"
+            content.title = "SmartPrompter"
+            content.subtitle = "Water the dog"
             content.body = "Body"
+            content.categoryIdentifier = "alarm"
+            content.userInfo = ["customData":"fizzbuzz"]
             content.sound = UNNotificationSound.default
             content.badge = 1
             
-            let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1.0, repeats: false)
+            var dateComponenets = DateComponents()
+            dateComponenets.hour = 19
+            dateComponenets.minute = 24
+            
+            //let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 5.0, repeats: false)
+            let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponenets, repeats: true)
             let request = UNNotificationRequest(identifier: "Identifier", content: content, trigger: trigger)
             
             UNUserNotificationCenter.current().add(request) { (error) in
@@ -112,6 +119,10 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         pastAlarmsButtonSetup()
         alarmTableSetup()
         
+        
+        
+        
+        
         if #available(iOS 10.0, *) {
             UNUserNotificationCenter.current().delegate = self
         } else {
@@ -120,12 +131,15 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         
         dateFormatter.dateStyle = .none
         dateFormatter.timeStyle = .medium
-        timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updateTimeLabel), userInfo: nil, repeats: true);
+        timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updateTimeLabel), userInfo: nil, repeats: true)
+        
+                
         
     }
     
     @objc func updateTimeLabel() {
         clockLabel.text = dateFormatter.string(from: Date())
+        print("")
     }
     
     func alarmTableSetup() {
