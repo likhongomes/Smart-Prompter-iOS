@@ -7,6 +7,9 @@
 //
 
 import UIKit
+import FirebaseAnalytics
+import Firebase
+import FirebaseAuth
 
 class SignInVC: UIViewController {
     
@@ -19,12 +22,17 @@ class SignInVC: UIViewController {
     let logoImage = UIImageView()
     
     
-    
+    override func viewWillAppear(_ animated: Bool) {
+        var handle = Auth.auth().addStateDidChangeListener { (auth, user) in
+          // ...
+        }
+
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-        guestButtonSetup()
+        
         signUpButtonSetup()
         loginButtonSetup()
         passwordTFSetup()
@@ -58,16 +66,23 @@ class SignInVC: UIViewController {
     }
     
     @objc func loginButtonTapped() {
-        let vc = dashboardVC()
-        vc.modalTransitionStyle = .crossDissolve
-        present(vc, animated: true, completion: nil)
+        Auth.auth().signIn(withEmail: self.emailTF.text!, password: self.passwordTF.text!) { [weak self] authResult, error in
+          guard let strongSelf = self else { return }
+            if error == nil {
+                let vc = MainVC()
+                vc.modalTransitionStyle = .crossDissolve
+                self?.present(vc, animated: true, completion: nil)
+            } else {
+                print(error)
+            }
+        }
     }
     
     func signUpButtonSetup() {
         view.addSubview(signUpButton)
         signUpButton.translatesAutoresizingMaskIntoConstraints = false
         signUpButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        signUpButton.bottomAnchor.constraint(equalTo: guestButton.topAnchor, constant: -30).isActive = true
+        signUpButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -30).isActive = true
         signUpButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
         signUpButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30).isActive = true
         signUpButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30).isActive = true
@@ -77,28 +92,21 @@ class SignInVC: UIViewController {
     }
     
     @objc func signUpButtonTapped() {
-        
+        if(emailTF.text != "" && passwordTF.text != ""){
+        Auth.auth().createUser(withEmail: self.emailTF.text!, password: self.passwordTF.text!) { authResult, error in
+                if error == nil {
+                    print("Sign up Success")
+                    let vc = MainVC()
+                    vc.modalTransitionStyle = .crossDissolve
+                    self.present(vc, animated: true, completion: nil)
+                } else {
+                    print(error)
+                }
+            }
+        }
     }
     
-    func guestButtonSetup() {
-        view.addSubview(guestButton)
-        guestButton.translatesAutoresizingMaskIntoConstraints = false
-        guestButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        guestButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -30).isActive = true
-        guestButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
-        guestButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30).isActive = true
-        guestButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30).isActive = true
-        guestButton.backgroundColor = .red
-        guestButton.setTitle("Continue as Guest", for: .normal)
-        guestButton.addTarget(self, action: #selector(guestButtonTapped), for: .touchUpInside)
-    }
     
-    @objc func guestButtonTapped() {
-        let vc = dashboardVC()
-        vc.modalTransitionStyle = .crossDissolve
-        present(vc, animated: true, completion: nil)
-    }
-
     func emailTFSetup() {
         view.addSubview(emailTF)
         emailTF.translatesAutoresizingMaskIntoConstraints = false

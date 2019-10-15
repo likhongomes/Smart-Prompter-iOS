@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Firebase
 
 class NewAlarmVC: UIViewController {
     
@@ -235,8 +236,16 @@ class NewAlarmVC: UIViewController {
     @objc func saveButtonClicked() {
         
         if(alarmTimeTextField.text != "" && alarmDateTextField.text != "" && alarmNameTextField.text != ""){
-            let alarm = Alarm(label: alarmNameTextField.text!, date: alarmDateTextField.text!, time: alarmTimeTextField.text!, active: 1)
-            alarmDB.insert(user: alarm)
+            //let alarm = Alarm(label: alarmNameTextField.text!, date: alarmDateTextField.text!, time: alarmTimeTextField.text!, active: 1)
+            //alarmDB.insert(user: alarm)
+                
+            let components = Calendar.current.dateComponents([.hour, .minute], from: timePicker.date)
+                let dateComponent = Calendar.current.dateComponents([.hour, .minute], from: datePicker.date)
+                //let hour = components.hour!
+                //let minute = components.minute!
+                
+                
+            ref.child("Patients").child(Auth.auth().currentUser!.uid).child("Alarms").childByAutoId().setValue(["label":alarmNameTextField.text!,"hour":components.hour,"minute":components.minute, "active":"true", "year":components.year,"month":components.month,"day":components.day])
             
             alarmTimeTextField.text = ""
             alarmDateTextField.text = ""

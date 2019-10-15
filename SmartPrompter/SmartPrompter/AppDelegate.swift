@@ -18,6 +18,8 @@ var dbQueue: DatabaseQueue!
 let alarmDB = AlarmDB()
 var activeAlarm = [Alarm]()
 var inactiveAlarm = [Alarm]()
+var ref: DatabaseReference!
+
 
 @available(iOS 10.0, *)
 @UIApplicationMain
@@ -27,7 +29,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     //var dbQueue: DatabaseQueue!
     //let alarmDB = AlarmDB()
     
-    var ref: DatabaseReference!
     let notificationCenter = UNUserNotificationCenter.current()
 
 
@@ -42,12 +43,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         window = UIWindow(frame: UIScreen.main.bounds)
         let rootView = ViewController()
-        self.window?.rootViewController = MainVC()
+        //self.window?.rootViewController = MainVC()
+        self.window?.rootViewController = SignInVC()
         //self.window?.rootViewController = NewAlarmVC()
         window?.makeKeyAndVisible()
         registerForPushNotifications()
         getNotificationSettings()
-        
         return true
     }
     

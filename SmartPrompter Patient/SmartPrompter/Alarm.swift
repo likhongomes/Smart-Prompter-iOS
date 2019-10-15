@@ -13,24 +13,34 @@ class Alarm: PersistableRecord, Codable, FetchableRecord {
     
     var id:Int?
     var label:String?
-    var date:String?
-    var time:String?
+    var hour:Int?
+    var minute:Int?
     var active:Int?
+    var year:Int?
+    var month:Int?
+    var day:Int?
+    
     
     func encode(to container: inout PersistenceContainer) {
         container["label"] = label
-        container["date"] = date
-        container["time"] = time
+        container["hour"] = hour
+        container["minute"] = minute
         container["active"] = active
+        container["year"] = year
+        container["month"] = month
+        container["day"] = day
     }
     
     init(){}
     
-    init(label:String, date:String, time:String, active:Int) {
+    init(label:String, hour:Int, minute:Int, year:Int, month:Int, day:Int, active:Int) {
         self.label = label
-        self.date = date
-        self.time = time
+        self.hour = hour
+        self.minute = minute
         self.active = active
+        self.year = year
+        self.month = month
+        self.minute = minute
     }
 }
 
@@ -42,9 +52,12 @@ class AlarmDB{
             try db.create(table: "Alarm", ifNotExists: true) { t in
                 t.autoIncrementedPrimaryKey("id")
                 t.column("label", .text).notNull()
-                t.column("date", .date).notNull()
-                t.column("time", .datetime).notNull()
+                t.column("hour", .integer).notNull()
+                t.column("minute", .integer).notNull()
                 t.column("active", .integer).notNull()
+                t.column("year", .integer).notNull()
+                t.column("month", .integer).notNull()
+                t.column("day", .integer).notNull()
                 print("alarm table created")
             }
         }

@@ -11,12 +11,15 @@ import GRDB
 import CoreData
 import UserNotifications
 import Firebase
-
+import FirebaseDatabase
+import FirebaseAnalytics
 
 var dbQueue: DatabaseQueue!
 let alarmDB = AlarmDB()
 var activeAlarm = [Alarm]()
 var inactiveAlarm = [Alarm]()
+var ref: DatabaseReference!
+
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -29,7 +32,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         FirebaseApp.configure()
-        var ref: DatabaseReference!
         ref = Database.database().reference()
 
         try! setupDatabase(application)
@@ -39,10 +41,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         window = UIWindow(frame: UIScreen.main.bounds)
         let rootView = ViewController()
-        self.window?.rootViewController = MainVC()
+        self.window?.rootViewController = SignInVC()
+        //self.window?.rootViewController = MainVC()
         window?.makeKeyAndVisible()
         registerForPushNotifications()
-        
+        fetchFromFirebase()
         return true
     }
     
@@ -102,6 +105,30 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 granted, error in
                 print("Permission granted: \(granted)") // 3
         }
+    }
+    
+    var alarms = [Alarm]()
+    func fetchFromFirebase(){
+        let userID = Auth.auth().currentUser?.uid
+        ref.child("Patients").child(userID!).child("Alarms").observeSingleEvent(of: .value, with: { (snapshot) in
+          // Get user value
+          let value = snapshot.value as? NSDictionary
+            let singleAlarm = Alarm()
+            singleAlarm.active = value?["active"] as? Int
+            singleAlarm.hour = value?["hour"] as? Int
+            singleAlarm.minute = value?["minute"] as? Int
+            singleAlarm.label = value?["label"] as? String
+            
+            self.alarms.append(singleAlarm)
+            //alarm
+            //alarms = value?["Alarms"] [Any?]
+          //let user = User(username: username)
+            print("printing data ..... \(self.alarms[0].minute)")
+          // ...
+          }) { (error) in
+            print(error.localizedDescription)
+        }
+        
     }
 }
 

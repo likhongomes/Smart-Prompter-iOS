@@ -25,8 +25,8 @@ class PastAlarmsVC: UIViewController, UITableViewDelegate, UITableViewDataSource
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let vc = NewAlarmVC()
-        vc.alarmDateTextField.text = inactiveAlarm[indexPath.row].date
-        vc.alarmTimeTextField.text = inactiveAlarm[indexPath.row].time
+        //vc.alarmDateTextField.text = inactiveAlarm[indexPath.row].date
+        //vc.alarmTimeTextField.text = inactiveAlarm[indexPath.row].time
         vc.alarmNameTextField.text = inactiveAlarm[indexPath.row].label
         vc.statusStatusLabel.text = "\(inactiveAlarm[indexPath.row].active!)"
         vc.modalTransitionStyle = .crossDissolve

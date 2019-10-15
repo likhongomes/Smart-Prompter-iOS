@@ -8,6 +8,7 @@
 
 import UIKit
 import UserNotifications
+import Firebase
 
 extension MainVC:UNUserNotificationCenterDelegate{
     @available(iOS 10.0, *)
@@ -36,6 +37,10 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     var date = Date()
     let calendar = Calendar.current
     let dateFormatter = DateFormatter()
+    
+    
+    var ref: DatabaseReference!
+
     
     
     let alarmTable = UITableView()
@@ -119,8 +124,25 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         pastAlarmsButtonSetup()
         alarmTableSetup()
         
+        ref = Database.database().reference()
+
+        self.ref.child("Patients").child(Auth.auth().currentUser!.uid).child("PatientData").setValue(["patientFirstName": "Ada","patientLastName":"Lovelace","careTakerFirstName":"Anabelle","careTakerLastName":"Young"])
+        
+        self.ref.child("Patients").child(Auth.auth().currentUser!.uid).child("Alarms").child("0").setValue(["label":"Water the dog","hour":"06","minute":"30", "active":"true"])
         
         
+        
+        let userID = Auth.auth().currentUser?.uid
+        ref.child("Patients").child(userID!).child("Alarms").observeSingleEvent(of: .value, with: { (snapshot) in
+          // Get user value
+          let value = snapshot.value as? NSDictionary
+          let username = value?["label"] as? String ?? ""
+          //let user = User(username: username)
+            print(username)
+          // ...
+          }) { (error) in
+            print(error.localizedDescription)
+        }
         
         
         if #available(iOS 10.0, *) {
