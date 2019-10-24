@@ -49,6 +49,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window?.makeKeyAndVisible()
         registerForPushNotifications()
         getNotificationSettings()
+        fetchFromFirebase()
         return true
     }
     
@@ -129,6 +130,29 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
     }
     
+    
+    var alarms = [Alarm]()
+    func fetchFromFirebase(){
+        let userID = Auth.auth().currentUser?.uid
+        ref.child("Patients").child(userID!).child("Alarms").observe(.childAdded, with: { (snapshot) in
+            
+        
+          let value = snapshot.value as? NSDictionary
+            let singleAlarm = Alarm()
+            singleAlarm.active = value?["active"] as? Int
+            singleAlarm.hour = value?["hour"] as? Int
+            singleAlarm.minute = value?["minute"] as? Int
+            singleAlarm.label = value?["label"] as? String
+            
+            activeAlarm.append(singleAlarm)
+            
+            print("Printing snapshot \(snapshot)")
+            //print("printing data ..... \(self.alarms[0].minute)")
+          // ...
+          }) { (error) in
+            print(error.localizedDescription)
+        }
+    }
     
     
 

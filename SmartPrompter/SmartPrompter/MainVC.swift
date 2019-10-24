@@ -58,8 +58,8 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let vc = AlarmVC()
-        vc.alarmDateTextField.text = activeAlarm[indexPath.row].date
-        vc.alarmTimeTextField.text = activeAlarm[indexPath.row].time
+        //vc.alarmDateTextField.text = activeAlarm[indexPath.row].date
+        //vc.alarmTimeTextField.text = activeAlarm[indexPath.row].time
         vc.alarmNameTextField.text = activeAlarm[indexPath.row].label
         vc.statusStatusLabel.text = "\(activeAlarm[indexPath.row].active!)"
         vc.modalTransitionStyle = .crossDissolve

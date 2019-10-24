@@ -107,7 +107,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
     }
     
-    var alarms = [Alarm]()
+    //var alarms = [Alarm]()
     func fetchFromFirebase(){
         let userID = Auth.auth().currentUser?.uid
         ref.child("Patients").child(userID!).child("Alarms").observe(.childAdded, with: { (snapshot) in
@@ -120,7 +120,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             singleAlarm.minute = value?["minute"] as? Int
             singleAlarm.label = value?["label"] as? String
             
-            self.alarms.append(singleAlarm)
+            activeAlarm.append(singleAlarm)
             
             print("Printing snapshot \(snapshot)")
             //print("printing data ..... \(self.alarms[0].minute)")
@@ -128,7 +128,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
           }) { (error) in
             print(error.localizedDescription)
         }
-        
     }
 }
 
