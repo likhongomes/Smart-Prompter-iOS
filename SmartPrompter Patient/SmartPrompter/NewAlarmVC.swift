@@ -139,7 +139,7 @@ class NewAlarmVC: UIViewController {
         alarmDateTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10).isActive = true
         alarmDateTextField.heightAnchor.constraint(equalToConstant: 30).isActive = true
         alarmDateTextField.topAnchor.constraint(equalTo: dateLabel.bottomAnchor, constant: 2).isActive = true
-        alarmDateTextField.text = formattedDate
+        alarmDateTextField.placeholder = "Date"
         alarmDateTextField.textAlignment = .center
         alarmDateTextField.layer.borderColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
         alarmDateTextField.layer.borderWidth = 0.5

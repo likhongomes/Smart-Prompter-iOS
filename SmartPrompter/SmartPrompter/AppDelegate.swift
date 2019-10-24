@@ -43,16 +43,44 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         window = UIWindow(frame: UIScreen.main.bounds)
         let rootView = ViewController()
+        
+        if Auth.auth().currentUser != nil {
+          self.window?.rootViewController = MainVC()
+        } else {
+          self.window?.rootViewController = SignInVC()
+        }
+        
         //self.window?.rootViewController = MainVC()
-        self.window?.rootViewController = SignInVC()
+        
         //self.window?.rootViewController = NewAlarmVC()
         window?.makeKeyAndVisible()
         registerForPushNotifications()
         getNotificationSettings()
-        fetchFromFirebase()
+        //fetchFromFirebase()
+        
+        application.setMinimumBackgroundFetchInterval(UIApplication.backgroundFetchIntervalMinimum)
         return true
     }
     
+    
+    func application(_ application: UIApplication, performFetchWithCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+        //fetch data from internet now
+        fetchFromFirebase()
+        /*
+        guard let data = fetchFromFirebase() else {
+            // data download failed
+            completionHandler(.failed)
+            return
+        }
+        
+        if data.isNew {
+            // data download succeeded and is new
+            completionHandler(.newData)
+        } else {
+            // data downloaded succeeded and is not new
+            completionHandler(.noData)
+        }*/
+    }
     
 
     func applicationWillResignActive(_ application: UIApplication) {

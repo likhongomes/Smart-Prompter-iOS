@@ -28,10 +28,27 @@ class SignInVC: UIViewController {
         }
 
     }
-
+    
+   @objc func keyboardWillShow(notification: NSNotification) {
+       if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+           if self.view.frame.origin.y == 0 {
+               self.view.frame.origin.y -= keyboardSize.height
+           }
+       }
+   }
+   
+   @objc func keyboardWillHide(notification: NSNotification) {
+       if self.view.frame.origin.y != 0 {
+           self.view.frame.origin.y = 0
+       }
+   }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
         
         signUpButtonSetup()
         loginButtonSetup()
@@ -44,8 +61,8 @@ class SignInVC: UIViewController {
     func logoImageSetup() {
         view.addSubview(logoImage)
         logoImage.translatesAutoresizingMaskIntoConstraints = false
-        logoImage.heightAnchor.constraint(equalToConstant: 200).isActive = true
-        logoImage.widthAnchor.constraint(equalToConstant: 200).isActive = true
+        logoImage.heightAnchor.constraint(equalToConstant: 100).isActive = true
+        logoImage.widthAnchor.constraint(equalToConstant: 100).isActive = true
         logoImage.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         logoImage.topAnchor.constraint(equalTo: view.topAnchor, constant: 50).isActive = true
         logoImage.image = UIImage(named: "logo")
@@ -63,6 +80,7 @@ class SignInVC: UIViewController {
         loginButton.backgroundColor = .red
         loginButton.setTitle("Log in", for: .normal)
         loginButton.addTarget(self, action: #selector(loginButtonTapped), for: .touchUpInside)
+        
     }
     
     @objc func loginButtonTapped() {
@@ -71,6 +89,7 @@ class SignInVC: UIViewController {
             if error == nil {
                 let vc = MainVC()
                 vc.modalTransitionStyle = .crossDissolve
+                vc.modalPresentationStyle = .fullScreen
                 self?.present(vc, animated: true, completion: nil)
             } else {
                 print(error)
@@ -116,8 +135,11 @@ class SignInVC: UIViewController {
         emailTF.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30).isActive = true
         emailTF.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30).isActive = true
         emailTF.layer.borderColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
+        emailTF.textColor = .black
+        emailTF.attributedPlaceholder = NSAttributedString(string: "Email",
+                                                           attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
         emailTF.layer.borderWidth = 0.5
-        emailTF.placeholder = "Username"
+        //emailTF.placeholder = "Username"
     }
     
     func passwordTFSetup() {
@@ -129,8 +151,11 @@ class SignInVC: UIViewController {
         passwordTF.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30).isActive = true
         passwordTF.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30).isActive = true
         passwordTF.layer.borderColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
+        passwordTF.textColor = .black
+        passwordTF.attributedPlaceholder = NSAttributedString(string: "Password",
+                                                           attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
         passwordTF.layer.borderWidth = 0.5
-        passwordTF.placeholder = "Password"
+        //passwordTF.placeholder = "Password"
     }
     
     func backButtonSetup() {
@@ -142,7 +167,9 @@ class SignInVC: UIViewController {
         backButton.backgroundColor = .clear
         backButton.widthAnchor.constraint(equalToConstant: 25).isActive = true
         backButton.setImage(UIImage(named: "back"), for: .normal)
+        
     }
-
+    
+    
 }
 

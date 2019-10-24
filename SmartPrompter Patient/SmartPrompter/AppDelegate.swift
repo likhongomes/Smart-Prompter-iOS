@@ -41,11 +41,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         window = UIWindow(frame: UIScreen.main.bounds)
         let rootView = ViewController()
-        self.window?.rootViewController = SignInVC()
-        //self.window?.rootViewController = MainVC()
+        
+        if Auth.auth().currentUser != nil {
+          self.window?.rootViewController = MainVC()
+        } else {
+          self.window?.rootViewController = SignInVC()
+        }
+        
         window?.makeKeyAndVisible()
         registerForPushNotifications()
-        fetchFromFirebase()
+        //fetchFromFirebase()
         return true
     }
     
@@ -107,6 +112,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
     }
     
+    /*
     //var alarms = [Alarm]()
     func fetchFromFirebase(){
         let userID = Auth.auth().currentUser?.uid
@@ -128,6 +134,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
           }) { (error) in
             print(error.localizedDescription)
         }
-    }
+    }*/
 }
 

@@ -97,6 +97,7 @@ class MainVC: UIViewController {
         //newAlarmButton.widthAnchor.constraint(equalToConstant: 200).isActive = true
         newAlarmButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
         newAlarmButton.addTarget(self, action: #selector(newAlarmButtonClicked), for: .touchUpInside)
+        newAlarmButton.layer.cornerRadius = 20
     }
     
     @objc func newAlarmButtonClicked() {
@@ -114,6 +115,7 @@ class MainVC: UIViewController {
         viewAlarmButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
         viewAlarmButton.topAnchor.constraint(equalTo: newAlarmButton.bottomAnchor, constant: 10).isActive = true
         viewAlarmButton.addTarget(self, action: #selector(viewAlarmButtonClicked), for: .touchUpInside)
+        viewAlarmButton.layer.cornerRadius = 20
     }
     
     @objc func viewAlarmButtonClicked() {
@@ -132,6 +134,7 @@ class MainVC: UIViewController {
         pastAlarmsButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
         pastAlarmsButton.topAnchor.constraint(equalTo: viewAlarmButton.bottomAnchor, constant: 10).isActive = true
         pastAlarmsButton.addTarget(self, action: #selector(pastAlarmButtonClicked), for: .touchUpInside)
+        pastAlarmsButton.layer.cornerRadius = 20
     }
     
     @objc func pastAlarmButtonClicked() {

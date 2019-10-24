@@ -59,19 +59,20 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let vc = AlarmVC()
         //vc.alarmDateTextField.text = activeAlarm[indexPath.row].date
-        //vc.alarmTimeTextField.text = activeAlarm[indexPath.row].time
+        vc.alarmTimeTextField.text = "\(activeAlarm[indexPath.row].hour):\(activeAlarm[indexPath.row].minute)"
         vc.alarmNameTextField.text = activeAlarm[indexPath.row].label
-        vc.statusStatusLabel.text = "\(activeAlarm[indexPath.row].active!)"
+        //vc.statusStatusLabel.text = "\(activeAlarm[indexPath.row].active!)"
         vc.modalTransitionStyle = .crossDissolve
+        vc.modalPresentationStyle = .fullScreen
         present(vc, animated: true, completion: nil)
-        scheduleNotification()
+        //scheduleNotification()
     }
     
     
     
     
     
-    func scheduleNotification() {
+    func scheduleNotification(title:String, dateComponents:DateComponents) {
         
         //print("In the notif function")
         
@@ -85,12 +86,12 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
             content.sound = UNNotificationSound.default
             content.badge = 1
             
-            var dateComponenets = DateComponents()
-            dateComponenets.hour = 19
-            dateComponenets.minute = 24
+            //var dateComponents = DateComponents()
+            //dateComponents.hour = 19
+            //dateComponents.minute = 24
             
             //let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 5.0, repeats: false)
-            let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponenets, repeats: true)
+            let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)
             let request = UNNotificationRequest(identifier: "Identifier", content: content, trigger: trigger)
             
             UNUserNotificationCenter.current().add(request) { (error) in
@@ -111,8 +112,12 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     
     override func viewDidLoad() {
+        ref = Database.database().reference()
+
         super.viewDidLoad()
         view.backgroundColor = .white
+        fetchFromFirebase()
+        print("alarm count ... \(activeAlarm.count)")
         //view.addNavigationBar(viewControllerName: "SmartPrompter Admin")
         topViewSetup()
         stackSetup()
@@ -128,7 +133,7 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
         self.ref.child("Patients").child(Auth.auth().currentUser!.uid).child("PatientData").setValue(["patientFirstName": "Ada","patientLastName":"Lovelace","careTakerFirstName":"Anabelle","careTakerLastName":"Young"])
         
-        self.ref.child("Patients").child(Auth.auth().currentUser!.uid).child("Alarms").child("0").setValue(["label":"Water the dog","hour":"06","minute":"30", "active":"true"])
+        //self.ref.child("Patients").child(Auth.auth().currentUser!.uid).child("Alarms").child("0").setValue(["label":"Water the dog","hour":"06","minute":"30", "active":"true"])
         
         
         
@@ -161,7 +166,7 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     @objc func updateTimeLabel() {
         clockLabel.text = dateFormatter.string(from: Date())
-        print("")
+        //print("")
     }
     
     func alarmTableSetup() {
@@ -185,7 +190,7 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         topBar.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         topBar.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
         topBar.heightAnchor.constraint(equalToConstant: 200).isActive = true
-        topBar.backgroundColor = .purple
+        topBar.backgroundColor = #colorLiteral(red: 0.1843137255, green: 0.2039215686, blue: 0.5647058824, alpha: 1)
     }
     
     func timeLabelSetup() {
@@ -300,7 +305,33 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         present(vc, animated: true, completion: nil)
     }
     
-    
+    func fetchFromFirebase(){
+        let userID = Auth.auth().currentUser?.uid
+        ref.child("Patients").child(userID!).child("Alarms").observe(.childAdded, with: { (snapshot) in
+            
+        
+          let value = snapshot.value as? NSDictionary
+            let singleAlarm = Alarm()
+            singleAlarm.active = value?["active"] as? Int
+            singleAlarm.hour = value?["hour"] as? Int
+            singleAlarm.minute = value?["minute"] as? Int
+            singleAlarm.label = value?["label"] as? String
+            
+            activeAlarm.append(singleAlarm)
+            var dateComponents = DateComponents()
+            dateComponents.hour = singleAlarm.hour
+            dateComponents.minute = singleAlarm.minute
+            self.scheduleNotification(title: singleAlarm.label!, dateComponents: dateComponents)
+            self.alarmTable.reloadData()
+            print("Printing snapshot \(snapshot)")
+            
+            //print("printing data ..... \(self.alarms[0].minute)")
+          // ...
+          }) { (error) in
+            print(error.localizedDescription)
+        }
+    }
+
 
 
     
