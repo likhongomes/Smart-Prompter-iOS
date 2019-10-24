@@ -110,8 +110,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var alarms = [Alarm]()
     func fetchFromFirebase(){
         let userID = Auth.auth().currentUser?.uid
-        ref.child("Patients").child(userID!).child("Alarms").observeSingleEvent(of: .value, with: { (snapshot) in
-          // Get user value
+        ref.child("Patients").child(userID!).child("Alarms").observe(.childAdded, with: { (snapshot) in
+            
+        
           let value = snapshot.value as? NSDictionary
             let singleAlarm = Alarm()
             singleAlarm.active = value?["active"] as? Int
@@ -120,10 +121,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             singleAlarm.label = value?["label"] as? String
             
             self.alarms.append(singleAlarm)
-            //alarm
-            //alarms = value?["Alarms"] [Any?]
-          //let user = User(username: username)
-            print("printing data ..... \(self.alarms[0].minute)")
+            
+            print("Printing snapshot \(snapshot)")
+            //print("printing data ..... \(self.alarms[0].minute)")
           // ...
           }) { (error) in
             print(error.localizedDescription)
