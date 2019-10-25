@@ -58,6 +58,7 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let vc = AlarmVC()
+        vc.alarm = activeAlarm[indexPath.row]
         //vc.alarmDateTextField.text = activeAlarm[indexPath.row].date
         vc.alarmTimeTextField.text = "\(activeAlarm[indexPath.row].hour):\(activeAlarm[indexPath.row].minute)"
         vc.alarmNameTextField.text = activeAlarm[indexPath.row].label
@@ -124,9 +125,6 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         welcomeTextViewSetup()
         timeLabelSetup()
         clockLabelSetup()
-        newAlarmButtonSetup()
-        viewAlarmButtonSetup()
-        pastAlarmsButtonSetup()
         alarmTableSetup()
         
         ref = Database.database().reference()
@@ -312,17 +310,23 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         
           let value = snapshot.value as? NSDictionary
             let singleAlarm = Alarm()
-            singleAlarm.active = value?["active"] as? Int
+            singleAlarm.firebaseID = snapshot.key
+            singleAlarm.active = value?["active"] as? Bool
             singleAlarm.hour = value?["hour"] as? Int
             singleAlarm.minute = value?["minute"] as? Int
             singleAlarm.label = value?["label"] as? String
             
-            activeAlarm.append(singleAlarm)
+            
+            if(singleAlarm.active == true){
+                activeAlarm.append(singleAlarm)
+            }
+            
             var dateComponents = DateComponents()
             dateComponents.hour = singleAlarm.hour
             dateComponents.minute = singleAlarm.minute
             self.scheduleNotification(title: singleAlarm.label!, dateComponents: dateComponents)
             self.alarmTable.reloadData()
+
             print("Printing snapshot \(snapshot)")
             
             //print("printing data ..... \(self.alarms[0].minute)")
@@ -330,6 +334,7 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
           }) { (error) in
             print(error.localizedDescription)
         }
+        
     }
 
 

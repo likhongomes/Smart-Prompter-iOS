@@ -54,6 +54,9 @@ class MainVC: UIViewController {
         welcomeTextView.textAlignment = .center
         welcomeTextView.font = UIFont.boldSystemFont(ofSize: 25)
         welcomeTextView.textColor = .gray
+        welcomeTextView.isEditable = false
+        welcomeTextView.isSelectable = false
+
         //welcomeTextView.backgroundColor = .black
     }
     
@@ -70,6 +73,8 @@ class MainVC: UIViewController {
         secondTextView.textAlignment = .center
         secondTextView.font = UIFont.systemFont(ofSize: 18)
         secondTextView.textColor = .gray
+        secondTextView.isEditable = false
+        secondTextView.isSelectable = false
     }
     
     
@@ -103,6 +108,7 @@ class MainVC: UIViewController {
     @objc func newAlarmButtonClicked() {
         let vc = NewAlarmVC()
         vc.modalTransitionStyle = .crossDissolve
+        vc.modalPresentationStyle = .fullScreen
         present(vc, animated: true, completion: nil)
     }
     
@@ -121,6 +127,7 @@ class MainVC: UIViewController {
     @objc func viewAlarmButtonClicked() {
         let vc = CurrentAlarmVC()
         vc.modalTransitionStyle = .crossDissolve
+        vc.modalPresentationStyle = .fullScreen
         present(vc, animated: true, completion: nil)
     }
 
@@ -140,6 +147,7 @@ class MainVC: UIViewController {
     @objc func pastAlarmButtonClicked() {
         let vc = PastAlarmsVC()
         vc.modalTransitionStyle = .crossDissolve
+        vc.modalPresentationStyle = .fullScreen
         present(vc, animated: true, completion: nil)
     }
     

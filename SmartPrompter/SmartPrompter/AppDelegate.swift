@@ -19,7 +19,7 @@ let alarmDB = AlarmDB()
 var activeAlarm = [Alarm]()
 var inactiveAlarm = [Alarm]()
 var ref: DatabaseReference!
-
+let userID = Auth.auth().currentUser?.uid
 
 @available(iOS 10.0, *)
 @UIApplicationMain
@@ -34,6 +34,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        
+        UNUserNotificationCenter.current().delegate = self
+        
         FirebaseApp.configure()
         ref = Database.database().reference()
         try! setupDatabase(application)
@@ -62,26 +65,26 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return true
     }
     
-    
-    func application(_ application: UIApplication, performFetchWithCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
-        //fetch data from internet now
-        fetchFromFirebase()
-        /*
-        guard let data = fetchFromFirebase() else {
-            // data download failed
-            completionHandler(.failed)
-            return
-        }
+    func application(_ application: UIApplication,
+                     performFetchWithCompletionHandler completionHandler:
+                     @escaping (UIBackgroundFetchResult) -> Void) {
+        let count = activeAlarm.count
         
-        if data.isNew {
-            // data download succeeded and is new
+        fetchFromFirebase()
+        if(count == activeAlarm.count){
+            completionHandler(.noData)
+        } else if (count != activeAlarm.count){
             completionHandler(.newData)
         } else {
-            // data downloaded succeeded and is not new
-            completionHandler(.noData)
-        }*/
+            completionHandler(.failed)
+        }
+       
+        print("Refreshing in the background")
+        completionHandler(.newData)
     }
     
+    
+  
 
     func applicationWillResignActive(_ application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
@@ -167,7 +170,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
           let value = snapshot.value as? NSDictionary
             let singleAlarm = Alarm()
-            singleAlarm.active = value?["active"] as? Int
+            singleAlarm.active = value?["active"] as? Bool
             singleAlarm.hour = value?["hour"] as? Int
             singleAlarm.minute = value?["minute"] as? Int
             singleAlarm.label = value?["label"] as? String
@@ -181,9 +184,30 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             print(error.localizedDescription)
         }
     }
-    
-    
 
     
 }
 
+extension AppDelegate: UNUserNotificationCenterDelegate{
+    
+  func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+    let application = UIApplication.shared
+    
+    if(application.applicationState == .active){
+      print("user tapped the notification bar when the app is in foreground")
+      
+    }
+    
+    if(application.applicationState == .inactive)
+    {
+      print("user tapped the notification bar when the app is in background")
+    }
+    
+    /* Change root view controller to a specific viewcontroller */
+    // let storyboard = UIStoryboard(name: "Main", bundle: nil)
+    // let vc = storyboard.instantiateViewController(withIdentifier: "ViewControllerStoryboardID") as? ViewController
+    // self.window?.rootViewController = vc
+    
+    completionHandler()
+  }
+}

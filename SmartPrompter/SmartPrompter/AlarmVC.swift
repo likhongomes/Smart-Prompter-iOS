@@ -21,6 +21,7 @@ class AlarmVC: UIViewController {
     let dateLabel = UILabel()
     let timeLabel = UILabel()
     
+    var alarm = Alarm()
     
     let alarmNameTextField = UITextField()
     let alarmDateTextField = UITextField()
@@ -240,9 +241,15 @@ class AlarmVC: UIViewController {
         //print("value is" , Int(sender.value));
         if(sender.value == 0){
             instructionLabel.text = "Remind me later"
+            
         }else if(sender.value == 100){
+            alarm.active = false
             instructionLabel.text = "On My Way"
+            ref.child("Patients").child(userID!).child("Alarms").child("\(alarm.firebaseID!)").child("active").setValue(false)
         }
     }
+    
+    
+    
 
 }

@@ -15,7 +15,7 @@ class Alarm: PersistableRecord, Codable, FetchableRecord {
     var label:String?
     var hour:Int?
     var minute:Int?
-    var active:Int?
+    var active:Bool?
     var year:Int?
     var month:Int?
     var day:Int?
@@ -33,7 +33,7 @@ class Alarm: PersistableRecord, Codable, FetchableRecord {
     
     init(){}
     
-    init(label:String, hour:Int, minute:Int, year:Int, month:Int, day:Int, active:Int) {
+    init(label:String, hour:Int, minute:Int, year:Int, month:Int, day:Int, active:Bool) {
         self.label = label
         self.hour = hour
         self.minute = minute

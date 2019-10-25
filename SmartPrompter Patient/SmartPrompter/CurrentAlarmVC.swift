@@ -37,10 +37,12 @@ class CurrentAlarmVC: UIViewController, UITableViewDataSource, UITableViewDelega
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         view.addNavigationBar(viewControllerName: "Current Alarms", leftButton: backButton)
         view.backgroundColor = .white
         backButtonSetup()
         alarmTableSetup()
+        alarmTable.reloadData()
     }
     
     func backButtonSetup() {
@@ -72,5 +74,34 @@ class CurrentAlarmVC: UIViewController, UITableViewDataSource, UITableViewDelega
         
     }
 
+    func fetchFromFirebase(){
+        
+        activeAlarm = [Alarm]()
+        inactiveAlarm = [Alarm]()
+        
+        ref.child("Patients").child(userID!).child("Alarms").observe(.childAdded, with: { (snapshot) in
+        
+          let value = snapshot.value as? NSDictionary
+            let singleAlarm = Alarm()
+            singleAlarm.active = value?["active"] as? Bool
+            singleAlarm.hour = value?["hour"] as? Int
+            singleAlarm.minute = value?["minute"] as? Int
+            singleAlarm.label = value?["label"] as? String
+            
+            
+            if(singleAlarm.active == true){
+                activeAlarm.append(singleAlarm)
+            } else {
+                inactiveAlarm.append(singleAlarm)
+            }
+            
+            print("Printing snapshot \(snapshot)")
+            
+            //print("printing data ..... \(self.alarms[0].minute)")
+          // ...
+          }) { (error) in
+            print(error.localizedDescription)
+        }
+    }
 
 }

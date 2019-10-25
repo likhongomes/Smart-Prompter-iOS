@@ -19,6 +19,7 @@ let alarmDB = AlarmDB()
 var activeAlarm = [Alarm]()
 var inactiveAlarm = [Alarm]()
 var ref: DatabaseReference!
+let userID = Auth.auth().currentUser?.uid
 
 
 @UIApplicationMain
@@ -43,7 +44,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let rootView = ViewController()
         
         if Auth.auth().currentUser != nil {
+            fetchFromFirebase()
           self.window?.rootViewController = MainVC()
+            
         } else {
           self.window?.rootViewController = SignInVC()
         }
@@ -112,8 +115,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
     }
     
-    /*
-    //var alarms = [Alarm]()
     func fetchFromFirebase(){
         let userID = Auth.auth().currentUser?.uid
         ref.child("Patients").child(userID!).child("Alarms").observe(.childAdded, with: { (snapshot) in
@@ -121,19 +122,26 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
           let value = snapshot.value as? NSDictionary
             let singleAlarm = Alarm()
-            singleAlarm.active = value?["active"] as? Int
+            singleAlarm.active = value?["active"] as? Bool
             singleAlarm.hour = value?["hour"] as? Int
             singleAlarm.minute = value?["minute"] as? Int
             singleAlarm.label = value?["label"] as? String
             
-            activeAlarm.append(singleAlarm)
+            
+            if(singleAlarm.active == true){
+                activeAlarm.append(singleAlarm)
+            } else {
+                inactiveAlarm.append(singleAlarm)
+            }
             
             print("Printing snapshot \(snapshot)")
+            
             //print("printing data ..... \(self.alarms[0].minute)")
           // ...
           }) { (error) in
             print(error.localizedDescription)
         }
-    }*/
+    }
+    
 }
 
