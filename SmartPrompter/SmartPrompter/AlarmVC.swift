@@ -22,6 +22,7 @@ class AlarmVC: UIViewController {
     let timeLabel = UILabel()
     
     var alarm = Alarm()
+    var firebaseID = String()
     
     let alarmNameTextField = UITextField()
     let alarmDateTextField = UITextField()

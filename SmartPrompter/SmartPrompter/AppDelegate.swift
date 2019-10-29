@@ -23,13 +23,13 @@ let userID = Auth.auth().currentUser?.uid
 
 @available(iOS 10.0, *)
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
 
     var window: UIWindow?
     //var dbQueue: DatabaseQueue!
     //let alarmDB = AlarmDB()
     
-    let notificationCenter = UNUserNotificationCenter.current()
+    //let notificationCenter = UNUserNotificationCenter.current()
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
@@ -53,12 +53,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
           self.window?.rootViewController = SignInVC()
         }
         
-        //self.window?.rootViewController = MainVC()
-        
-        //self.window?.rootViewController = NewAlarmVC()
         window?.makeKeyAndVisible()
-        registerForPushNotifications()
-        getNotificationSettings()
+        //registerForPushNotifications()
+        //getNotificationSettings()
         //fetchFromFirebase()
         
         application.setMinimumBackgroundFetchInterval(UIApplication.backgroundFetchIntervalMinimum)
@@ -184,30 +181,38 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             print(error.localizedDescription)
         }
     }
+    
+    
+    // This function will be called when the app receive notification
+    @available(iOS 10.0, *)
+       func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+           print("Will present")
+           
+         // show the notification alert (banner), and with sound
+         completionHandler([.alert, .sound])
+       }
+         
+       // This function will be called right after user tap on the notification
+    @available(iOS 10.0, *)
+       func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+           let application = UIApplication.shared
+           if(application.applicationState == .active){
+             print("user tapped the notification bar when the app is in foreground")
+             
+           }
+           
+           if(application.applicationState == .inactive)
+           {
+             
+           }
+           
+         // tell the app that we have finished processing the user’s action / response
+         completionHandler()
+       }
+
 
     
 }
 
-extension AppDelegate: UNUserNotificationCenterDelegate{
-    
-  func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
-    let application = UIApplication.shared
-    
-    if(application.applicationState == .active){
-      print("user tapped the notification bar when the app is in foreground")
-      
-    }
-    
-    if(application.applicationState == .inactive)
-    {
-      print("user tapped the notification bar when the app is in background")
-    }
-    
-    /* Change root view controller to a specific viewcontroller */
-    // let storyboard = UIStoryboard(name: "Main", bundle: nil)
-    // let vc = storyboard.instantiateViewController(withIdentifier: "ViewControllerStoryboardID") as? ViewController
-    // self.window?.rootViewController = vc
-    
-    completionHandler()
-  }
-}
+
+

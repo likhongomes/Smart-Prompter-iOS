@@ -15,6 +15,40 @@ extension MainVC:UNUserNotificationCenterDelegate{
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
         completionHandler([.alert,.sound,.badge])
     }
+    
+    @available(iOS 10.0, *)
+    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+        let application = UIApplication.shared
+        if(application.applicationState == .active){
+            print("user tapped the notification bar when the app is in foreground")
+            let vc = AlarmVC()
+            vc.modalPresentationStyle = .fullScreen
+            vc.modalTransitionStyle = .crossDissolve
+            guard let userInfo = response.notification.request.content.userInfo as? NSDictionary else {
+                print("Notification.userInfo is empty")
+                completionHandler()
+                return
+            }
+            
+            
+            print("Printing notification data .... \(userInfo)")
+            
+            
+            
+            present(vc, animated: true, completion: nil)
+        }
+        
+        if(application.applicationState == .inactive){
+            let vc = AlarmVC()
+            vc.modalPresentationStyle = .fullScreen
+            vc.modalTransitionStyle = .crossDissolve
+            present(vc, animated: true, completion: nil)
+        }
+        
+      // tell the app that we have finished processing the user’s action / response
+      completionHandler()
+    }
+
 }
 
 
@@ -73,19 +107,19 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     
     
-    func scheduleNotification(title:String, dateComponents:DateComponents) {
+    func scheduleNotification(title:String, dateComponents:DateComponents, id:String) {
         
         //print("In the notif function")
         
         if #available(iOS 10.0, *) {
             let content = UNMutableNotificationContent()
-            content.title = "SmartPrompter"
-            content.subtitle = "Water the dog"
-            content.body = "Body"
+            content.title = title
+            //content.subtitle = "Water the dog"
+            //content.body = "Body"
             content.categoryIdentifier = "alarm"
-            content.userInfo = ["customData":"fizzbuzz"]
             content.sound = UNNotificationSound.default
             content.badge = 1
+            content.userInfo = ["FirebaseID":id,"title":title]
             
             //var dateComponents = DateComponents()
             //dateComponents.hour = 19
@@ -94,7 +128,7 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
             //let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 5.0, repeats: false)
             let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)
             let request = UNNotificationRequest(identifier: "Identifier", content: content, trigger: trigger)
-            
+    
             UNUserNotificationCenter.current().add(request) { (error) in
                 print(error as Any)
                 
@@ -324,7 +358,7 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
             var dateComponents = DateComponents()
             dateComponents.hour = singleAlarm.hour
             dateComponents.minute = singleAlarm.minute
-            self.scheduleNotification(title: singleAlarm.label!, dateComponents: dateComponents)
+            self.scheduleNotification(title: singleAlarm.label!, dateComponents: dateComponents, id:singleAlarm.firebaseID!)
             self.alarmTable.reloadData()
 
             print("Printing snapshot \(snapshot)")
