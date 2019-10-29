@@ -308,7 +308,7 @@ class NewAlarmVC: UIViewController {
         buttonStack.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10).isActive = true
         buttonStack.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10).isActive = true
         buttonStack.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -10).isActive = true
-        buttonStack.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        buttonStack.heightAnchor.constraint(equalToConstant: 50).isActive = true
         buttonStack.backgroundColor = .blue
         buttonStack.addArrangedSubview(saveButton)
         buttonStack.addArrangedSubview(cancelButton)

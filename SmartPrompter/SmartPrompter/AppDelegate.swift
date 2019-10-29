@@ -20,6 +20,8 @@ var activeAlarm = [Alarm]()
 var inactiveAlarm = [Alarm]()
 var ref: DatabaseReference!
 let userID = Auth.auth().currentUser?.uid
+let scheduler = AlarmScheduler()
+let fUtil = FirebaseUtil()
 
 @available(iOS 10.0, *)
 @UIApplicationMain
@@ -57,6 +59,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         //registerForPushNotifications()
         //getNotificationSettings()
         //fetchFromFirebase()
+        
+        
         
         application.setMinimumBackgroundFetchInterval(UIApplication.backgroundFetchIntervalMinimum)
         return true

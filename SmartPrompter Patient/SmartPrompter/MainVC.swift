@@ -87,7 +87,7 @@ class MainVC: UIViewController {
         stack.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -20).isActive = true
         stack.axis = .vertical
         stack.distribution = .fillEqually
-        stack.spacing = 20
+        stack.spacing = 30
         stack.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
         stack.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
         stack.addArrangedSubview(newAlarmButton)
@@ -102,7 +102,7 @@ class MainVC: UIViewController {
         newAlarmButton.setTitleColor(.black, for: .normal)
         newAlarmButton.setTitle("Create New Alarm", for: .normal)
         //newAlarmButton.widthAnchor.constraint(equalToConstant: 200).isActive = true
-        newAlarmButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        newAlarmButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
         newAlarmButton.addTarget(self, action: #selector(newAlarmButtonClicked), for: .touchUpInside)
         newAlarmButton.layer.cornerRadius = 20
     }
@@ -121,7 +121,7 @@ class MainVC: UIViewController {
         viewAlarmButton.setTitleColor(.black, for: .normal)
         viewAlarmButton.setTitle("View Current Alarm", for: .normal)
         //viewAlarmButton.widthAnchor.constraint(equalToConstant: 200).isActive = true
-        viewAlarmButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        viewAlarmButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
         viewAlarmButton.topAnchor.constraint(equalTo: newAlarmButton.bottomAnchor, constant: 10).isActive = true
         viewAlarmButton.addTarget(self, action: #selector(viewAlarmButtonClicked), for: .touchUpInside)
         viewAlarmButton.layer.cornerRadius = 20
@@ -142,7 +142,7 @@ class MainVC: UIViewController {
         pastAlarmsButton.setTitleColor(.black, for: .normal)
         pastAlarmsButton.setTitle("View Past Alarms", for: .normal)
         //pastAlarmsButton.widthAnchor.constraint(equalToConstant: 200).isActive = true
-        pastAlarmsButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        pastAlarmsButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
         pastAlarmsButton.topAnchor.constraint(equalTo: viewAlarmButton.bottomAnchor, constant: 10).isActive = true
         pastAlarmsButton.addTarget(self, action: #selector(pastAlarmButtonClicked), for: .touchUpInside)
         pastAlarmsButton.layer.cornerRadius = 20

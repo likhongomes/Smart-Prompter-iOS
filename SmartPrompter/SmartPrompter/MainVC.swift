@@ -13,6 +13,8 @@ import Firebase
 extension MainVC:UNUserNotificationCenterDelegate{
     @available(iOS 10.0, *)
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        
+        
         completionHandler([.alert,.sound,.badge])
     }
     
@@ -21,25 +23,35 @@ extension MainVC:UNUserNotificationCenterDelegate{
         let application = UIApplication.shared
         if(application.applicationState == .active){
             print("user tapped the notification bar when the app is in foreground")
-            let vc = AlarmVC()
-            vc.modalPresentationStyle = .fullScreen
-            vc.modalTransitionStyle = .crossDissolve
+            
             guard let userInfo = response.notification.request.content.userInfo as? NSDictionary else {
                 print("Notification.userInfo is empty")
                 completionHandler()
                 return
             }
             
-            
+            let vc = AlarmVC()
+            vc.alarm.label = userInfo["title"] as! String
+            vc.alarm.firebaseID = userInfo["FirebaseID"] as! String
+            vc.alarm.hour = userInfo["hour"] as! Int
+            vc.alarm.minute = userInfo["minute"] as! Int
+            vc.modalPresentationStyle = .fullScreen
+            vc.modalTransitionStyle = .crossDissolve
             print("Printing notification data .... \(userInfo)")
-            
-            
-            
             present(vc, animated: true, completion: nil)
         }
         
         if(application.applicationState == .inactive){
+            
+            guard let userInfo = response.notification.request.content.userInfo as? NSDictionary else {
+                print("Notification.userInfo is empty")
+                completionHandler()
+                return
+            }
+
             let vc = AlarmVC()
+            vc.alarm.label = userInfo["title"] as! String
+            vc.alarm.firebaseID = userInfo["FirebaseID"] as! String
             vc.modalPresentationStyle = .fullScreen
             vc.modalTransitionStyle = .crossDissolve
             present(vc, animated: true, completion: nil)
@@ -107,41 +119,7 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     
     
-    func scheduleNotification(title:String, dateComponents:DateComponents, id:String) {
-        
-        //print("In the notif function")
-        
-        if #available(iOS 10.0, *) {
-            let content = UNMutableNotificationContent()
-            content.title = title
-            //content.subtitle = "Water the dog"
-            //content.body = "Body"
-            content.categoryIdentifier = "alarm"
-            content.sound = UNNotificationSound.default
-            content.badge = 1
-            content.userInfo = ["FirebaseID":id,"title":title]
-            
-            //var dateComponents = DateComponents()
-            //dateComponents.hour = 19
-            //dateComponents.minute = 24
-            
-            //let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 5.0, repeats: false)
-            let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)
-            let request = UNNotificationRequest(identifier: "Identifier", content: content, trigger: trigger)
     
-            UNUserNotificationCenter.current().add(request) { (error) in
-                print(error as Any)
-                
-            }
-            //print("notification pushed")
-
-        } else {
-            // Fallback on earlier versions
-            print("Notifcation not pushed")
-        }
-        
-    }
-
     
     
     
@@ -358,7 +336,8 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
             var dateComponents = DateComponents()
             dateComponents.hour = singleAlarm.hour
             dateComponents.minute = singleAlarm.minute
-            self.scheduleNotification(title: singleAlarm.label!, dateComponents: dateComponents, id:singleAlarm.firebaseID!)
+            let scheduler = AlarmScheduler()
+            scheduler.scheduleNotification(title: singleAlarm.label!, dateComponents: dateComponents, id:singleAlarm.firebaseID!)
             self.alarmTable.reloadData()
 
             print("Printing snapshot \(snapshot)")
@@ -370,9 +349,83 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         }
         
     }
+}
 
-
-
+class AlarmScheduler {
+    func scheduleNotification(title:String, dateComponents:DateComponents, id:String?) {
+        
+        //print("In the notif function")
+        
+        if #available(iOS 10.0, *) {
+            let content = UNMutableNotificationContent()
+            content.title = title
+            //content.subtitle = "Water the dog"
+            //content.body = "Body"
+            content.categoryIdentifier = "alarm"
+            content.sound = UNNotificationSound.default
+            content.badge = 1
+            content.userInfo = ["FirebaseID":id,"title":title, "hour":dateComponents.hour, "minute":dateComponents.minute,"day":dateComponents.day,"month":dateComponents.month,"year":dateComponents.year]
+            
+            //var dateComponents = DateComponents()
+            //dateComponents.hour = 19
+            //dateComponents.minute = 24
+            
+            //let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 5.0, repeats: false)
+            let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)
+            let request = UNNotificationRequest(identifier: "Identifier", content: content, trigger: trigger)
     
+            UNUserNotificationCenter.current().add(request) { (error) in
+                print(error as Any)
+                
+            }
+            //print("notification pushed")
+
+        } else {
+            // Fallback on earlier versions
+            print("Notifcation not pushed")
+        }
+        
+    }
+
+}
+
+class FirebaseUtil {
     
+    func fetchOneObject(firebaseID:String) -> Alarm {
+        let singleAlarm = Alarm()
+        let userID = Auth.auth().currentUser?.uid
+        ref.child("Patients").child(userID!).child("Alarms").child("\(firebaseID)").observe(DataEventType.value) { (snapshot) in
+        
+          let value = snapshot.value as? NSDictionary
+            
+            singleAlarm.firebaseID = snapshot.key
+            singleAlarm.active = value?["active"] as? Bool
+            singleAlarm.hour = value?["hour"] as? Int
+            singleAlarm.minute = value?["minute"] as? Int
+            singleAlarm.label = value?["label"] as? String
+            
+            
+            if(singleAlarm.active == true){
+                activeAlarm.append(singleAlarm)
+            }
+            
+            var dateComponents = DateComponents()
+            dateComponents.hour = singleAlarm.hour
+            dateComponents.minute = singleAlarm.minute
+            let scheduler = AlarmScheduler()
+            scheduler.scheduleNotification(title: singleAlarm.label!, dateComponents: dateComponents, id:singleAlarm.firebaseID!)
+
+            print("Printing snapshot \(snapshot)")
+            
+            //print("printing data ..... \(self.alarms[0].minute)")
+          // ...
+          }
+        return singleAlarm
+    }
+        
+    func updateSingleData(firebaseId: String, label:String, active:Bool, hour:Int,minute:Int){
+        
+        //ref.child("Patients").child(userID!).child("Alarms").child("\(firebaseId)").setValue(["active": username])
+        
+    }
 }

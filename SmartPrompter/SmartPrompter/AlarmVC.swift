@@ -22,7 +22,8 @@ class AlarmVC: UIViewController {
     let timeLabel = UILabel()
     
     var alarm = Alarm()
-    var firebaseID = String()
+    //var firebaseID = String()
+    //var alarmTitle = String()
     
     let alarmNameTextField = UITextField()
     let alarmDateTextField = UITextField()
@@ -40,10 +41,10 @@ class AlarmVC: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .white
         view.addNavigationBar(viewControllerName: "SmartPrompter", leftButton: backButton)
+        
+        //alarm = fUtil.fetchOneObject(firebaseID: "-LsKsbxX-FvKnDjYR4-Y")
+        
         alarmDetailsLabelSetup()
-        
-        
-        
         alarmNameTextFieldSetup()
         instructionLabelSetup()
         backButtonSetup()
@@ -175,7 +176,7 @@ class AlarmVC: UIViewController {
         alarmNameTextField.heightAnchor.constraint(equalToConstant: 30).isActive = true
         alarmNameTextField.topAnchor.constraint(equalTo: alarmDetailsLabel.bottomAnchor, constant: 5).isActive = true
         alarmNameTextField.textAlignment = .center
-        alarmNameTextField.placeholder = "Name of Task"
+        alarmNameTextField.text = alarm.label
         alarmNameTextField.font = UIFont.boldSystemFont(ofSize: 22)
         
         //alarmNameTextField.layer.borderColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
@@ -233,16 +234,64 @@ class AlarmVC: UIViewController {
         slider.minimumValue = 0
         slider.setValue(50, animated: false)
         
-        slider.addTarget(self, action: #selector(changeVlaue(_:)), for: .valueChanged)
+        slider.addTarget(self, action: #selector(changeValue(_:)), for: .valueChanged)
         
         
     }
     
-    @objc func changeVlaue(_ sender: UISlider) {
+   
+    
+    func scheduleNotification(title:String, dateComponents:DateComponents, id:String?) {
+        
+        //print("In the notif function")
+        
+        if #available(iOS 10.0, *) {
+            let content = UNMutableNotificationContent()
+            content.title = title
+            //content.subtitle = "Water the dog"
+            //content.body = "Body"
+            content.categoryIdentifier = "alarm"
+            content.sound = UNNotificationSound.default
+            content.badge = 1
+            content.userInfo = ["FirebaseID":id,"title":title, "hour":dateComponents.hour, "minute":dateComponents.minute,"day":dateComponents.day,"month":dateComponents.month,"year":dateComponents.year]
+            
+            //var dateComponents = DateComponents()
+            //dateComponents.hour = 19
+            //dateComponents.minute = 24
+            
+            //let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 5.0, repeats: false)
+            let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)
+            let request = UNNotificationRequest(identifier: "Identifier", content: content, trigger: trigger)
+    
+            UNUserNotificationCenter.current().add(request) { (error) in
+                print(error as Any)
+                
+            }
+            //print("notification pushed")
+
+        } else {
+            // Fallback on earlier versions
+            print("Notifcation not pushed")
+        }
+        
+    }
+
+    
+    @objc func changeValue(_ sender: UISlider) {
         //print("value is" , Int(sender.value));
         if(sender.value == 0){
             instructionLabel.text = "Remind me later"
             
+            
+            
+            let vc = MainVC()
+            
+            var dateComponents = DateComponents()
+            dateComponents.hour = alarm.hour
+            dateComponents.minute = alarm.minute!+1
+            
+            scheduler.scheduleNotification(title: alarm.label!, dateComponents: dateComponents, id:alarm.firebaseID)
+            print("scheduled again")
         }else if(sender.value == 100){
             alarm.active = false
             instructionLabel.text = "On My Way"
