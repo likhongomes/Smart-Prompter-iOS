@@ -10,11 +10,17 @@ import UIKit
 import GRDB
 import CoreData
 import UserNotifications
+import Firebase
+import FirebaseDatabase
+import FirebaseAnalytics
 
 var dbQueue: DatabaseQueue!
 let alarmDB = AlarmDB()
 var activeAlarm = [Alarm]()
 var inactiveAlarm = [Alarm]()
+var ref: DatabaseReference!
+let userID = Auth.auth().currentUser?.uid
+
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -23,9 +29,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     //var dbQueue: DatabaseQueue!
     //let alarmDB = AlarmDB()
 
-
+        
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        FirebaseApp.configure()
+        ref = Database.database().reference()
+
         try! setupDatabase(application)
         activeAlarm = alarmDB.getActiveAlarms()
         inactiveAlarm = alarmDB.getInactiveAlarms()
@@ -33,12 +42,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         window = UIWindow(frame: UIScreen.main.bounds)
         let rootView = ViewController()
-        self.window?.rootViewController = MainVC()
+        
+        if Auth.auth().currentUser != nil {
+            fetchFromFirebase()
+          self.window?.rootViewController = MainVC()
+            
+        } else {
+          self.window?.rootViewController = SignInVC()
+        }
+        
         window?.makeKeyAndVisible()
         registerForPushNotifications()
-        
+        //fetchFromFirebase()
         return true
     }
+    
+    
 
     func applicationWillResignActive(_ application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
@@ -95,5 +114,34 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 print("Permission granted: \(granted)") // 3
         }
     }
+    
+    func fetchFromFirebase(){
+        let userID = Auth.auth().currentUser?.uid
+        ref.child("Patients").child(userID!).child("Alarms").observe(.childAdded, with: { (snapshot) in
+            
+        
+          let value = snapshot.value as? NSDictionary
+            let singleAlarm = Alarm()
+            singleAlarm.active = value?["active"] as? Bool
+            singleAlarm.hour = value?["hour"] as? Int
+            singleAlarm.minute = value?["minute"] as? Int
+            singleAlarm.label = value?["label"] as? String
+            
+            
+            if(singleAlarm.active == true){
+                activeAlarm.append(singleAlarm)
+            } else {
+                inactiveAlarm.append(singleAlarm)
+            }
+            
+            print("Printing snapshot \(snapshot)")
+            
+            //print("printing data ..... \(self.alarms[0].minute)")
+          // ...
+          }) { (error) in
+            print(error.localizedDescription)
+        }
+    }
+    
 }
 

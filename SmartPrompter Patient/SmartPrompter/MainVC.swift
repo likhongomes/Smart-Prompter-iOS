@@ -22,7 +22,7 @@ class MainVC: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
+        view.backgroundColor = #colorLiteral(red: 0.2470588235, green: 0.7019607843, blue: 0.3098039216, alpha: 1)
         //view.addNavigationBar(viewControllerName: "SmartPrompter Admin")
         
         stackSetup()
@@ -31,6 +31,14 @@ class MainVC: UIViewController {
         newAlarmButtonSetup()
         viewAlarmButtonSetup()
         pastAlarmsButtonSetup()
+        
+        let date = Date(timeIntervalSinceNow: 3600)
+        let triggerDate = Calendar.current.dateComponents([.year,.month,.day,.hour,.minute,.second,], from: date)
+        
+        let trigger = UNCalendarNotificationTrigger(dateMatching: triggerDate, repeats: false)
+        
+        
+        
     }
     
     func welcomeTextViewSetup() {
@@ -42,11 +50,14 @@ class MainVC: UIViewController {
         welcomeTextView.heightAnchor.constraint(equalToConstant: 70).isActive = true
         //welcomeTextView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         //welcomeTextView.bottomAnchor.constraint(equalTo: stack.topAnchor, constant: -50).isActive = true
-        welcomeTextView.text = "Welcome to SmartPrompter Admin!"
+        welcomeTextView.text = "SmartPrompter"
         welcomeTextView.textAlignment = .center
-        welcomeTextView.font = UIFont.boldSystemFont(ofSize: 25)
-        welcomeTextView.textColor = .gray
-        //welcomeTextView.backgroundColor = .black
+        welcomeTextView.font = UIFont.boldSystemFont(ofSize: 36)
+        welcomeTextView.textColor = .white
+        welcomeTextView.isEditable = false
+        welcomeTextView.isSelectable = false
+
+        welcomeTextView.backgroundColor = .clear
     }
     
     func secondTextViewSetup() {
@@ -61,7 +72,10 @@ class MainVC: UIViewController {
         secondTextView.text = "Please select an opertation from the the options below"
         secondTextView.textAlignment = .center
         secondTextView.font = UIFont.systemFont(ofSize: 18)
-        secondTextView.textColor = .gray
+        secondTextView.textColor = .white
+        secondTextView.isEditable = false
+        secondTextView.isSelectable = false
+        secondTextView.backgroundColor = .clear
     }
     
     
@@ -73,7 +87,7 @@ class MainVC: UIViewController {
         stack.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -20).isActive = true
         stack.axis = .vertical
         stack.distribution = .fillEqually
-        stack.spacing = 15
+        stack.spacing = 30
         stack.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
         stack.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
         stack.addArrangedSubview(newAlarmButton)
@@ -84,33 +98,39 @@ class MainVC: UIViewController {
     func newAlarmButtonSetup() {
         //view.addSubview(newAlarmButton)
         newAlarmButton.translatesAutoresizingMaskIntoConstraints = false
-        newAlarmButton.backgroundColor = .red
+        newAlarmButton.backgroundColor = .white
+        newAlarmButton.setTitleColor(.black, for: .normal)
         newAlarmButton.setTitle("Create New Alarm", for: .normal)
         //newAlarmButton.widthAnchor.constraint(equalToConstant: 200).isActive = true
-        newAlarmButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        newAlarmButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
         newAlarmButton.addTarget(self, action: #selector(newAlarmButtonClicked), for: .touchUpInside)
+        newAlarmButton.layer.cornerRadius = 20
     }
     
     @objc func newAlarmButtonClicked() {
         let vc = NewAlarmVC()
         vc.modalTransitionStyle = .crossDissolve
+        vc.modalPresentationStyle = .fullScreen
         present(vc, animated: true, completion: nil)
     }
     
     func viewAlarmButtonSetup() {
         //view.addSubview(viewAlarmButton)
         viewAlarmButton.translatesAutoresizingMaskIntoConstraints = false
-        viewAlarmButton.backgroundColor = .red
+        viewAlarmButton.backgroundColor = .white
+        viewAlarmButton.setTitleColor(.black, for: .normal)
         viewAlarmButton.setTitle("View Current Alarm", for: .normal)
         //viewAlarmButton.widthAnchor.constraint(equalToConstant: 200).isActive = true
-        viewAlarmButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        viewAlarmButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
         viewAlarmButton.topAnchor.constraint(equalTo: newAlarmButton.bottomAnchor, constant: 10).isActive = true
         viewAlarmButton.addTarget(self, action: #selector(viewAlarmButtonClicked), for: .touchUpInside)
+        viewAlarmButton.layer.cornerRadius = 20
     }
     
     @objc func viewAlarmButtonClicked() {
         let vc = CurrentAlarmVC()
         vc.modalTransitionStyle = .crossDissolve
+        vc.modalPresentationStyle = .fullScreen
         present(vc, animated: true, completion: nil)
     }
 
@@ -118,17 +138,20 @@ class MainVC: UIViewController {
     func pastAlarmsButtonSetup() {
         //view.addSubview(pastAlarmsButton)
         pastAlarmsButton.translatesAutoresizingMaskIntoConstraints = false
-        pastAlarmsButton.backgroundColor = .red
+        pastAlarmsButton.backgroundColor = .white
+        pastAlarmsButton.setTitleColor(.black, for: .normal)
         pastAlarmsButton.setTitle("View Past Alarms", for: .normal)
         //pastAlarmsButton.widthAnchor.constraint(equalToConstant: 200).isActive = true
-        pastAlarmsButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        pastAlarmsButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
         pastAlarmsButton.topAnchor.constraint(equalTo: viewAlarmButton.bottomAnchor, constant: 10).isActive = true
         pastAlarmsButton.addTarget(self, action: #selector(pastAlarmButtonClicked), for: .touchUpInside)
+        pastAlarmsButton.layer.cornerRadius = 20
     }
     
     @objc func pastAlarmButtonClicked() {
         let vc = PastAlarmsVC()
         vc.modalTransitionStyle = .crossDissolve
+        vc.modalPresentationStyle = .fullScreen
         present(vc, animated: true, completion: nil)
     }
 }

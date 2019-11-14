@@ -26,9 +26,9 @@ class CurrentAlarmVC: UIViewController, UITableViewDataSource, UITableViewDelega
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let vc = NewAlarmVC()
-        vc.alarmDateTextField.text = activeAlarm[indexPath.row].date
-        vc.alarmTimeTextField.text = activeAlarm[indexPath.row].time
-        vc.alarmNameTextField.text = activeAlarm[indexPath.row].label
+        //vc.alarmDateTextField.text = activeAlarm[indexPath.row].date
+        //vc.alarmTimeTextField.text = activeAlarm[indexPath.row].time
+        //vc.alarmNameTextField.text = activeAlarm[indexPath.row].label
         vc.statusStatusLabel.text = "\(activeAlarm[indexPath.row].active!)"
         vc.modalTransitionStyle = .crossDissolve
         present(vc, animated: true, completion: nil)
@@ -37,10 +37,12 @@ class CurrentAlarmVC: UIViewController, UITableViewDataSource, UITableViewDelega
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         view.addNavigationBar(viewControllerName: "Current Alarms", leftButton: backButton)
         view.backgroundColor = .white
         backButtonSetup()
         alarmTableSetup()
+        alarmTable.reloadData()
     }
     
     func backButtonSetup() {
@@ -72,5 +74,34 @@ class CurrentAlarmVC: UIViewController, UITableViewDataSource, UITableViewDelega
         
     }
 
+    func fetchFromFirebase(){
+        
+        activeAlarm = [Alarm]()
+        inactiveAlarm = [Alarm]()
+        
+        ref.child("Patients").child(userID!).child("Alarms").observe(.childAdded, with: { (snapshot) in
+        
+          let value = snapshot.value as? NSDictionary
+            let singleAlarm = Alarm()
+            singleAlarm.active = value?["active"] as? Bool
+            singleAlarm.hour = value?["hour"] as? Int
+            singleAlarm.minute = value?["minute"] as? Int
+            singleAlarm.label = value?["label"] as? String
+            
+            
+            if(singleAlarm.active == true){
+                activeAlarm.append(singleAlarm)
+            } else {
+                inactiveAlarm.append(singleAlarm)
+            }
+            
+            print("Printing snapshot \(snapshot)")
+            
+            //print("printing data ..... \(self.alarms[0].minute)")
+          // ...
+          }) { (error) in
+            print(error.localizedDescription)
+        }
+    }
 
 }

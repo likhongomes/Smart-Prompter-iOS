@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		128DF816866D880778131049 /* Pods_SmartPrompterTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D9840CEF262C226AE015B341 /* Pods_SmartPrompterTests.framework */; };
+		6E1523AC2355743E00A60ED4 /* SignInVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E1523AB2355743E00A60ED4 /* SignInVC.swift */; };
 		6E27F52B232856ED00FDEAFC /* CurrentAlarmVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E27F52A232856ED00FDEAFC /* CurrentAlarmVC.swift */; };
 		6E27F52D2328571300FDEAFC /* PastAlarmsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E27F52C2328571300FDEAFC /* PastAlarmsVC.swift */; };
 		6E27F52F23343DDB00FDEAFC /* AppDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E27F52E23343DDB00FDEAFC /* AppDatabase.swift */; };
@@ -21,6 +22,7 @@
 		6E30BF942320BFE0005ABEFC /* SmartPrompterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E30BF932320BFE0005ABEFC /* SmartPrompterTests.swift */; };
 		6E30BF9F2320BFE0005ABEFC /* SmartPrompterUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E30BF9E2320BFE0005ABEFC /* SmartPrompterUITests.swift */; };
 		6E30BFAD2320D07C005ABEFC /* MainVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E30BFAC2320D07C005ABEFC /* MainVC.swift */; };
+		6EF38CBD234AFE0A0030B169 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6EF38CBC234AFE0A0030B169 /* GoogleService-Info.plist */; };
 		C9DCD638B5C29A7A4DD52C7D /* Pods_SmartPrompterUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D34F2B64BD94C49E2B2A2E9D /* Pods_SmartPrompterUITests.framework */; };
 		FF698C07FFAD347C422261C2 /* Pods_SmartPrompter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50F9DC58E97968C80F3F8FDA /* Pods_SmartPrompter.framework */; };
 /* End PBXBuildFile section */
@@ -48,13 +50,14 @@
 		3EE574B6777E7C73599AB4CB /* Pods-SmartPrompter.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SmartPrompter.release.xcconfig"; path = "Target Support Files/Pods-SmartPrompter/Pods-SmartPrompter.release.xcconfig"; sourceTree = "<group>"; };
 		41E0933D7A3561136C40C96E /* Pods-SmartPrompterUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SmartPrompterUITests.release.xcconfig"; path = "Target Support Files/Pods-SmartPrompterUITests/Pods-SmartPrompterUITests.release.xcconfig"; sourceTree = "<group>"; };
 		50F9DC58E97968C80F3F8FDA /* Pods_SmartPrompter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SmartPrompter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		6E1523AB2355743E00A60ED4 /* SignInVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SignInVC.swift; path = ../../SmartPrompter/SmartPrompter/SignInVC.swift; sourceTree = "<group>"; };
 		6E27F52A232856ED00FDEAFC /* CurrentAlarmVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentAlarmVC.swift; sourceTree = "<group>"; };
 		6E27F52C2328571300FDEAFC /* PastAlarmsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PastAlarmsVC.swift; sourceTree = "<group>"; };
 		6E27F52E23343DDB00FDEAFC /* AppDatabase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDatabase.swift; sourceTree = "<group>"; };
 		6E27F5302334475D00FDEAFC /* Alarm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alarm.swift; sourceTree = "<group>"; };
 		6E2ABB1C2326154800AC7B86 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		6E2ABB1E23261C1500AC7B86 /* NewAlarmVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewAlarmVC.swift; sourceTree = "<group>"; };
-		6E30BF7B2320BFDD005ABEFC /* SmartPrompter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SmartPrompter.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		6E30BF7B2320BFDD005ABEFC /* SmartPrompter Admin.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SmartPrompter Admin.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6E30BF7E2320BFDD005ABEFC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		6E30BF802320BFDD005ABEFC /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		6E30BF852320BFE0005ABEFC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -68,6 +71,7 @@
 		6E30BFA02320BFE0005ABEFC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6E30BFAC2320D07C005ABEFC /* MainVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainVC.swift; sourceTree = "<group>"; };
 		6E6ADAFC23388BC400ACE15B /* SmartPrompter.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SmartPrompter.entitlements; sourceTree = "<group>"; };
+		6EF38CBC234AFE0A0030B169 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		988BD2957AA41F68A9660081 /* Pods-SmartPrompterTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SmartPrompterTests.debug.xcconfig"; path = "Target Support Files/Pods-SmartPrompterTests/Pods-SmartPrompterTests.debug.xcconfig"; sourceTree = "<group>"; };
 		CAF8385065181ABAA5EB9354 /* Pods-SmartPrompterTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SmartPrompterTests.release.xcconfig"; path = "Target Support Files/Pods-SmartPrompterTests/Pods-SmartPrompterTests.release.xcconfig"; sourceTree = "<group>"; };
 		D34F2B64BD94C49E2B2A2E9D /* Pods_SmartPrompterUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SmartPrompterUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -130,7 +134,7 @@
 		6E30BF7C2320BFDD005ABEFC /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				6E30BF7B2320BFDD005ABEFC /* SmartPrompter.app */,
+				6E30BF7B2320BFDD005ABEFC /* SmartPrompter Admin.app */,
 				6E30BF8F2320BFE0005ABEFC /* SmartPrompterTests.xctest */,
 				6E30BF9A2320BFE0005ABEFC /* SmartPrompterUITests.xctest */,
 			);
@@ -142,10 +146,12 @@
 			children = (
 				6E6ADAFC23388BC400ACE15B /* SmartPrompter.entitlements */,
 				6E30BF7E2320BFDD005ABEFC /* AppDelegate.swift */,
+				6E1523AB2355743E00A60ED4 /* SignInVC.swift */,
 				6E30BF802320BFDD005ABEFC /* ViewController.swift */,
 				6E30BF852320BFE0005ABEFC /* Assets.xcassets */,
 				6E30BF872320BFE0005ABEFC /* LaunchScreen.storyboard */,
 				6E30BF8A2320BFE0005ABEFC /* Info.plist */,
+				6EF38CBC234AFE0A0030B169 /* GoogleService-Info.plist */,
 				6E30BFAC2320D07C005ABEFC /* MainVC.swift */,
 				6E2ABB1E23261C1500AC7B86 /* NewAlarmVC.swift */,
 				6E27F52C2328571300FDEAFC /* PastAlarmsVC.swift */,
@@ -197,6 +203,7 @@
 				6E30BF782320BFDD005ABEFC /* Frameworks */,
 				6E30BF792320BFDD005ABEFC /* Resources */,
 				07B762D6FF6F558674368940 /* [CP] Embed Pods Frameworks */,
+				D8BEC5B13B22E771D86A2371 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -204,7 +211,7 @@
 			);
 			name = SmartPrompter;
 			productName = SmartPrompter;
-			productReference = 6E30BF7B2320BFDD005ABEFC /* SmartPrompter.app */;
+			productReference = 6E30BF7B2320BFDD005ABEFC /* SmartPrompter Admin.app */;
 			productType = "com.apple.product-type.application";
 		};
 		6E30BF8E2320BFE0005ABEFC /* SmartPrompterTests */ = {
@@ -300,6 +307,7 @@
 			files = (
 				6E30BF892320BFE0005ABEFC /* LaunchScreen.storyboard in Resources */,
 				6E30BF862320BFE0005ABEFC /* Assets.xcassets in Resources */,
+				6EF38CBD234AFE0A0030B169 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -403,6 +411,23 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		D8BEC5B13B22E771D86A2371 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-SmartPrompter/Pods-SmartPrompter-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-SmartPrompter/Pods-SmartPrompter-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-SmartPrompter/Pods-SmartPrompter-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -414,6 +439,7 @@
 				6E30BFAD2320D07C005ABEFC /* MainVC.swift in Sources */,
 				6E27F5312334475D00FDEAFC /* Alarm.swift in Sources */,
 				6E27F52F23343DDB00FDEAFC /* AppDatabase.swift in Sources */,
+				6E1523AC2355743E00A60ED4 /* SignInVC.swift in Sources */,
 				6E27F52B232856ED00FDEAFC /* CurrentAlarmVC.swift in Sources */,
 				6E27F52D2328571300FDEAFC /* PastAlarmsVC.swift in Sources */,
 				6E2ABB1F23261C1500AC7B86 /* NewAlarmVC.swift in Sources */,
@@ -590,12 +616,13 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = N6ESLEE34B;
 				INFOPLIST_FILE = SmartPrompter/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = gomes.likhon.SmartPrompterPatient;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = gomes.likhon.SmartPrompterAdmin;
+				PRODUCT_NAME = "SmartPrompter Admin";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -610,12 +637,13 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = N6ESLEE34B;
 				INFOPLIST_FILE = SmartPrompter/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = gomes.likhon.SmartPrompterPatient;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = gomes.likhon.SmartPrompterAdmin;
+				PRODUCT_NAME = "SmartPrompter Admin";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Firebase
 
 class NewAlarmVC: UIViewController {
     
@@ -138,7 +139,7 @@ class NewAlarmVC: UIViewController {
         alarmDateTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10).isActive = true
         alarmDateTextField.heightAnchor.constraint(equalToConstant: 30).isActive = true
         alarmDateTextField.topAnchor.constraint(equalTo: dateLabel.bottomAnchor, constant: 2).isActive = true
-        alarmDateTextField.text = formattedDate
+        alarmDateTextField.placeholder = "Date"
         alarmDateTextField.textAlignment = .center
         alarmDateTextField.layer.borderColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
         alarmDateTextField.layer.borderWidth = 0.5
@@ -235,8 +236,16 @@ class NewAlarmVC: UIViewController {
     @objc func saveButtonClicked() {
         
         if(alarmTimeTextField.text != "" && alarmDateTextField.text != "" && alarmNameTextField.text != ""){
-            let alarm = Alarm(label: alarmNameTextField.text!, date: alarmDateTextField.text!, time: alarmTimeTextField.text!, active: 0)
-            alarmDB.insert(user: alarm)
+            //let alarm = Alarm(label: alarmNameTextField.text!, date: alarmDateTextField.text!, time: alarmTimeTextField.text!, active: 1)
+            //alarmDB.insert(user: alarm)
+                
+            let components = Calendar.current.dateComponents([.hour, .minute], from: timePicker.date)
+                let dateComponent = Calendar.current.dateComponents([.hour, .minute], from: datePicker.date)
+                //let hour = components.hour!
+                //let minute = components.minute!
+                
+                
+            ref.child("Patients").child(Auth.auth().currentUser!.uid).child("Alarms").childByAutoId().setValue(["label":alarmNameTextField.text!,"hour":components.hour,"minute":components.minute, "active":true, "year":components.year,"month":components.month,"day":components.day])
             
             alarmTimeTextField.text = ""
             alarmDateTextField.text = ""
@@ -299,7 +308,7 @@ class NewAlarmVC: UIViewController {
         buttonStack.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10).isActive = true
         buttonStack.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10).isActive = true
         buttonStack.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -10).isActive = true
-        buttonStack.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        buttonStack.heightAnchor.constraint(equalToConstant: 50).isActive = true
         buttonStack.backgroundColor = .blue
         buttonStack.addArrangedSubview(saveButton)
         buttonStack.addArrangedSubview(cancelButton)
