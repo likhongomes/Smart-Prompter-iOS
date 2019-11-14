@@ -14,7 +14,16 @@ extension MainVC:UNUserNotificationCenterDelegate{
     @available(iOS 10.0, *)
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
         
-        
+        let content = notification.request.content
+        let intervalTrigger = UNTimeIntervalNotificationTrigger(timeInterval: 60, repeats: true)
+        let repeatRequest = UNNotificationRequest(identifier: "repeatAlarm", content: content, trigger: intervalTrigger)
+
+                
+        UNUserNotificationCenter.current().add(repeatRequest) { (error) in
+            print(error as Any)
+        }
+
+        print("alarm delivered \(notification.request.content.title)")
         completionHandler([.alert,.sound,.badge])
     }
     
@@ -171,6 +180,7 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updateTimeLabel), userInfo: nil, repeats: true)
         
                 
+        
         
     }
     
@@ -351,81 +361,7 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     }
 }
 
-class AlarmScheduler {
-    func scheduleNotification(title:String, dateComponents:DateComponents, id:String?) {
-        
-        //print("In the notif function")
-        
-        if #available(iOS 10.0, *) {
-            let content = UNMutableNotificationContent()
-            content.title = title
-            //content.subtitle = "Water the dog"
-            //content.body = "Body"
-            content.categoryIdentifier = "alarm"
-            content.sound = UNNotificationSound.default
-            content.badge = 1
-            content.userInfo = ["FirebaseID":id,"title":title, "hour":dateComponents.hour, "minute":dateComponents.minute,"day":dateComponents.day,"month":dateComponents.month,"year":dateComponents.year]
-            
-            //var dateComponents = DateComponents()
-            //dateComponents.hour = 19
-            //dateComponents.minute = 24
-            
-            //let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 5.0, repeats: false)
-            let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)
-            let request = UNNotificationRequest(identifier: "Identifier", content: content, trigger: trigger)
-    
-            UNUserNotificationCenter.current().add(request) { (error) in
-                print(error as Any)
-                
-            }
-            //print("notification pushed")
 
-        } else {
-            // Fallback on earlier versions
-            print("Notifcation not pushed")
-        }
-        
-    }
 
-}
 
-class FirebaseUtil {
-    
-    func fetchOneObject(firebaseID:String) -> Alarm {
-        let singleAlarm = Alarm()
-        let userID = Auth.auth().currentUser?.uid
-        ref.child("Patients").child(userID!).child("Alarms").child("\(firebaseID)").observe(DataEventType.value) { (snapshot) in
-        
-          let value = snapshot.value as? NSDictionary
-            
-            singleAlarm.firebaseID = snapshot.key
-            singleAlarm.active = value?["active"] as? Bool
-            singleAlarm.hour = value?["hour"] as? Int
-            singleAlarm.minute = value?["minute"] as? Int
-            singleAlarm.label = value?["label"] as? String
-            
-            
-            if(singleAlarm.active == true){
-                activeAlarm.append(singleAlarm)
-            }
-            
-            var dateComponents = DateComponents()
-            dateComponents.hour = singleAlarm.hour
-            dateComponents.minute = singleAlarm.minute
-            let scheduler = AlarmScheduler()
-            scheduler.scheduleNotification(title: singleAlarm.label!, dateComponents: dateComponents, id:singleAlarm.firebaseID!)
 
-            print("Printing snapshot \(snapshot)")
-            
-            //print("printing data ..... \(self.alarms[0].minute)")
-          // ...
-          }
-        return singleAlarm
-    }
-        
-    func updateSingleData(firebaseId: String, label:String, active:Bool, hour:Int,minute:Int){
-        
-        //ref.child("Patients").child(userID!).child("Alarms").child("\(firebaseId)").setValue(["active": username])
-        
-    }
-}

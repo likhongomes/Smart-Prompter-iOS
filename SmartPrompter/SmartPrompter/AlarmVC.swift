@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import UserNotifications
 
 class AlarmVC: UIViewController {
     
@@ -241,40 +242,7 @@ class AlarmVC: UIViewController {
     
    
     
-    func scheduleNotification(title:String, dateComponents:DateComponents, id:String?) {
-        
-        //print("In the notif function")
-        
-        if #available(iOS 10.0, *) {
-            let content = UNMutableNotificationContent()
-            content.title = title
-            //content.subtitle = "Water the dog"
-            //content.body = "Body"
-            content.categoryIdentifier = "alarm"
-            content.sound = UNNotificationSound.default
-            content.badge = 1
-            content.userInfo = ["FirebaseID":id,"title":title, "hour":dateComponents.hour, "minute":dateComponents.minute,"day":dateComponents.day,"month":dateComponents.month,"year":dateComponents.year]
-            
-            //var dateComponents = DateComponents()
-            //dateComponents.hour = 19
-            //dateComponents.minute = 24
-            
-            //let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 5.0, repeats: false)
-            let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)
-            let request = UNNotificationRequest(identifier: "Identifier", content: content, trigger: trigger)
     
-            UNUserNotificationCenter.current().add(request) { (error) in
-                print(error as Any)
-                
-            }
-            //print("notification pushed")
-
-        } else {
-            // Fallback on earlier versions
-            print("Notifcation not pushed")
-        }
-        
-    }
 
     
     @objc func changeValue(_ sender: UISlider) {
@@ -288,7 +256,7 @@ class AlarmVC: UIViewController {
             
             var dateComponents = DateComponents()
             dateComponents.hour = alarm.hour
-            dateComponents.minute = alarm.minute!+1
+            //dateComponents.minute = alarm.minute!+1
             
             scheduler.scheduleNotification(title: alarm.label!, dateComponents: dateComponents, id:alarm.firebaseID)
             print("scheduled again")
@@ -296,6 +264,7 @@ class AlarmVC: UIViewController {
             alarm.active = false
             instructionLabel.text = "On My Way"
             ref.child("Patients").child(userID!).child("Alarms").child("\(alarm.firebaseID!)").child("active").setValue(false)
+            UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers:["repeatAlarm"])
         }
     }
     
