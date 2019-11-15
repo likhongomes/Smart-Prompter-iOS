@@ -14,12 +14,13 @@ class Alarm: PersistableRecord, Codable, FetchableRecord {
     var id:Int?
     var firebaseID:String?
     var label:String?
-    var hour:Int?
-    var minute:Int?
-    var active:Bool?
     var year:Int?
     var month:Int?
     var day:Int?
+    var hour:Int?
+    var minute:Int?
+    var active:Bool?
+
     
     
     func encode(to container: inout PersistenceContainer) {

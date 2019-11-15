@@ -20,7 +20,7 @@ class FirebaseUtil {
             
             singleAlarm.firebaseID = snapshot.key
             singleAlarm.active = value?["active"] as? Bool
-            singleAlarm.hour = value?["hour"] as? Int
+            singleAlarm.hour = value?["scheduledTime"] as? Int
             singleAlarm.minute = value?["minute"] as? Int
             singleAlarm.label = value?["label"] as? String
             

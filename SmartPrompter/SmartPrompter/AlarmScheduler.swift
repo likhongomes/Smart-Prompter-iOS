@@ -43,10 +43,10 @@ class AlarmScheduler {
                 print(notifications)
             }
             
-            
+            /*
             UNUserNotificationCenter.current().add(repeatRequest) { (error) in
                 print(error as Any)
-            }
+            }*/
 
             //print("notification pushed")
 
