@@ -31,22 +31,30 @@ class AlarmScheduler {
             
             //let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 5.0, repeats: false)
             let calendarTrigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)
-            let intervalTrigger = UNTimeIntervalNotificationTrigger(timeInterval: 60, repeats: true)
             let firstRequest = UNNotificationRequest(identifier: "Identifier", content: content, trigger: calendarTrigger)
-            let repeatRequest = UNNotificationRequest(identifier: "repeatAlarm", content: content, trigger: intervalTrigger)
-    
+            print("Notification 1 time \(dateComponents.minute!)")
             UNUserNotificationCenter.current().add(firstRequest) { (error) in
                 print(error as Any)
             }
             
-            UNUserNotificationCenter.current().getDeliveredNotifications { (notifications) in
-                print(notifications)
-            }
             
-            
-            UNUserNotificationCenter.current().add(repeatRequest) { (error) in
+            var dateComponents2 = dateComponents
+            dateComponents2.minute! += 1
+            let calendarTrigger2 = UNCalendarNotificationTrigger(dateMatching: dateComponents2, repeats: true)
+                    let firstRequest2 = UNNotificationRequest(identifier: "Identifier1", content: content, trigger: calendarTrigger2)
+            print("Notification 2 time \(dateComponents2.minute!)")
+            UNUserNotificationCenter.current().add(firstRequest2) { (error) in
                 print(error as Any)
             }
+
+            
+            
+            print("Scheduled Notification \(dateComponents.minute!)")
+            
+            /*
+            UNUserNotificationCenter.current().add(repeatRequest) { (error) in
+                print(error as Any)
+            }*/
 
             //print("notification pushed")
 

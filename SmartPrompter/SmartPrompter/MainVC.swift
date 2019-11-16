@@ -14,14 +14,14 @@ extension MainVC:UNUserNotificationCenterDelegate{
     @available(iOS 10.0, *)
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
         
-        let content = notification.request.content
-        let intervalTrigger = UNTimeIntervalNotificationTrigger(timeInterval: 60, repeats: true)
-        let repeatRequest = UNNotificationRequest(identifier: "repeatAlarm", content: content, trigger: intervalTrigger)
-
-                
-        UNUserNotificationCenter.current().add(repeatRequest) { (error) in
-            print(error as Any)
-        }
+//        let content = notification.request.content
+//        let intervalTrigger = UNTimeIntervalNotificationTrigger(timeInterval: 60, repeats: true)
+//        let repeatRequest = UNNotificationRequest(identifier: "repeatAlarm", content: content, trigger: intervalTrigger)
+//
+//
+//        UNUserNotificationCenter.current().add(repeatRequest) { (error) in
+//            print(error as Any)
+//        }
 
         print("alarm delivered \(notification.request.content.title)")
         completionHandler([.alert,.sound,.badge])
@@ -61,6 +61,8 @@ extension MainVC:UNUserNotificationCenterDelegate{
             let vc = AlarmVC()
             vc.alarm.label = userInfo["title"] as! String
             vc.alarm.firebaseID = userInfo["FirebaseID"] as! String
+            vc.alarm.hour = userInfo["hour"] as! Int
+            vc.alarm.minute = userInfo["minute"] as! Int
             vc.modalPresentationStyle = .fullScreen
             vc.modalTransitionStyle = .crossDissolve
             present(vc, animated: true, completion: nil)
@@ -347,7 +349,11 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
             dateComponents.hour = singleAlarm.hour
             dateComponents.minute = singleAlarm.minute
             let scheduler = AlarmScheduler()
+            
             scheduler.scheduleNotification(title: singleAlarm.label!, dateComponents: dateComponents, id:singleAlarm.firebaseID!)
+            
+            
+            
             self.alarmTable.reloadData()
 
             print("Printing snapshot \(snapshot)")
