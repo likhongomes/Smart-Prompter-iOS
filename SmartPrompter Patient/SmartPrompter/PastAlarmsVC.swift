@@ -28,6 +28,7 @@ class PastAlarmsVC: UIViewController, UITableViewDelegate, UITableViewDataSource
         //vc.alarmDateTextField.text = inactiveAlarm[indexPath.row].date
         //vc.alarmTimeTextField.text = inactiveAlarm[indexPath.row].time
         vc.alarmNameTextField.text = inactiveAlarm[indexPath.row].label
+        vc.alarmTimeTextField.text =  "\(inactiveAlarm[indexPath.row].hour):\(inactiveAlarm[indexPath.row].minute)"
         vc.statusStatusLabel.text = "Status: \(inactiveAlarm[indexPath.row].status!)"
         
         vc.editable = false

@@ -28,7 +28,7 @@ class AlarmScheduler {
             //var dateComponents = DateComponents()
             //dateComponents.hour = 19
             //dateComponents.minute = 24
-            
+            print("scheduled alarm time \(dateComponents.hour) \(dateComponents.minute)")
             //let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 5.0, repeats: false)
             let calendarTrigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)
             let intervalTrigger = UNTimeIntervalNotificationTrigger(timeInterval: 60, repeats: true)

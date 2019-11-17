@@ -329,9 +329,6 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         let userID = Auth.auth().currentUser?.uid
         ref.child("Patients").child(userID!).child("Alarms").observe(.childAdded, with: { (snapshot) in
             
-            for child in snapshot.children {
-                print("printing child \(child)")
-            }
         
             let value = snapshot.value as? [String: AnyObject]
             let singleAlarm = Alarm()
@@ -359,7 +356,7 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
             scheduler.scheduleNotification(title: singleAlarm.label!, dateComponents: dateComponents, id:singleAlarm.firebaseID!)
             self.alarmTable.reloadData()
             
-            print("Printing snapshot \(snapshot)")
+            
             
             //print("printing data ..... \(self.alarms[0].minute)")
           // ...
