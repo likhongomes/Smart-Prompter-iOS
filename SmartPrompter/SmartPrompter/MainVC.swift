@@ -344,6 +344,7 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
             singleAlarm.label = value?["label"] as? String
             
             
+            
             if(singleAlarm.active == true){
                 activeAlarm.append(singleAlarm)
             }

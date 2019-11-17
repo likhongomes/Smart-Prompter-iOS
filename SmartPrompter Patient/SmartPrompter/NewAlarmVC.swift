@@ -304,7 +304,7 @@ class NewAlarmVC: UIViewController {
         deleteButton.setTitle("Delete", for: .normal)
         deleteButton.backgroundColor = .red
         deleteButton.addTarget(self, action: #selector(deleteButtonClicked), for: .touchUpInside)
-        if(alarmNameTextField.text == ""){
+        if(editable == false){
             deleteButton.isHidden = true
         }
     }
