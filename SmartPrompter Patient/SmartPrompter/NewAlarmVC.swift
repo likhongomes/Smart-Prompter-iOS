@@ -31,8 +31,9 @@ class NewAlarmVC: UIViewController {
     
     let datePicker = UIDatePicker()
     let timePicker = UIDatePicker()
+    var status = ""
+    var editable = true
     
-
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
@@ -46,7 +47,7 @@ class NewAlarmVC: UIViewController {
         alarmDateTextFieldSetup()
         timeLabelSetup()
         alarmTimeTextFieldSetup()
-        statusLabelSetup()
+        //statusLabelSetup()
         statusStatusLabelSetup()
         backButtonSetup()
         buttonStackSetup()
@@ -125,6 +126,7 @@ class NewAlarmVC: UIViewController {
         alarmNameTextField.placeholder = "Label"
         alarmNameTextField.layer.borderColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
         alarmNameTextField.layer.borderWidth = 0.5
+        alarmNameTextField.isEnabled = editable
     }
     
     func alarmDateTextFieldSetup() {
@@ -143,6 +145,7 @@ class NewAlarmVC: UIViewController {
         alarmDateTextField.textAlignment = .center
         alarmDateTextField.layer.borderColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
         alarmDateTextField.layer.borderWidth = 0.5
+        alarmDateTextField.isEnabled = editable
     }
     
     func alarmTimeTextFieldSetup() {
@@ -156,7 +159,7 @@ class NewAlarmVC: UIViewController {
         alarmTimeTextField.textAlignment = .center
         alarmTimeTextField.layer.borderColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
         alarmTimeTextField.layer.borderWidth = 0.5
-        
+        alarmTimeTextField.isEnabled = editable
     }
     
     func statusLabelSetup() {
@@ -165,7 +168,7 @@ class NewAlarmVC: UIViewController {
         statusLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         statusLabel.heightAnchor.constraint(equalToConstant: 30).isActive = true
         statusLabel.topAnchor.constraint(equalTo: alarmTimeTextField.bottomAnchor, constant: 10).isActive = true
-        if (statusStatusLabel.text == "1" || statusStatusLabel.text == "0"){
+        if (editable == false){
             statusLabel.text = "Status"
         }
     }
@@ -245,7 +248,17 @@ class NewAlarmVC: UIViewController {
                 //let minute = components.minute!
                 
                 
-            ref.child("Patients").child(Auth.auth().currentUser!.uid).child("Alarms").childByAutoId().setValue(["label":alarmNameTextField.text!,"hour":components.hour,"minute":components.minute, "active":true, "year":components.year,"month":components.month,"day":components.day])
+            /* ref.child("Patients").child(Auth.auth().currentUser!.uid).child("Alarms").childByAutoId().setValue(["label":alarmNameTextField.text!,"scheduledHour":components.hour,"minute":components.minute, "active":true, "year":components.year,"month":components.month,"day":components.day])
+             */
+            ref.child("Patients").child(Auth.auth().currentUser!.uid).child("Alarms").childByAutoId().setValue([
+                "label":alarmNameTextField.text!,
+                "scheduledHour":components.hour,
+                "scheduledMinute":components.minute,
+                "scheduledDay":dateComponent.day,
+                "scheduledYear":dateComponent.year,
+                "scheduledMonth":dateComponent.month ,
+                "active":true,
+                "status":"Incomplete"])
             
             alarmTimeTextField.text = ""
             alarmDateTextField.text = ""
@@ -255,8 +268,8 @@ class NewAlarmVC: UIViewController {
             alarmDateTextField.layer.borderColor = #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)
             alarmNameTextField.layer.borderColor = #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)
             
-            activeAlarm = alarmDB.getActiveAlarms()
-            inactiveAlarm = alarmDB.getInactiveAlarms()
+            //activeAlarm = alarmDB.getActiveAlarms()
+            //inactiveAlarm = alarmDB.getInactiveAlarms()
             dismiss(animated: true, completion: nil)
         } else {
             if (alarmTimeTextField.text == ""){
@@ -310,7 +323,9 @@ class NewAlarmVC: UIViewController {
         buttonStack.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -10).isActive = true
         buttonStack.heightAnchor.constraint(equalToConstant: 50).isActive = true
         buttonStack.backgroundColor = .blue
-        buttonStack.addArrangedSubview(saveButton)
+        if(editable == true){
+            buttonStack.addArrangedSubview(saveButton)
+        }
         buttonStack.addArrangedSubview(cancelButton)
         buttonStack.addArrangedSubview(deleteButton)
         buttonStack.spacing = 5
@@ -322,12 +337,13 @@ class NewAlarmVC: UIViewController {
         statusStatusLabel.translatesAutoresizingMaskIntoConstraints = false
         statusStatusLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         statusStatusLabel.heightAnchor.constraint(equalToConstant: 30).isActive = true
-        statusStatusLabel.topAnchor.constraint(equalTo: statusLabel.bottomAnchor, constant: 2).isActive = true
-        if (statusStatusLabel.text == "1"){
-            statusStatusLabel.text = "Active"
+        statusStatusLabel.topAnchor.constraint(equalTo: alarmTimeTextField.bottomAnchor, constant: 20).isActive = true
+        
+        if (statusStatusLabel.text == "Complete"){
+            statusStatusLabel.text = status
             statusStatusLabel.textColor = #colorLiteral(red: 0.2745098174, green: 0.4862745106, blue: 0.1411764771, alpha: 1)
-        } else if (statusStatusLabel.text == "0"){
-            statusStatusLabel.text = "Inactive"
+        } else if (statusStatusLabel.text == "Incomplete"){
+            statusStatusLabel.text = status
             statusStatusLabel.textColor = #colorLiteral(red: 0.521568656, green: 0.1098039225, blue: 0.05098039284, alpha: 1)
         }
         //statusStatusLabel.text = "Active"

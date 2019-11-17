@@ -12,7 +12,7 @@ import GRDB
 
 class PastAlarmsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
-    
+    var inactiveAlarm = [Alarm]()
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return inactiveAlarm.count
     }
@@ -28,7 +28,9 @@ class PastAlarmsVC: UIViewController, UITableViewDelegate, UITableViewDataSource
         //vc.alarmDateTextField.text = inactiveAlarm[indexPath.row].date
         //vc.alarmTimeTextField.text = inactiveAlarm[indexPath.row].time
         vc.alarmNameTextField.text = inactiveAlarm[indexPath.row].label
-        vc.statusStatusLabel.text = "\(inactiveAlarm[indexPath.row].active!)"
+        vc.statusStatusLabel.text = "Status: \(inactiveAlarm[indexPath.row].status!)"
+        
+        vc.editable = false
         vc.modalTransitionStyle = .crossDissolve
         present(vc, animated: true, completion: nil)
     }
@@ -43,6 +45,7 @@ class PastAlarmsVC: UIViewController, UITableViewDelegate, UITableViewDataSource
         view.backgroundColor = .white
         backButtonSetup()
         alarmTableSetup()
+        fetchFromFirebase()
         alarmTable.reloadData()
     }
     
@@ -76,7 +79,7 @@ class PastAlarmsVC: UIViewController, UITableViewDelegate, UITableViewDataSource
     }
     
     func fetchFromFirebase(){
-        activeAlarm = [Alarm]()
+        //activeAlarm = [Alarm]()
         inactiveAlarm = [Alarm]()
         ref.child("Patients").child(userID!).child("Alarms").observe(.childAdded, with: { (snapshot) in
         
@@ -86,15 +89,17 @@ class PastAlarmsVC: UIViewController, UITableViewDelegate, UITableViewDataSource
             singleAlarm.hour = value?["hour"] as? Int
             singleAlarm.minute = value?["minute"] as? Int
             singleAlarm.label = value?["label"] as? String
+            singleAlarm.status = value?["status"] as? String
             
             
             if(singleAlarm.active == true){
-                activeAlarm.append(singleAlarm)
+                //activeAlarm.append(singleAlarm)
             } else {
-                inactiveAlarm.append(singleAlarm)
+                self.inactiveAlarm.append(singleAlarm)
             }
             
-            print("Printing snapshot \(snapshot)")
+            self.alarmTable.reloadData()
+            //print("Printing snapshot \(snapshot)")
             
             //print("printing data ..... \(self.alarms[0].minute)")
           // ...

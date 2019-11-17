@@ -329,13 +329,18 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         let userID = Auth.auth().currentUser?.uid
         ref.child("Patients").child(userID!).child("Alarms").observe(.childAdded, with: { (snapshot) in
             
+            for child in snapshot.children {
+                print("printing child \(child)")
+            }
         
-          let value = snapshot.value as? NSDictionary
+            let value = snapshot.value as? [String: AnyObject]
             let singleAlarm = Alarm()
             singleAlarm.firebaseID = snapshot.key
+            singleAlarm.year = value?["scheduledYear"] as? Int
+            singleAlarm.month = value?["scheduledMonth"] as? Int
             singleAlarm.active = value?["active"] as? Bool
-            singleAlarm.hour = value?["hour"] as? Int
-            singleAlarm.minute = value?["minute"] as? Int
+            singleAlarm.hour = value?["scheduledHour"] as? Int
+            singleAlarm.minute = value?["scheduledMinute"] as? Int
             singleAlarm.label = value?["label"] as? String
             
             
@@ -346,10 +351,13 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
             var dateComponents = DateComponents()
             dateComponents.hour = singleAlarm.hour
             dateComponents.minute = singleAlarm.minute
+            dateComponents.month = singleAlarm.month
+            dateComponents.year = singleAlarm.year
+            
             let scheduler = AlarmScheduler()
             scheduler.scheduleNotification(title: singleAlarm.label!, dateComponents: dateComponents, id:singleAlarm.firebaseID!)
             self.alarmTable.reloadData()
-
+            
             print("Printing snapshot \(snapshot)")
             
             //print("printing data ..... \(self.alarms[0].minute)")

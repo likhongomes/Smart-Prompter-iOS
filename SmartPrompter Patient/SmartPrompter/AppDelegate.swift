@@ -16,8 +16,8 @@ import FirebaseAnalytics
 
 var dbQueue: DatabaseQueue!
 let alarmDB = AlarmDB()
-var activeAlarm = [Alarm]()
-var inactiveAlarm = [Alarm]()
+//var activeAlarm = [Alarm]()
+//var inactiveAlarm = [Alarm]()
 var ref: DatabaseReference!
 let userID = Auth.auth().currentUser?.uid
 
@@ -36,9 +36,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         ref = Database.database().reference()
 
         try! setupDatabase(application)
-        activeAlarm = alarmDB.getActiveAlarms()
-        inactiveAlarm = alarmDB.getInactiveAlarms()
-        print("activeAlarm Count \(activeAlarm.count)")
+        //activeAlarm = alarmDB.getActiveAlarms()
+        //inactiveAlarm = alarmDB.getInactiveAlarms()
+        //print("activeAlarm Count \(activeAlarm.count)")
         
         window = UIWindow(frame: UIScreen.main.bounds)
         let rootView = ViewController()
@@ -129,12 +129,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             
             
             if(singleAlarm.active == true){
-                activeAlarm.append(singleAlarm)
+                //activeAlarm.append(singleAlarm)
             } else {
-                inactiveAlarm.append(singleAlarm)
+                //inactiveAlarm.append(singleAlarm)
             }
             
-            print("Printing snapshot \(snapshot)")
+            //print("Printing snapshot \(snapshot)")
             
             //print("printing data ..... \(self.alarms[0].minute)")
           // ...
