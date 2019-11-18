@@ -256,8 +256,8 @@ class NewAlarmVC: UIViewController {
                 "scheduledMinute":components.minute,
                 "scheduledDay":dateComponent.day,
                 "scheduledYear":dateComponent.year,
-                "scheduledMonth":dateComponent.month ,
-                "active":true,
+                "scheduledMonth":dateComponent.month,
+                "active":false,
                 "status":"Incomplete"])
             
             alarmTimeTextField.text = ""

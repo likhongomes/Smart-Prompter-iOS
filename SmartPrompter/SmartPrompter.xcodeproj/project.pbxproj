@@ -25,7 +25,6 @@
 		6E95C050233D759E001AA782 /* NewAlarmVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E95C04F233D759E001AA782 /* NewAlarmVC.swift */; };
 		6ED01611237A6CB5004B9DD7 /* AlarmScheduler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ED01610237A6CB5004B9DD7 /* AlarmScheduler.swift */; };
 		6ED01613237A6DA5004B9DD7 /* FirebaseUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ED01612237A6DA5004B9DD7 /* FirebaseUtil.swift */; };
-		6ED0161823812160004B9DD7 /* test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ED0161723812160004B9DD7 /* test.swift */; };
 		6EF38CBF234B01790030B169 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6EF38CBE234B01790030B169 /* GoogleService-Info.plist */; };
 		C9DCD638B5C29A7A4DD52C7D /* Pods_SmartPrompterUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D34F2B64BD94C49E2B2A2E9D /* Pods_SmartPrompterUITests.framework */; };
 		FF698C07FFAD347C422261C2 /* Pods_SmartPrompter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50F9DC58E97968C80F3F8FDA /* Pods_SmartPrompter.framework */; };
@@ -78,7 +77,6 @@
 		6E95C04F233D759E001AA782 /* NewAlarmVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewAlarmVC.swift; sourceTree = "<group>"; };
 		6ED01610237A6CB5004B9DD7 /* AlarmScheduler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmScheduler.swift; sourceTree = "<group>"; };
 		6ED01612237A6DA5004B9DD7 /* FirebaseUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseUtil.swift; sourceTree = "<group>"; };
-		6ED0161723812160004B9DD7 /* test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = test.swift; sourceTree = "<group>"; };
 		6EF38CBE234B01790030B169 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		988BD2957AA41F68A9660081 /* Pods-SmartPrompterTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SmartPrompterTests.debug.xcconfig"; path = "Target Support Files/Pods-SmartPrompterTests/Pods-SmartPrompterTests.debug.xcconfig"; sourceTree = "<group>"; };
 		CAF8385065181ABAA5EB9354 /* Pods-SmartPrompterTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SmartPrompterTests.release.xcconfig"; path = "Target Support Files/Pods-SmartPrompterTests/Pods-SmartPrompterTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -161,7 +159,6 @@
 				6EF38CBE234B01790030B169 /* GoogleService-Info.plist */,
 				6E30BF8A2320BFE0005ABEFC /* Info.plist */,
 				6E30BFAC2320D07C005ABEFC /* MainVC.swift */,
-				6ED0161723812160004B9DD7 /* test.swift */,
 				6ED01612237A6DA5004B9DD7 /* FirebaseUtil.swift */,
 				6ED01610237A6CB5004B9DD7 /* AlarmScheduler.swift */,
 				6E95C04F233D759E001AA782 /* NewAlarmVC.swift */,
@@ -460,7 +457,6 @@
 				6E95C050233D759E001AA782 /* NewAlarmVC.swift in Sources */,
 				6E30BF7F2320BFDD005ABEFC /* AppDelegate.swift in Sources */,
 				6E2ABB1D2326154800AC7B86 /* Extensions.swift in Sources */,
-				6ED0161823812160004B9DD7 /* test.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

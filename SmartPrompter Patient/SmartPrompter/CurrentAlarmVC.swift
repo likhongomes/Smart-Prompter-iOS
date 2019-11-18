@@ -92,7 +92,7 @@ class CurrentAlarmVC: UIViewController, UITableViewDataSource, UITableViewDelega
             singleAlarm.label = value?["label"] as? String
             singleAlarm.status = value?["status"] as? String
             
-            if(singleAlarm.active == true){
+            if(singleAlarm.status == "Inomplete"){
                 self.activeAlarm.append(singleAlarm)
                 print("Printing current Alarm \(singleAlarm)")
             } else {

@@ -20,6 +20,7 @@ class Alarm: PersistableRecord, Codable, FetchableRecord {
     var hour:Int?
     var minute:Int?
     var active:Bool?
+    var status:String?
 
     
     

@@ -94,11 +94,11 @@ class PastAlarmsVC: UIViewController, UITableViewDelegate, UITableViewDataSource
             
             
             if(singleAlarm.active == true){
-                //activeAlarm.append(singleAlarm)
-            } else {
                 self.inactiveAlarm.append(singleAlarm)
             }
             
+            
+            print(value)
             self.alarmTable.reloadData()
             //print("Printing snapshot \(snapshot)")
             

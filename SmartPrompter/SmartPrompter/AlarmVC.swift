@@ -52,6 +52,25 @@ class AlarmVC: UIViewController {
         sliderSetup()
         imageViewSetup()
         
+        
+        let date = Date()
+        let calendar = Calendar.current
+        
+
+        
+       
+        
+        ref.child("Patients").child(userID!).child("Alarms").child(alarm.firebaseID!).child("acknowledgeHour").setValue(calendar.component(.hour, from: date))
+        ref.child("Patients").child(userID!).child("Alarms").child(alarm.firebaseID!).child("acknowledgeMinute").setValue(calendar.component(.minute, from: date))
+        ref.child("Patients").child(userID!).child("Alarms").child(alarm.firebaseID!).child("acknowledgeMonth").setValue(calendar.component(.month, from: date))
+        ref.child("Patients").child(userID!).child("Alarms").child(alarm.firebaseID!).child("acknowledgeDay").setValue(calendar.component(.day, from: date))
+        ref.child("Patients").child(userID!).child("Alarms").child(alarm.firebaseID!).child("acknowledgeYear").setValue(calendar.component(.year, from: date))
+        ref.child("Patients").child(userID!).child("Alarms").child(alarm.firebaseID!).child("active").setValue(true)
+        
+        
+        //ref.child("Patients").child(userID!).child("Alarms").child("\(alarm.firebaseID!)").setValue(["acknowledgedHour":hour, "acknowledgedMinute":minute])
+        
+
     }
     
     
@@ -258,7 +277,7 @@ class AlarmVC: UIViewController {
             
             
             
-            let vc = MainVC()
+            
             
             var dateComponents = DateComponents()
             dateComponents.hour = alarm.hour
@@ -268,10 +287,21 @@ class AlarmVC: UIViewController {
             print("scheduled again")
         }else if(sender.value == 100){
             let vc = MainVC()
+            
             vc.alarmTable.reloadData()
             alarm.active = false
+            
             instructionLabel.text = "On My Way"
+            let date = Date()
+            let calendar = Calendar.current
+            
+            
             ref.child("Patients").child(userID!).child("Alarms").child("\(alarm.firebaseID!)").child("status").setValue("Complete")
+            ref.child("Patients").child(userID!).child("Alarms").child("\(alarm.firebaseID!)").child("completionHour").setValue(calendar.component(.hour, from: date))
+            ref.child("Patients").child(userID!).child("Alarms").child("\(alarm.firebaseID!)").child("completionMinute").setValue(calendar.component(.minute, from: date))
+            ref.child("Patients").child(userID!).child("Alarms").child("\(alarm.firebaseID!)").child("completionDay").setValue(calendar.component(.day, from: date))
+            ref.child("Patients").child(userID!).child("Alarms").child("\(alarm.firebaseID!)").child("completionMonth").setValue(calendar.component(.month, from: date))
+            ref.child("Patients").child(userID!).child("Alarms").child("\(alarm.firebaseID!)").child("completionYear").setValue(calendar.component(.year, from: date))
             UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers:["repeatAlarm"])
         }
     }
