@@ -19,6 +19,7 @@ class Alarm: PersistableRecord, Codable, FetchableRecord {
     var year:Int?
     var month:Int?
     var day:Int?
+    var status:String?
     
     
     func encode(to container: inout PersistenceContainer) {
@@ -33,7 +34,7 @@ class Alarm: PersistableRecord, Codable, FetchableRecord {
     
     init(){}
     
-    init(label:String, hour:Int, minute:Int, year:Int, month:Int, day:Int, active:Bool) {
+    init(label:String, hour:Int, minute:Int, year:Int, month:Int, day:Int, active:Bool, status:String) {
         self.label = label
         self.hour = hour
         self.minute = minute
@@ -41,6 +42,7 @@ class Alarm: PersistableRecord, Codable, FetchableRecord {
         self.year = year
         self.month = month
         self.minute = minute
+        self.status = status
     }
 }
 

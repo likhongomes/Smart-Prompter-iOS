@@ -18,7 +18,8 @@ extension MainVC:UNUserNotificationCenterDelegate{
         let intervalTrigger = UNTimeIntervalNotificationTrigger(timeInterval: 60, repeats: true)
         let repeatRequest = UNNotificationRequest(identifier: "repeatAlarm", content: content, trigger: intervalTrigger)
 
-                
+        
+        
         UNUserNotificationCenter.current().add(repeatRequest) { (error) in
             print(error as Any)
         }
@@ -39,6 +40,7 @@ extension MainVC:UNUserNotificationCenterDelegate{
                 return
             }
             
+                        
             let vc = AlarmVC()
             vc.alarm.label = userInfo["title"] as! String
             vc.alarm.firebaseID = userInfo["FirebaseID"] as! String
@@ -48,6 +50,7 @@ extension MainVC:UNUserNotificationCenterDelegate{
             vc.modalTransitionStyle = .crossDissolve
             print("Printing notification data .... \(userInfo)")
             present(vc, animated: true, completion: nil)
+            
         }
         
         if(application.applicationState == .inactive){
@@ -186,6 +189,7 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     @objc func updateTimeLabel() {
         clockLabel.text = dateFormatter.string(from: Date())
+        
         //print("")
     }
     
@@ -330,27 +334,37 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         ref.child("Patients").child(userID!).child("Alarms").observe(.childAdded, with: { (snapshot) in
             
         
-          let value = snapshot.value as? NSDictionary
+            let value = snapshot.value as? [String: AnyObject]
             let singleAlarm = Alarm()
             singleAlarm.firebaseID = snapshot.key
+            singleAlarm.year = value?["scheduledYear"] as? Int
+            singleAlarm.month = value?["scheduledMonth"] as? Int
             singleAlarm.active = value?["active"] as? Bool
-            singleAlarm.hour = value?["hour"] as? Int
-            singleAlarm.minute = value?["minute"] as? Int
+            singleAlarm.hour = value?["scheduledHour"] as? Int
+            singleAlarm.minute = value?["scheduledMinute"] as? Int
             singleAlarm.label = value?["label"] as? String
+            singleAlarm.status = value?["status"] as? String
             
             
-            if(singleAlarm.active == true){
-                activeAlarm.append(singleAlarm)
-            }
-            
+                        
             var dateComponents = DateComponents()
             dateComponents.hour = singleAlarm.hour
             dateComponents.minute = singleAlarm.minute
+            dateComponents.month = singleAlarm.month
+            dateComponents.year = singleAlarm.year
+            
+            
             let scheduler = AlarmScheduler()
-            scheduler.scheduleNotification(title: singleAlarm.label!, dateComponents: dateComponents, id:singleAlarm.firebaseID!)
-            self.alarmTable.reloadData()
+            
+            if(
+                singleAlarm.status == "Incomplete"){
+                activeAlarm.append(singleAlarm)
+                scheduler.scheduleNotification(title: singleAlarm.label!, dateComponents: dateComponents, id:singleAlarm.firebaseID!)
+            }
 
-            print("Printing snapshot \(snapshot)")
+            self.alarmTable.reloadData()
+            
+            
             
             //print("printing data ..... \(self.alarms[0].minute)")
           // ...

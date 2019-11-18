@@ -52,6 +52,25 @@ class AlarmVC: UIViewController {
         sliderSetup()
         imageViewSetup()
         
+        
+        let date = Date()
+        let calendar = Calendar.current
+        
+
+        
+       
+        
+        ref.child("Patients").child(userID!).child("Alarms").child(alarm.firebaseID!).child("acknowledgeHour").setValue(calendar.component(.hour, from: date))
+        ref.child("Patients").child(userID!).child("Alarms").child(alarm.firebaseID!).child("acknowledgeMinute").setValue(calendar.component(.minute, from: date))
+        ref.child("Patients").child(userID!).child("Alarms").child(alarm.firebaseID!).child("acknowledgeMonth").setValue(calendar.component(.month, from: date))
+        ref.child("Patients").child(userID!).child("Alarms").child(alarm.firebaseID!).child("acknowledgeDay").setValue(calendar.component(.day, from: date))
+        ref.child("Patients").child(userID!).child("Alarms").child(alarm.firebaseID!).child("acknowledgeYear").setValue(calendar.component(.year, from: date))
+        ref.child("Patients").child(userID!).child("Alarms").child(alarm.firebaseID!).child("active").setValue(true)
+        
+        
+        //ref.child("Patients").child(userID!).child("Alarms").child("\(alarm.firebaseID!)").setValue(["acknowledgedHour":hour, "acknowledgedMinute":minute])
+        
+
     }
     
     
@@ -142,6 +161,7 @@ class AlarmVC: UIViewController {
         alarmDateTextField.textAlignment = .center
         alarmDateTextField.layer.borderColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
         alarmDateTextField.layer.borderWidth = 0.5
+        alarmDateTextField.isEnabled = false
     }
     
     func instructionLabelSetup() {
@@ -157,6 +177,9 @@ class AlarmVC: UIViewController {
         instructionLabel.text = "Move the slider to the RIGHT when you're ready to complete the task, or to let the LEFT to set a reminder to do the task later."
         instructionLabel.font = UIFont.systemFont(ofSize: 15)
         instructionLabel.textAlignment = .center
+        instructionLabel.isEditable = false
+        instructionLabel.isSelectable = false
+        
     }
     
     func alarmDetailsLabelSetup() {
@@ -167,6 +190,7 @@ class AlarmVC: UIViewController {
         alarmDetailsLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 210).isActive = true
         alarmDetailsLabel.text = "It's time to complete your task:"
         alarmDetailsLabel.font = UIFont.systemFont(ofSize: 18)
+        
     }
 
     func alarmNameTextFieldSetup() {
@@ -179,6 +203,7 @@ class AlarmVC: UIViewController {
         alarmNameTextField.textAlignment = .center
         alarmNameTextField.text = alarm.label
         alarmNameTextField.font = UIFont.boldSystemFont(ofSize: 22)
+        alarmNameTextField.isEnabled = false
         
         //alarmNameTextField.layer.borderColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
         //alarmNameTextField.layer.borderWidth = 0.5
@@ -252,7 +277,7 @@ class AlarmVC: UIViewController {
             
             
             
-            let vc = MainVC()
+            
             
             var dateComponents = DateComponents()
             dateComponents.hour = alarm.hour
@@ -261,9 +286,22 @@ class AlarmVC: UIViewController {
             scheduler.scheduleNotification(title: alarm.label!, dateComponents: dateComponents, id:alarm.firebaseID)
             print("scheduled again")
         }else if(sender.value == 100){
+            let vc = MainVC()
+            
+            vc.alarmTable.reloadData()
             alarm.active = false
+            
             instructionLabel.text = "On My Way"
-            ref.child("Patients").child(userID!).child("Alarms").child("\(alarm.firebaseID!)").child("active").setValue(false)
+            let date = Date()
+            let calendar = Calendar.current
+            
+            
+            ref.child("Patients").child(userID!).child("Alarms").child("\(alarm.firebaseID!)").child("status").setValue("Complete")
+            ref.child("Patients").child(userID!).child("Alarms").child("\(alarm.firebaseID!)").child("completionHour").setValue(calendar.component(.hour, from: date))
+            ref.child("Patients").child(userID!).child("Alarms").child("\(alarm.firebaseID!)").child("completionMinute").setValue(calendar.component(.minute, from: date))
+            ref.child("Patients").child(userID!).child("Alarms").child("\(alarm.firebaseID!)").child("completionDay").setValue(calendar.component(.day, from: date))
+            ref.child("Patients").child(userID!).child("Alarms").child("\(alarm.firebaseID!)").child("completionMonth").setValue(calendar.component(.month, from: date))
+            ref.child("Patients").child(userID!).child("Alarms").child("\(alarm.firebaseID!)").child("completionYear").setValue(calendar.component(.year, from: date))
             UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers:["repeatAlarm"])
         }
     }

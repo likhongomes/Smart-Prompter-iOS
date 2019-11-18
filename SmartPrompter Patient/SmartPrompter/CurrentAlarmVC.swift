@@ -9,7 +9,7 @@
 import UIKit
 
 class CurrentAlarmVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
-    
+    var activeAlarm = [Alarm]()
     let backButton = UIButton()
     let alarmTable = UITableView()
     //let data = ["Ula","La","La","La","Le","Yo"]
@@ -29,7 +29,9 @@ class CurrentAlarmVC: UIViewController, UITableViewDataSource, UITableViewDelega
         //vc.alarmDateTextField.text = activeAlarm[indexPath.row].date
         //vc.alarmTimeTextField.text = activeAlarm[indexPath.row].time
         //vc.alarmNameTextField.text = activeAlarm[indexPath.row].label
-        vc.statusStatusLabel.text = "\(activeAlarm[indexPath.row].active!)"
+        
+        vc.editable = false
+        vc.statusStatusLabel.text = "Status: \(activeAlarm[indexPath.row].status!)"
         vc.modalTransitionStyle = .crossDissolve
         present(vc, animated: true, completion: nil)
     }
@@ -42,6 +44,7 @@ class CurrentAlarmVC: UIViewController, UITableViewDataSource, UITableViewDelega
         view.backgroundColor = .white
         backButtonSetup()
         alarmTableSetup()
+        fetchFromFirebase()
         alarmTable.reloadData()
     }
     
@@ -77,25 +80,26 @@ class CurrentAlarmVC: UIViewController, UITableViewDataSource, UITableViewDelega
     func fetchFromFirebase(){
         
         activeAlarm = [Alarm]()
-        inactiveAlarm = [Alarm]()
+        //inactiveAlarm = [Alarm]()
         
         ref.child("Patients").child(userID!).child("Alarms").observe(.childAdded, with: { (snapshot) in
         
           let value = snapshot.value as? NSDictionary
             let singleAlarm = Alarm()
             singleAlarm.active = value?["active"] as? Bool
-            singleAlarm.hour = value?["hour"] as? Int
-            singleAlarm.minute = value?["minute"] as? Int
+            singleAlarm.hour = value?["scheduledHour"] as? Int
+            singleAlarm.minute = value?["scheduledMinute"] as? Int
             singleAlarm.label = value?["label"] as? String
+            singleAlarm.status = value?["status"] as? String
             
-            
-            if(singleAlarm.active == true){
-                activeAlarm.append(singleAlarm)
+            if(singleAlarm.status == "Inomplete"){
+                self.activeAlarm.append(singleAlarm)
+                print("Printing current Alarm \(singleAlarm)")
             } else {
-                inactiveAlarm.append(singleAlarm)
+                //inactiveAlarm.append(singleAlarm)
             }
-            
-            print("Printing snapshot \(snapshot)")
+            self.alarmTable.reloadData()
+            //print("Printing snapshot \(snapshot)")
             
             //print("printing data ..... \(self.alarms[0].minute)")
           // ...
