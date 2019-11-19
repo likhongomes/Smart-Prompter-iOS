@@ -115,7 +115,7 @@ class SignInVC: UIViewController {
         Auth.auth().createUser(withEmail: self.emailTF.text!, password: self.passwordTF.text!) { authResult, error in
                 if error == nil {
                     print("Sign up Success")
-                    let vc = MainVC()
+                    let vc = UserInfoVC()
                     vc.modalTransitionStyle = .crossDissolve
                     vc.modalPresentationStyle = .fullScreen
                     self.present(vc, animated: true, completion: nil)
