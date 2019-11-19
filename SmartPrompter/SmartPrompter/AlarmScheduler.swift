@@ -36,7 +36,7 @@ class AlarmScheduler {
             let repeatRequest = UNNotificationRequest(identifier: "repeatAlarm", content: content, trigger: intervalTrigger)
     
             UNUserNotificationCenter.current().add(firstRequest) { (error) in
-                print(error as Any)
+                print("Notification Report \(error as Any)")
             }
             
             UNUserNotificationCenter.current().getDeliveredNotifications { (notifications) in

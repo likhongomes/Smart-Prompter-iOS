@@ -56,7 +56,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         }
         
         window?.makeKeyAndVisible()
-        //registerForPushNotifications()
+        registerForPushNotifications()
         //getNotificationSettings()
         //fetchFromFirebase()
         
