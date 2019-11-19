@@ -41,12 +41,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //print("activeAlarm Count \(activeAlarm.count)")
         
         window = UIWindow(frame: UIScreen.main.bounds)
-        let rootView = ViewController()
+        //let rootView = UserInfo()
         
         if Auth.auth().currentUser != nil {
             fetchFromFirebase()
           self.window?.rootViewController = MainVC()
-            
         } else {
           self.window?.rootViewController = SignInVC()
         }

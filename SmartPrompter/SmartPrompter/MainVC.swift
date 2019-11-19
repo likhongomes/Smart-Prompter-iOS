@@ -95,7 +95,7 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     var date = Date()
     let calendar = Calendar.current
     let dateFormatter = DateFormatter()
-    
+    let logoutButton = UIButton()
     
     var ref: DatabaseReference!
 
@@ -150,10 +150,10 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         timeLabelSetup()
         clockLabelSetup()
         alarmTableSetup()
-        
+        logoutButtonSetup()
         ref = Database.database().reference()
 
-        self.ref.child("Patients").child(Auth.auth().currentUser!.uid).child("PatientData").setValue(["patientFirstName": "Ada","patientLastName":"Lovelace","careTakerFirstName":"Anabelle","careTakerLastName":"Young"])
+        
         
         //self.ref.child("Patients").child(Auth.auth().currentUser!.uid).child("Alarms").child("0").setValue(["label":"Water the dog","hour":"06","minute":"30", "active":"true"])
         
@@ -191,6 +191,33 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         clockLabel.text = dateFormatter.string(from: Date())
         
         //print("")
+    }
+    
+    func logoutButtonSetup(){
+        view.addSubview(logoutButton)
+        logoutButton.translatesAutoresizingMaskIntoConstraints = false
+        logoutButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
+        logoutButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 20).isActive = true
+        logoutButton.heightAnchor.constraint(equalToConstant: 25).isActive = true
+        logoutButton.backgroundColor = .clear
+        logoutButton.widthAnchor.constraint(equalToConstant: 25).isActive = true
+        logoutButton.setImage(UIImage(named:"logoutButton"), for: .normal)
+        logoutButton.addTarget(self, action: #selector(logoutButtonClicked), for: .touchUpInside)
+        //logoutButton.backgroundColor = .black
+    }
+    
+    @objc func logoutButtonClicked() {
+        print("logout clicked")
+        let firebaseAuth = Auth.auth()
+        do {
+          try firebaseAuth.signOut()
+            let vc = SignInVC()
+            vc.modalPresentationStyle = .fullScreen
+            vc.modalTransitionStyle = .crossDissolve
+            self.present(vc, animated: true, completion: nil)
+        } catch let signOutError as NSError {
+          print ("Error signing out: %@", signOutError)
+        }
     }
     
     func alarmTableSetup() {
@@ -233,7 +260,7 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         welcomeTextView.translatesAutoresizingMaskIntoConstraints = false
         welcomeTextView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
         welcomeTextView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
-        welcomeTextView.topAnchor.constraint(equalTo: view.topAnchor, constant: 15).isActive = true
+        welcomeTextView.topAnchor.constraint(equalTo: view.topAnchor, constant: 20).isActive = true
         //welcomeTextView.heightAnchor.constraint(equalToConstant: 70).isActive = true
         //welcomeTextView.backgroundColor = .clear
         //welcomeTextView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
