@@ -16,7 +16,7 @@
 		6E2ABB1D2326154800AC7B86 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E2ABB1C2326154800AC7B86 /* Extensions.swift */; };
 		6E2ABB1F23261C1500AC7B86 /* NewAlarmVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E2ABB1E23261C1500AC7B86 /* NewAlarmVC.swift */; };
 		6E30BF7F2320BFDD005ABEFC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E30BF7E2320BFDD005ABEFC /* AppDelegate.swift */; };
-		6E30BF812320BFDD005ABEFC /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E30BF802320BFDD005ABEFC /* ViewController.swift */; };
+		6E30BF812320BFDD005ABEFC /* UserInfoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E30BF802320BFDD005ABEFC /* UserInfoVC.swift */; };
 		6E30BF862320BFE0005ABEFC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6E30BF852320BFE0005ABEFC /* Assets.xcassets */; };
 		6E30BF892320BFE0005ABEFC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6E30BF872320BFE0005ABEFC /* LaunchScreen.storyboard */; };
 		6E30BF942320BFE0005ABEFC /* SmartPrompterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E30BF932320BFE0005ABEFC /* SmartPrompterTests.swift */; };
@@ -59,7 +59,7 @@
 		6E2ABB1E23261C1500AC7B86 /* NewAlarmVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewAlarmVC.swift; sourceTree = "<group>"; };
 		6E30BF7B2320BFDD005ABEFC /* SmartPrompter Admin.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SmartPrompter Admin.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6E30BF7E2320BFDD005ABEFC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		6E30BF802320BFDD005ABEFC /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		6E30BF802320BFDD005ABEFC /* UserInfoVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoVC.swift; sourceTree = "<group>"; };
 		6E30BF852320BFE0005ABEFC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		6E30BF882320BFE0005ABEFC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		6E30BF8A2320BFE0005ABEFC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -147,7 +147,7 @@
 				6E6ADAFC23388BC400ACE15B /* SmartPrompter.entitlements */,
 				6E30BF7E2320BFDD005ABEFC /* AppDelegate.swift */,
 				6E1523AB2355743E00A60ED4 /* SignInVC.swift */,
-				6E30BF802320BFDD005ABEFC /* ViewController.swift */,
+				6E30BF802320BFDD005ABEFC /* UserInfoVC.swift */,
 				6E30BF852320BFE0005ABEFC /* Assets.xcassets */,
 				6E30BF872320BFE0005ABEFC /* LaunchScreen.storyboard */,
 				6E30BF8A2320BFE0005ABEFC /* Info.plist */,
@@ -435,7 +435,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6E30BF812320BFDD005ABEFC /* ViewController.swift in Sources */,
+				6E30BF812320BFDD005ABEFC /* UserInfoVC.swift in Sources */,
 				6E30BFAD2320D07C005ABEFC /* MainVC.swift in Sources */,
 				6E27F5312334475D00FDEAFC /* Alarm.swift in Sources */,
 				6E27F52F23343DDB00FDEAFC /* AppDatabase.swift in Sources */,

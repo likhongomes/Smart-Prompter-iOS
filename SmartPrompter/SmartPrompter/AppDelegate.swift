@@ -47,7 +47,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         print("activeAlarm Count \(activeAlarm.count)")
         
         window = UIWindow(frame: UIScreen.main.bounds)
-        let rootView = ViewController()
+        //let rootView = ViewController()
         
         if Auth.auth().currentUser != nil {
           self.window?.rootViewController = MainVC()

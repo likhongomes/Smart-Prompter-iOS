@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Firebase
 
 class MainVC: UIViewController {
     
@@ -19,6 +20,7 @@ class MainVC: UIViewController {
     let lowerQuad = UIView()
     let welcomeTextView = UITextView()
     let secondTextView = UITextView()
+    let logoutButton = UIButton()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,6 +33,7 @@ class MainVC: UIViewController {
         newAlarmButtonSetup()
         viewAlarmButtonSetup()
         pastAlarmsButtonSetup()
+        logoutButtonSetup()
         
         let date = Date(timeIntervalSinceNow: 3600)
         let triggerDate = Calendar.current.dateComponents([.year,.month,.day,.hour,.minute,.second,], from: date)
@@ -39,6 +42,33 @@ class MainVC: UIViewController {
         
         
         
+    }
+    
+    func logoutButtonSetup(){
+        view.addSubview(logoutButton)
+        logoutButton.translatesAutoresizingMaskIntoConstraints = false
+        logoutButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
+        logoutButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 20).isActive = true
+        logoutButton.heightAnchor.constraint(equalToConstant: 25).isActive = true
+        logoutButton.backgroundColor = .clear
+        logoutButton.widthAnchor.constraint(equalToConstant: 25).isActive = true
+        logoutButton.setImage(UIImage(named:"logoutButton"), for: .normal)
+        logoutButton.addTarget(self, action: #selector(logoutButtonClicked), for: .touchUpInside)
+        //logoutButton.backgroundColor = .black
+    }
+    
+    @objc func logoutButtonClicked() {
+        print("logout clicked")
+        let firebaseAuth = Auth.auth()
+        do {
+          try firebaseAuth.signOut()
+            let vc = SignInVC()
+            vc.modalPresentationStyle = .fullScreen
+            vc.modalTransitionStyle = .crossDissolve
+            self.present(vc, animated: true, completion: nil)
+        } catch let signOutError as NSError {
+          print ("Error signing out: %@", signOutError)
+        }
     }
     
     func welcomeTextViewSetup() {
