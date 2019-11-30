@@ -14,7 +14,6 @@ func application(_ application: UIApplication,
                      performFetchWithCompletionHandler completionHandler:
                      @escaping (UIBackgroundFetchResult) -> Void) {
         let count = activeAlarm.count
-        
         fetchFromFirebase()
         if(count == activeAlarm.count){
             completionHandler(.noData)
@@ -23,7 +22,6 @@ func application(_ application: UIApplication,
         } else {
             completionHandler(.failed)
         }
-       
         print("Refreshing in the background")
         completionHandler(.newData)
     }
