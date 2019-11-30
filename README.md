@@ -7,42 +7,27 @@ This is a basic app that allows a caretaker to remotely set alarm to remind the 
 ### Classes & ViewControllers
 
 #### AppDelegate
-
-'''Swift
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
-        
-        UNUserNotificationCenter.current().delegate = self
-        
-        FirebaseApp.configure()
-        ref = Database.database().reference()
-        try! setupDatabase(application)
-        activeAlarm = alarmDB.getActiveAlarms()
-        inactiveAlarm = alarmDB.getInactiveAlarms()
-        print("activeAlarm Count \(activeAlarm.count)")
-        
-        window = UIWindow(frame: UIScreen.main.bounds)
-        //let rootView = ViewController()
-        
-        if Auth.auth().currentUser != nil {
-          self.window?.rootViewController = MainVC()
-        } else {
-          self.window?.rootViewController = SignInVC()
-        }
-        
-        window?.makeKeyAndVisible()
-        registerForPushNotifications()
-        //getNotificationSettings()
-        //fetchFromFirebase()
-        
-        application.setMinimumBackgroundFetchInterval(UIApplication.backgroundFetchIntervalMinimum)
-        return true
-    }
-'''
-
-
 The app delegate is the root class of the app. When the app is executed, the app delegate sets all of the configuration, all of the connections to the services used and run. In the app delegate I have declared all of the necessary variables and constants that are going to be universally accessible throughout the app, for example “userID:Auth.auth().currentUser?.uid” established connection with firebase and fetch’s the current userID that’s logged into the app.
 
+'''swift
+    func application(_ application: UIApplication,
+                     performFetchWithCompletionHandler completionHandler:
+                     @escaping (UIBackgroundFetchResult) -> Void) {
+        let count = activeAlarm.count
+        
+        fetchFromFirebase()
+        if(count == activeAlarm.count){
+            completionHandler(.noData)
+        } else if (count != activeAlarm.count){
+            completionHandler(.newData)
+        } else {
+            completionHandler(.failed)
+        }
+       
+        print("Refreshing in the background")
+        completionHandler(.newData)
+    }
+'''
 •	didFinishLaunchingWithOptions functions is the main function of the app, in this function I have specified the the app to show sign up page to show up if the user is logged out. If the user is already logged in, then the home screen is shown. Next in the same function I have called a function registerForPushNotification, which asks for permission from the user and enables push notification.
 •	performFetchWithCompletionHandler function fetches data from the firebase server when the app is in background mode. The os lets the app to execute this function to fetch data from firebase. Whenever this function is run, the app has to let the OS know about its completions status using the completion handler. The OS sets the apps’ background execution priority based on the frequency of completion success from completion handler.
 •	didRegisterForRemoteNotificationWithDeviceToken function registers the device with a device token for the app to deliver notifications.
