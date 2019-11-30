@@ -10,11 +10,8 @@ This is a basic app that allows a caretaker to remotely set alarm to remind the 
 The app delegate is the root class of the app. When the app is executed, the app delegate sets all of the configuration, all of the connections to the services used and run. In the app delegate I have declared all of the necessary variables and constants that are going to be universally accessible throughout the app, for example “userID:Auth.auth().currentUser?.uid” established connection with firebase and fetch’s the current userID that’s logged into the app.
 
 '''swift
-    func application(_ application: UIApplication,
-                     performFetchWithCompletionHandler completionHandler:
-                     @escaping (UIBackgroundFetchResult) -> Void) {
+    func application(_ application: UIApplication, performFetchWithCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
         let count = activeAlarm.count
-        
         fetchFromFirebase()
         if(count == activeAlarm.count){
             completionHandler(.noData)
