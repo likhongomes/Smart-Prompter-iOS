@@ -7,6 +7,28 @@ This is a basic app that allows a caretaker to remotely set alarm to remind the 
 ### Classes & ViewControllers
 
 #### AppDelegate
+
+''' Swift
+    import UIKit
+import GRDB
+import CoreData
+import UserNotifications
+import Firebase
+import FirebaseDatabase
+import FirebaseAnalytics
+
+var dbQueue: DatabaseQueue!
+let alarmDB = AlarmDB()
+var activeAlarm = [Alarm]()
+var inactiveAlarm = [Alarm]()
+var ref: DatabaseReference!
+let userID = Auth.auth().currentUser?.uid
+let scheduler = AlarmScheduler()
+let fUtil = FirebaseUtil()
+
+'''
+
+
 The app delegate is the root class of the app. When the app is executed, the app delegate sets all of the configuration, all of the connections to the services used and run. In the app delegate I have declared all of the necessary variables and constants that are going to be universally accessible throughout the app, for example “userID:Auth.auth().currentUser?.uid” established connection with firebase and fetch’s the current userID that’s logged into the app.
 
 •	didFinishLaunchingWithOptions functions is the main function of the app, in this function I have specified the the app to show sign up page to show up if the user is logged out. If the user is already logged in, then the home screen is shown. Next in the same function I have called a function registerForPushNotification, which asks for permission from the user and enables push notification.
