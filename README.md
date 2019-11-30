@@ -9,22 +9,35 @@ This is a basic app that allows a caretaker to remotely set alarm to remind the 
 #### AppDelegate
 
 ''' Swift
-    import UIKit
-import GRDB
-import CoreData
-import UserNotifications
-import Firebase
-import FirebaseDatabase
-import FirebaseAnalytics
-
-var dbQueue: DatabaseQueue!
-let alarmDB = AlarmDB()
-var activeAlarm = [Alarm]()
-var inactiveAlarm = [Alarm]()
-var ref: DatabaseReference!
-let userID = Auth.auth().currentUser?.uid
-let scheduler = AlarmScheduler()
-let fUtil = FirebaseUtil()
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        // Override point for customization after application launch.
+        
+        UNUserNotificationCenter.current().delegate = self
+        
+        FirebaseApp.configure()
+        ref = Database.database().reference()
+        try! setupDatabase(application)
+        activeAlarm = alarmDB.getActiveAlarms()
+        inactiveAlarm = alarmDB.getInactiveAlarms()
+        print("activeAlarm Count \(activeAlarm.count)")
+        
+        window = UIWindow(frame: UIScreen.main.bounds)
+        //let rootView = ViewController()
+        
+        if Auth.auth().currentUser != nil {
+          self.window?.rootViewController = MainVC()
+        } else {
+          self.window?.rootViewController = SignInVC()
+        }
+        
+        window?.makeKeyAndVisible()
+        registerForPushNotifications()
+        //getNotificationSettings()
+        //fetchFromFirebase()
+        
+        application.setMinimumBackgroundFetchInterval(UIApplication.backgroundFetchIntervalMinimum)
+        return true
+    }
 
 '''
 
