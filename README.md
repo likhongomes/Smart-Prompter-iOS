@@ -8,7 +8,7 @@ This is a basic app that allows a caretaker to remotely set alarm to remind the 
 
 #### AppDelegate
 
-''' Swift
+'''Swift
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
@@ -38,7 +38,6 @@ This is a basic app that allows a caretaker to remotely set alarm to remind the 
         application.setMinimumBackgroundFetchInterval(UIApplication.backgroundFetchIntervalMinimum)
         return true
     }
-
 '''
 
 
