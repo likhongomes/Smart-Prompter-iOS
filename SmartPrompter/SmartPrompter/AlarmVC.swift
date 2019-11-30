@@ -8,8 +8,9 @@
 
 import UIKit
 import UserNotifications
+import FirebaseStorage
 
-class AlarmVC: UIViewController {
+class AlarmVC: UIViewController, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
     
     let backButton = UIButton()
     let saveButton = UIButton()
@@ -36,6 +37,8 @@ class AlarmVC: UIViewController {
     let timePicker = UIDatePicker()
     let slider = UISlider()
     let imageView = UIImageView()
+    
+    let imagePicker =  UIImagePickerController()
     
 
     override func viewDidLoad() {
@@ -265,6 +268,39 @@ class AlarmVC: UIViewController {
         
     }
     
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        imagePicker.dismiss(animated: true, completion: nil)
+        imageView.image = info[.originalImage] as? UIImage
+        let image = info[.originalImage] as? UIImage
+        
+        guard let imageData = image!.jpegData(compressionQuality: 0.1) else {
+            return
+        }
+        
+        //let storage = Storage.storage()
+        let storageRef = Storage.storage().reference().child("\(userID!)/\(alarmNameTextField.text!)")
+        
+        
+        let uploadTask = storageRef.putData(imageData, metadata: nil) { metadata, error in
+          guard let metadata = metadata else {
+            // Uh-oh, an error occurred!
+            return
+          }
+          // Metadata contains file metadata such as size, content-type.
+          let size = metadata.size
+          // You can also access to download URL after upload.
+          storageRef.downloadURL { (url, error) in
+            guard let downloadURL = url else {
+              // Uh-oh, an error occurred!
+              return
+            }
+          }
+        }
+        
+        
+        
+    }
    
     
     
@@ -294,6 +330,12 @@ class AlarmVC: UIViewController {
             instructionLabel.text = "On My Way"
             let date = Date()
             let calendar = Calendar.current
+            
+            imagePicker.delegate = self
+            imagePicker.sourceType = .camera
+
+            present(imagePicker, animated: true, completion: nil)
+            
             
             
             ref.child("Patients").child(userID!).child("Alarms").child("\(alarm.firebaseID!)").child("status").setValue("Complete")

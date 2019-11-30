@@ -23,6 +23,8 @@ let userID = Auth.auth().currentUser?.uid
 let scheduler = AlarmScheduler()
 let fUtil = FirebaseUtil()
 
+
+
 @available(iOS 10.0, *)
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
@@ -60,11 +62,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         //getNotificationSettings()
         //fetchFromFirebase()
         
-        
-        
         application.setMinimumBackgroundFetchInterval(UIApplication.backgroundFetchIntervalMinimum)
         return true
     }
+    
     
     func application(_ application: UIApplication,
                      performFetchWithCompletionHandler completionHandler:
