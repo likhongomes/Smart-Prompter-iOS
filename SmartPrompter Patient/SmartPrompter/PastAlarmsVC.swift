@@ -24,7 +24,7 @@ class PastAlarmsVC: UIViewController, UITableViewDelegate, UITableViewDataSource
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let vc = NewAlarmVC()
+        let vc = AlarmVC()
         //vc.alarmDateTextField.text = inactiveAlarm[indexPath.row].date
         //vc.alarmTimeTextField.text = inactiveAlarm[indexPath.row].time
         vc.alarmNameTextField.text = inactiveAlarm[indexPath.row].label

@@ -8,8 +8,9 @@
 
 import UIKit
 import Firebase
+import FirebaseStorage
 
-class NewAlarmVC: UIViewController {
+class AlarmVC: UIViewController {
     
     let backButton = UIButton()
     let saveButton = UIButton()
@@ -21,6 +22,7 @@ class NewAlarmVC: UIViewController {
     let alarmNameLabel = UILabel()
     let dateLabel = UILabel()
     let timeLabel = UILabel()
+    let imageView = UIImageView()
     
     
     let alarmNameTextField = UITextField()
@@ -56,6 +58,32 @@ class NewAlarmVC: UIViewController {
         deleteButtonSetup()
         showDatePicker()
         showTimePicker()
+        imageViewSetup()
+    }
+    
+    func imageViewSetup(){
+        view.addSubview(imageView)
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.topAnchor.constraint(equalTo: statusStatusLabel.bottomAnchor, constant: 10).isActive = true
+        imageView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        imageView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        imageView.bottomAnchor.constraint(equalTo: cancelButton.topAnchor, constant: -10).isActive = true
+        imageView.contentMode = .scaleAspectFit
+        
+        
+        let islandRef = Storage.storage().reference().child("\(userID!)/\(alarmNameTextField.text!)")
+
+        // Download in memory with a maximum allowed size of 1MB (1 * 1024 * 1024 bytes)
+        islandRef.getData(maxSize: 1 * 1024 * 1024) { data, error in
+          if let error = error {
+            // Uh-oh, an error occurred!
+            print("downloading image \(error)")
+          } else {
+            // Data for "images/island.jpg" is returned
+            let image = UIImage(data: data!)
+            self.imageView.image = image
+          }
+        }
     }
     
     func showDatePicker(){
