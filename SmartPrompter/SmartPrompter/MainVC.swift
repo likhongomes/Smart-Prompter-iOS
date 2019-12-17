@@ -16,9 +16,8 @@ extension MainVC:UNUserNotificationCenterDelegate{
         
         let content = notification.request.content
         let intervalTrigger = UNTimeIntervalNotificationTrigger(timeInterval: 60, repeats: true)
-        let repeatRequest = UNNotificationRequest(identifier: "repeatAlarm", content: content, trigger: intervalTrigger)
-
         
+        let repeatRequest = UNNotificationRequest(identifier: "repeatAlarm", content: content, trigger: intervalTrigger)
         
         UNUserNotificationCenter.current().add(repeatRequest) { (error) in
             print(error as Any)
