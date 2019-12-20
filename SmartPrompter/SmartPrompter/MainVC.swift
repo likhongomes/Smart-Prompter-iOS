@@ -14,16 +14,16 @@ extension MainVC:UNUserNotificationCenterDelegate{
     @available(iOS 10.0, *)
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
         
-        let content = notification.request.content
-        let intervalTrigger = UNTimeIntervalNotificationTrigger(timeInterval: 60, repeats: true)
+        //let content = notification.request.content
+        //let intervalTrigger = UNTimeIntervalNotificationTrigger(timeInterval: 60, repeats: true)
         
-        let repeatRequest = UNNotificationRequest(identifier: "repeatAlarm", content: content, trigger: intervalTrigger)
+        //let repeatRequest = UNNotificationRequest(identifier: "repeatAlarm", content: content, trigger: intervalTrigger)
         
-        UNUserNotificationCenter.current().add(repeatRequest) { (error) in
-            print(error as Any)
-        }
+        //UNUserNotificationCenter.current().add(repeatRequest) { (error) in
+          //  print(error as Any)
+        //}
 
-        print("alarm delivered \(notification.request.content.title)")
+        //print("alarm delivered \(notification.request.content.title)")
         completionHandler([.alert,.sound,.badge])
     }
     

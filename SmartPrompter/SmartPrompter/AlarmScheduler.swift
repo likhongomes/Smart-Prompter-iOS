@@ -44,7 +44,9 @@ class AlarmScheduler {
                 dateComponents2.addAMinute()
                 print("first time \(dateComponents.hour):\(dateComponents.minute) second time \(dateComponents2.hour):\(dateComponents2.minute)")
                 let calendarTrigger2 = UNCalendarNotificationTrigger(dateMatching: dateComponents2, repeats: true)
-                let repeatRequest = UNNotificationRequest(identifier: "repeatAlarm", content: content, trigger: calendarTrigger2)
+                let repeatRequest = UNNotificationRequest(identifier: "\(content.userInfo["title"]!)\(x)", content: content, trigger: calendarTrigger2)
+                
+                print("Notification name \(content.userInfo["title"]!)\(x)")
                 
                 UNUserNotificationCenter.current().add(repeatRequest) { (error) in
                     print("Notification Report \(error?.localizedDescription)")
