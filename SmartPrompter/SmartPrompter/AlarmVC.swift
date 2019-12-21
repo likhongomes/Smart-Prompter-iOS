@@ -36,7 +36,7 @@ class AlarmVC: UIViewController {
     let timePicker = UIDatePicker()
     let slider = UISlider()
     let imageView = UIImageView()
-    
+    var notificationTitle:Any?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -274,18 +274,14 @@ class AlarmVC: UIViewController {
         //print("value is" , Int(sender.value));
         if(sender.value == 0){
             instructionLabel.text = "Remind me later"
-            
-            
-            
-            
-            
+
             var dateComponents = DateComponents()
             dateComponents.hour = alarm.hour
             //dateComponents.minute = alarm.minute!+1
             
             scheduler.scheduleNotification(title: alarm.label!, dateComponents: dateComponents, id:alarm.firebaseID)
             print("scheduled again")
-        }else if(sender.value == 100){
+        } else if(sender.value == 100){
             let vc = MainVC()
             
             vc.alarmTable.reloadData()
@@ -295,6 +291,15 @@ class AlarmVC: UIViewController {
             let date = Date()
             let calendar = Calendar.current
             
+            //print("data I am looking for \(notificationTitle!)")
+            var x = 0
+            while (x<5){
+                UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: ["\(notificationTitle!)\(x)"])
+                UNUserNotificationCenter.current().removeDeliveredNotifications(withIdentifiers: ["\(notificationTitle!)\(x)"])
+                print("cancelling notification \(notificationTitle!)\(x)")
+                x+=1
+            }
+            
             
             ref.child("Patients").child(userID!).child("Alarms").child("\(alarm.firebaseID!)").child("status").setValue("Complete")
             ref.child("Patients").child(userID!).child("Alarms").child("\(alarm.firebaseID!)").child("completionHour").setValue(calendar.component(.hour, from: date))
@@ -302,7 +307,7 @@ class AlarmVC: UIViewController {
             ref.child("Patients").child(userID!).child("Alarms").child("\(alarm.firebaseID!)").child("completionDay").setValue(calendar.component(.day, from: date))
             ref.child("Patients").child(userID!).child("Alarms").child("\(alarm.firebaseID!)").child("completionMonth").setValue(calendar.component(.month, from: date))
             ref.child("Patients").child(userID!).child("Alarms").child("\(alarm.firebaseID!)").child("completionYear").setValue(calendar.component(.year, from: date))
-            UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers:["repeatAlarm"])
+            
         }
     }
     

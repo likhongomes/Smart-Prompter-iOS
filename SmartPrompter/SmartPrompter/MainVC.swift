@@ -14,17 +14,16 @@ extension MainVC:UNUserNotificationCenterDelegate{
     @available(iOS 10.0, *)
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
         
-        let content = notification.request.content
-        let intervalTrigger = UNTimeIntervalNotificationTrigger(timeInterval: 60, repeats: true)
-        let repeatRequest = UNNotificationRequest(identifier: "repeatAlarm", content: content, trigger: intervalTrigger)
-
+        //let content = notification.request.content
+        //let intervalTrigger = UNTimeIntervalNotificationTrigger(timeInterval: 60, repeats: true)
         
+        //let repeatRequest = UNNotificationRequest(identifier: "repeatAlarm", content: content, trigger: intervalTrigger)
         
-        UNUserNotificationCenter.current().add(repeatRequest) { (error) in
-            print(error as Any)
-        }
+        //UNUserNotificationCenter.current().add(repeatRequest) { (error) in
+          //  print(error as Any)
+        //}
 
-        print("alarm delivered \(notification.request.content.title)")
+        //print("alarm delivered \(notification.request.content.title)")
         completionHandler([.alert,.sound,.badge])
     }
     
@@ -46,9 +45,10 @@ extension MainVC:UNUserNotificationCenterDelegate{
             vc.alarm.firebaseID = userInfo["FirebaseID"] as! String
             vc.alarm.hour = userInfo["hour"] as! Int
             vc.alarm.minute = userInfo["minute"] as! Int
+            vc.notificationTitle = response.notification.request.content.userInfo["title"]!
             vc.modalPresentationStyle = .fullScreen
             vc.modalTransitionStyle = .crossDissolve
-            print("Printing notification data .... \(userInfo)")
+            //print("Printing notification data .... \(userInfo)")
             present(vc, animated: true, completion: nil)
             
         }
@@ -60,10 +60,10 @@ extension MainVC:UNUserNotificationCenterDelegate{
                 completionHandler()
                 return
             }
-
             let vc = AlarmVC()
             vc.alarm.label = userInfo["title"] as! String
             vc.alarm.firebaseID = userInfo["FirebaseID"] as! String
+            vc.notificationTitle = response.notification.request.content.userInfo["title"]!
             vc.modalPresentationStyle = .fullScreen
             vc.modalTransitionStyle = .crossDissolve
             present(vc, animated: true, completion: nil)
@@ -117,9 +117,11 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let vc = AlarmVC()
         vc.alarm = activeAlarm[indexPath.row]
+        vc.notificationTitle = activeAlarm[indexPath.row].label
         //vc.alarmDateTextField.text = activeAlarm[indexPath.row].date
         vc.alarmTimeTextField.text = "\(activeAlarm[indexPath.row].hour):\(activeAlarm[indexPath.row].minute)"
         vc.alarmNameTextField.text = activeAlarm[indexPath.row].label
+        //vc.notificationData =
         //vc.statusStatusLabel.text = "\(activeAlarm[indexPath.row].active!)"
         vc.modalTransitionStyle = .crossDissolve
         vc.modalPresentationStyle = .fullScreen

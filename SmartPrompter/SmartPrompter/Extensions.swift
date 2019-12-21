@@ -44,8 +44,19 @@ extension UIView {
         
     }
     
-    
-    
+        
     
     
 }
+
+extension DateComponents {
+    mutating func addAMinute() {
+        if(self.minute != 59){
+            self.minute! += 1
+        } else {
+            self.hour! += 1
+            self.minute! = 0
+        }
+    }
+}
+

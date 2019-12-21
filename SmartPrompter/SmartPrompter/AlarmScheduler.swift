@@ -25,30 +25,34 @@ class AlarmScheduler {
             content.badge = 1
             content.userInfo = ["FirebaseID":id,"title":title, "hour":dateComponents.hour, "minute":dateComponents.minute,"day":dateComponents.day,"month":dateComponents.month,"year":dateComponents.year]
             
-            //var dateComponents = DateComponents()
-            //dateComponents.hour = 19
-            //dateComponents.minute = 24
-            print("scheduled alarm time \(dateComponents.hour) \(dateComponents.minute)")
-            //let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 5.0, repeats: false)
-            let calendarTrigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)
-            let intervalTrigger = UNTimeIntervalNotificationTrigger(timeInterval: 60, repeats: true)
-            let firstRequest = UNNotificationRequest(identifier: "Identifier", content: content, trigger: calendarTrigger)
-            let repeatRequest = UNNotificationRequest(identifier: "repeatAlarm", content: content, trigger: intervalTrigger)
-    
-            UNUserNotificationCenter.current().add(firstRequest) { (error) in
-                print("Notification Report \(error as Any)")
-            }
+            
+            
+//            let calendarTrigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)
+//            let firstRequest = UNNotificationRequest(identifier: "Identifier", content: content, trigger: calendarTrigger)
+//            UNUserNotificationCenter.current().add(firstRequest) { (error) in
+//                print("Notification Report \(error?.localizedDescription)")
+//            }
+
             
             UNUserNotificationCenter.current().getDeliveredNotifications { (notifications) in
                 print(notifications)
             }
             
-            /*
-            UNUserNotificationCenter.current().add(repeatRequest) { (error) in
-                print(error as Any)
-            }*/
+            var x = 0
+            var dateComponents2 = dateComponents
+            while (x<5){
+                print("first time \(dateComponents.hour):\(dateComponents.minute) second time \(dateComponents2.hour):\(dateComponents2.minute)")
+                let calendarTrigger2 = UNCalendarNotificationTrigger(dateMatching: dateComponents2, repeats: true)
+                let repeatRequest = UNNotificationRequest(identifier: "\(content.userInfo["title"]!)\(x)", content: content, trigger: calendarTrigger2)
+                
+                UNUserNotificationCenter.current().add(repeatRequest) { (error) in
+                    print("Notification Report \(error?.localizedDescription)")
+                }
+                dateComponents2.addAMinute()
+                x += 1
+            }
 
-            //print("notification pushed")
+            
 
         } else {
             // Fallback on earlier versions
