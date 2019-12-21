@@ -21,6 +21,9 @@ PODS:
   - Firebase/Firestore (6.8.1):
     - Firebase/CoreOnly
     - FirebaseFirestore (~> 1.5.0)
+  - Firebase/Storage (6.8.1):
+    - Firebase/CoreOnly
+    - FirebaseStorage (~> 3.4.1)
   - FirebaseAnalytics (6.1.1):
     - FirebaseCore (~> 6.2)
     - FirebaseInstanceID (~> 4.2)
@@ -71,6 +74,10 @@ PODS:
     - FirebaseCore (~> 6.0)
     - GoogleUtilities/Environment (~> 6.0)
     - GoogleUtilities/UserDefaults (~> 6.0)
+  - FirebaseStorage (3.4.3):
+    - FirebaseAuthInterop (~> 1.0)
+    - FirebaseCore (~> 6.0)
+    - GTMSessionFetcher/Core (~> 1.1)
   - FirebaseUI/Auth (8.1.0):
     - Firebase/Auth (~> 6.0)
     - GoogleUtilities/UserDefaults
@@ -135,11 +142,12 @@ DEPENDENCIES:
   - Firebase/Auth
   - Firebase/Database
   - Firebase/Firestore
+  - Firebase/Storage
   - FirebaseUI/Auth
   - GRDB.swift
 
 SPEC REPOS:
-  https://github.com/cocoapods/specs.git:
+  https://github.com/CocoaPods/Specs.git:
     - BoringSSL-GRPC
     - Firebase
     - FirebaseAnalytics
@@ -163,6 +171,8 @@ SPEC REPOS:
     - leveldb-library
     - nanopb
     - Protobuf
+  trunk:
+    - FirebaseStorage
 
 SPEC CHECKSUMS:
   BoringSSL-GRPC: db8764df3204ccea016e1c8dd15d9a9ad63ff318
@@ -176,6 +186,7 @@ SPEC CHECKSUMS:
   FirebaseDatabase: 518cd94286de2ee999e19383a2a6ae04c81ce993
   FirebaseFirestore: c5873e279490fbe02239ab2cdfb91c2d546261cc
   FirebaseInstanceID: 550df9be1f99f751d8fcde3ac342a1e21a0e6c42
+  FirebaseStorage: 93fe2f8190a01bfb2b2c4932df7d679744c4ef1d
   FirebaseUI: 41e06c5f7f6e34a8f430862d67637e36e4aa696c
   GoogleAppMeasurement: 86a82f0e1f20b8eedf8e20326530138fd71409de
   GoogleDataTransport: 8f9897b8e073687f24ca8d3c3a8013dec7d2d1cc
@@ -189,6 +200,6 @@ SPEC CHECKSUMS:
   nanopb: 2901f78ea1b7b4015c860c2fdd1ea2fee1a18d48
   Protobuf: 1097ca58584c8d9be81bfbf2c5ff5975648dd87a
 
-PODFILE CHECKSUM: 65e5b2270e8daceb0d7c3acc3ffd09f0a37e3652
+PODFILE CHECKSUM: f6024e5e83d84c2e327e9c08220793a5f760ff7b
 
-COCOAPODS: 1.7.5
+COCOAPODS: 1.8.4

@@ -13,6 +13,7 @@ import UserNotifications
 import Firebase
 import FirebaseDatabase
 import FirebaseAnalytics
+import FirebaseStorage
 
 var dbQueue: DatabaseQueue!
 let alarmDB = AlarmDB()

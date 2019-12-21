@@ -8,7 +8,7 @@
 
 import UIKit
 import UserNotifications
-import Firebase
+import FirebaseStorage
 
 class AlarmVC: UIViewController, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
     
@@ -39,6 +39,7 @@ class AlarmVC: UIViewController, UINavigationControllerDelegate, UIImagePickerCo
     let imageView = UIImageView()
     var notificationTitle:Any?
     let takenImageViewer = UIImageView()
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -70,7 +71,8 @@ class AlarmVC: UIViewController, UINavigationControllerDelegate, UIImagePickerCo
         ref.child("Patients").child(userID!).child("Alarms").child(alarm.firebaseID!).child("active").setValue(true)
         
         
-        //ref.child("Patients").child(userID!).child("Alarms").child("\(alarm.firebaseID!)").setValue(["acknowledgedHour":hour, "acknowledgedMinute":minute])
+        let storageRef = Storage.storage().reference().child("\(userID)")
+        
         
 
     }
@@ -339,6 +341,36 @@ class AlarmVC: UIViewController, UINavigationControllerDelegate, UIImagePickerCo
             instructionLabel.text = "Completed"
             instructionLabel.textColor = #colorLiteral(red: 0.3411764801, green: 0.6235294342, blue: 0.1686274558, alpha: 1)
             takenImageViewer.image = image
+            
+            // Data in memory
+            guard let imageData = image.jpegData(compressionQuality: 0.1) else {
+                return
+            }
+            
+            
+            let storageRef = Storage.storage().reference()
+
+            // Create a reference to the file you want to upload
+            let riversRef = storageRef.child("\(userID!)/\(alarmNameTextField.text!)")
+
+            // Upload the file to the path "images/rivers.jpg"
+            let uploadTask = riversRef.putData(imageData, metadata: nil) { (metadata, error) in
+              guard let metadata = metadata else {
+                // Uh-oh, an error occurred!
+                return
+              }
+              // Metadata contains file metadata such as size, content-type.
+              let size = metadata.size
+              // You can also access to download URL after upload.
+              riversRef.downloadURL { (url, error) in
+                guard let downloadURL = url else {
+                  // Uh-oh, an error occurred!
+                  return
+                }
+              }
+            }
+             
+             
             // print out the image size as a test
             print(image.size)
         }
