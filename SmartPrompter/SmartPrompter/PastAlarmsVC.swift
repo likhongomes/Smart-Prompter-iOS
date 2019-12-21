@@ -30,6 +30,7 @@ class PastAlarmsVC: UIViewController, UITableViewDelegate, UITableViewDataSource
         vc.alarmNameTextField.text = inactiveAlarm[indexPath.row].label
         vc.statusStatusLabel.text = "\(inactiveAlarm[indexPath.row].active!)"
         vc.modalTransitionStyle = .crossDissolve
+        vc.modalPresentationStyle = .fullScreen
         present(vc, animated: true, completion: nil)
     }
 
