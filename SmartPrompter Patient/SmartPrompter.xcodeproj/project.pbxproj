@@ -148,7 +148,6 @@
 				6E30BF7E2320BFDD005ABEFC /* AppDelegate.swift */,
 				6E30BF802320BFDD005ABEFC /* UserInfoVC.swift */,
 				6ECDC4F42383A724004A856F /* SignInVC.swift */,
-				6E30BF852320BFE0005ABEFC /* Assets.xcassets */,
 				6E30BF872320BFE0005ABEFC /* LaunchScreen.storyboard */,
 				6E30BF8A2320BFE0005ABEFC /* Info.plist */,
 				6EF38CBC234AFE0A0030B169 /* GoogleService-Info.plist */,
@@ -159,6 +158,7 @@
 				6E2ABB1C2326154800AC7B86 /* Extensions.swift */,
 				6E27F5302334475D00FDEAFC /* Alarm.swift */,
 				6E27F52E23343DDB00FDEAFC /* AppDatabase.swift */,
+				6E30BF852320BFE0005ABEFC /* Assets.xcassets */,
 			);
 			path = SmartPrompter;
 			sourceTree = "<group>";
