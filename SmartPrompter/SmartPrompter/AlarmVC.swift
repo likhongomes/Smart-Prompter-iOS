@@ -36,7 +36,7 @@ class AlarmVC: UIViewController {
     let timePicker = UIDatePicker()
     let slider = UISlider()
     let imageView = UIImageView()
-    //let notificationData:UNNotification?
+    var notificationTitle:Any?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -291,7 +291,14 @@ class AlarmVC: UIViewController {
             let date = Date()
             let calendar = Calendar.current
             
-            UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [""])
+            //print("data I am looking for \(notificationTitle!)")
+            var x = 0
+            while (x<5){
+                UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: ["\(notificationTitle!)\(x)"])
+                print("cancelling notification \(notificationTitle!)\(x)")
+                x+=1
+            }
+            
             
             ref.child("Patients").child(userID!).child("Alarms").child("\(alarm.firebaseID!)").child("status").setValue("Complete")
             ref.child("Patients").child(userID!).child("Alarms").child("\(alarm.firebaseID!)").child("completionHour").setValue(calendar.component(.hour, from: date))
@@ -299,7 +306,7 @@ class AlarmVC: UIViewController {
             ref.child("Patients").child(userID!).child("Alarms").child("\(alarm.firebaseID!)").child("completionDay").setValue(calendar.component(.day, from: date))
             ref.child("Patients").child(userID!).child("Alarms").child("\(alarm.firebaseID!)").child("completionMonth").setValue(calendar.component(.month, from: date))
             ref.child("Patients").child(userID!).child("Alarms").child("\(alarm.firebaseID!)").child("completionYear").setValue(calendar.component(.year, from: date))
-            UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers:["repeatAlarm"])
+            
         }
     }
     
