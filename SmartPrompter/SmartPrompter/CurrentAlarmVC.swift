@@ -31,6 +31,7 @@ class CurrentAlarmVC: UIViewController, UITableViewDataSource, UITableViewDelega
         vc.alarmNameTextField.text = activeAlarm[indexPath.row].label
         vc.statusStatusLabel.text = "\(activeAlarm[indexPath.row].active!)"
         vc.modalTransitionStyle = .crossDissolve
+        vc.modalPresentationStyle = .fullScreen
         present(vc, animated: true, completion: nil)
     }
 
