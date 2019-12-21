@@ -295,6 +295,7 @@ class AlarmVC: UIViewController {
             var x = 0
             while (x<5){
                 UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: ["\(notificationTitle!)\(x)"])
+                UNUserNotificationCenter.current().removeDeliveredNotifications(withIdentifiers: ["\(notificationTitle!)\(x)"])
                 print("cancelling notification \(notificationTitle!)\(x)")
                 x+=1
             }
