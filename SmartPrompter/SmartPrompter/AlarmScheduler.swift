@@ -27,11 +27,11 @@ class AlarmScheduler {
             
             
             
-            let calendarTrigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)
-            let firstRequest = UNNotificationRequest(identifier: "Identifier", content: content, trigger: calendarTrigger)
-            UNUserNotificationCenter.current().add(firstRequest) { (error) in
-                print("Notification Report \(error?.localizedDescription)")
-            }
+//            let calendarTrigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)
+//            let firstRequest = UNNotificationRequest(identifier: "Identifier", content: content, trigger: calendarTrigger)
+//            UNUserNotificationCenter.current().add(firstRequest) { (error) in
+//                print("Notification Report \(error?.localizedDescription)")
+//            }
 
             
             UNUserNotificationCenter.current().getDeliveredNotifications { (notifications) in
@@ -41,17 +41,14 @@ class AlarmScheduler {
             var x = 0
             var dateComponents2 = dateComponents
             while (x<5){
-                dateComponents2.addAMinute()
                 print("first time \(dateComponents.hour):\(dateComponents.minute) second time \(dateComponents2.hour):\(dateComponents2.minute)")
                 let calendarTrigger2 = UNCalendarNotificationTrigger(dateMatching: dateComponents2, repeats: true)
                 let repeatRequest = UNNotificationRequest(identifier: "\(content.userInfo["title"]!)\(x)", content: content, trigger: calendarTrigger2)
                 
-                
-                //print("Notification name \(content.userInfo["title"]!)\(x)")
-                
                 UNUserNotificationCenter.current().add(repeatRequest) { (error) in
                     print("Notification Report \(error?.localizedDescription)")
                 }
+                dateComponents2.addAMinute()
                 x += 1
             }
 
