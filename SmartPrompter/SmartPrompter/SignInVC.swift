@@ -27,7 +27,6 @@ class SignInVC: UIViewController {
         var handle = Auth.auth().addStateDidChangeListener { (auth, user) in
           // ...
         }
-
     }
     
    @objc func keyboardWillShow(notification: NSNotification) {
@@ -47,7 +46,7 @@ class SignInVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-        
+        hideKeyboardWhenTappedAround()
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
         
@@ -140,6 +139,8 @@ class SignInVC: UIViewController {
                     self.present(vc, animated: true, completion: nil)
                 } else {
                     print(error)
+                    self.errorMessageView.text = error?.localizedDescription
+                    self.errorMessageView.isHidden = false
                 }
             }
         }

@@ -20,7 +20,7 @@ class SignInVC: UIViewController {
     let passwordTF = UITextField()
     let backButton = UIButton()
     let logoImage = UIImageView()
-    
+    let errorMessageView = UITextView()
     
     override func viewWillAppear(_ animated: Bool) {
         var handle = Auth.auth().addStateDidChangeListener { (auth, user) in
@@ -46,7 +46,7 @@ class SignInVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-        
+        hideKeyboardWhenTappedAround()
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
         
@@ -56,6 +56,7 @@ class SignInVC: UIViewController {
         emailTFSetup()
         backButtonSetup()
         logoImageSetup()
+        errorMessageViewSetup()
     }
     
     func logoImageSetup() {
@@ -93,8 +94,25 @@ class SignInVC: UIViewController {
                 self?.present(vc, animated: true, completion: nil)
             } else {
                 print(error)
+                self!.errorMessageView.text = error?.localizedDescription
+                self?.errorMessageView.isHidden = false
             }
         }
+    }
+    
+    func errorMessageViewSetup(){
+        view.addSubview(errorMessageView)
+        errorMessageView.translatesAutoresizingMaskIntoConstraints = false
+        errorMessageView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
+        errorMessageView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
+        errorMessageView.bottomAnchor.constraint(equalTo: emailTF.topAnchor, constant: -20).isActive = true
+        errorMessageView.isEditable = false
+        errorMessageView.isSelectable = false
+        errorMessageView.backgroundColor = .clear
+        errorMessageView.heightAnchor.constraint(equalToConstant: 35).isActive = true
+        errorMessageView.textColor = .red
+        errorMessageView.textAlignment = .center
+        errorMessageView.isHidden = true
     }
     
     func signUpButtonSetup() {
@@ -121,6 +139,8 @@ class SignInVC: UIViewController {
                     self.present(vc, animated: true, completion: nil)
                 } else {
                     print(error)
+                    self.errorMessageView.text = error?.localizedDescription
+                    self.errorMessageView.isHidden = false
                 }
             }
         }
