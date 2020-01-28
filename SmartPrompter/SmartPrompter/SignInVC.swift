@@ -20,6 +20,7 @@ class SignInVC: UIViewController {
     let passwordTF = UITextField()
     let backButton = UIButton()
     let logoImage = UIImageView()
+    let errorMessageView = UITextView()
     
     
     override func viewWillAppear(_ animated: Bool) {
@@ -56,6 +57,22 @@ class SignInVC: UIViewController {
         emailTFSetup()
         backButtonSetup()
         logoImageSetup()
+        errorMessageViewSetup()
+    }
+    
+    func errorMessageViewSetup(){
+        view.addSubview(errorMessageView)
+        errorMessageView.translatesAutoresizingMaskIntoConstraints = false
+        errorMessageView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
+        errorMessageView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
+        errorMessageView.bottomAnchor.constraint(equalTo: emailTF.topAnchor, constant: -20).isActive = true
+        errorMessageView.isEditable = false
+        errorMessageView.isSelectable = false
+        errorMessageView.backgroundColor = .clear
+        errorMessageView.heightAnchor.constraint(equalToConstant: 35).isActive = true
+        errorMessageView.textColor = .red
+        errorMessageView.textAlignment = .center
+        errorMessageView.isHidden = true
     }
     
     func logoImageSetup() {
@@ -92,7 +109,9 @@ class SignInVC: UIViewController {
                 vc.modalPresentationStyle = .fullScreen
                 self?.present(vc, animated: true, completion: nil)
             } else {
-                print(error)
+                print("Error occured \(error?.localizedDescription)")
+                self!.errorMessageView.text = error?.localizedDescription
+                self!.errorMessageView.isHidden = false
             }
         }
     }
