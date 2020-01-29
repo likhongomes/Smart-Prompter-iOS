@@ -1,4 +1,5 @@
 # Smart-Prompter-iOS
+## Authors: Dr. Chiu Tan, Likhon Gomes, Sarah Lehman
 This is a basic app that let’s patients respond to the alarms set by the caretake in Caretaker app.
 
 
