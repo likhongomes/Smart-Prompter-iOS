@@ -8,7 +8,7 @@
 
 import UIKit
 
-class UserInfoVC: UIViewController {
+class UserInfoVC: UIViewController, UITextFieldDelegate {
     
     let careTakerFirstNameTF = UITextField()
     let careTakerLastNameTF = UITextField()
@@ -16,6 +16,7 @@ class UserInfoVC: UIViewController {
     let patientLastNameTF = UITextField()
     let doneButton = UIButton()
     let informationLabel = UILabel()
+    var selectedTextField = UITextField()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,17 +28,22 @@ class UserInfoVC: UIViewController {
         patientFirstNameTFSetup()
         patientLastNameTFSetup()
         doneButtonSetup()
-        
+        hideKeyboardWhenTappedAround()
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
 
         
     }
     
+    
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        selectedTextField = textField
+    }
+    
     @objc func keyboardWillShow(notification: NSNotification) {
         if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
-            if self.view.frame.origin.y == 0 {
-                self.view.frame.origin.y -= keyboardSize.height
+            func textFieldDidBeginEditing(_ textField: UITextField) {
+                selectedTextField = textField
             }
         }
     }
@@ -60,6 +66,7 @@ class UserInfoVC: UIViewController {
     
     func careTakerFirstNameTFSetup() {
         view.addSubview(careTakerFirstNameTF)
+        careTakerFirstNameTF.delegate = self
         careTakerFirstNameTF.translatesAutoresizingMaskIntoConstraints = false
         careTakerFirstNameTF.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
         careTakerFirstNameTF.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
@@ -74,6 +81,7 @@ class UserInfoVC: UIViewController {
     
     func careTakerLastNameTFSetup() {
         view.addSubview(careTakerLastNameTF)
+        careTakerLastNameTF.delegate = self
         careTakerLastNameTF.translatesAutoresizingMaskIntoConstraints = false
         careTakerLastNameTF.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
         careTakerLastNameTF.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
@@ -88,6 +96,7 @@ class UserInfoVC: UIViewController {
     
     func patientFirstNameTFSetup() {
         view.addSubview(patientFirstNameTF)
+        patientFirstNameTF.delegate = self
         patientFirstNameTF.translatesAutoresizingMaskIntoConstraints = false
         patientFirstNameTF.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
         patientFirstNameTF.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
@@ -102,6 +111,7 @@ class UserInfoVC: UIViewController {
     
     func patientLastNameTFSetup() {
         view.addSubview(patientLastNameTF)
+        patientLastNameTF.delegate = self
         patientLastNameTF.translatesAutoresizingMaskIntoConstraints = false
         patientLastNameTF.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
         patientLastNameTF.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true

@@ -275,7 +275,7 @@ class AlarmVC: UIViewController {
                 //let hour = components.hour!
                 //let minute = components.minute!
                 
-                
+                                                                                                                                                                                                                                                                                                                                                                             
             /* ref.child("Patients").child(Auth.auth().currentUser!.uid).child("Alarms").childByAutoId().setValue(["label":alarmNameTextField.text!,"scheduledHour":components.hour,"minute":components.minute, "active":true, "year":components.year,"month":components.month,"day":components.day])
              */
             ref.child("Patients").child(Auth.auth().currentUser!.uid).child("Alarms").childByAutoId().setValue([

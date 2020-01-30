@@ -24,24 +24,22 @@ class SignInVC: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         var handle = Auth.auth().addStateDidChangeListener { (auth, user) in
-          // ...
         }
-
     }
     
-   @objc func keyboardWillShow(notification: NSNotification) {
-       if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
-           if self.view.frame.origin.y == 0 {
-               self.view.frame.origin.y -= keyboardSize.height
-           }
-       }
-   }
-   
-   @objc func keyboardWillHide(notification: NSNotification) {
-       if self.view.frame.origin.y != 0 {
-           self.view.frame.origin.y = 0
-       }
-   }
+    @objc func keyboardWillShow(notification: NSNotification) {
+        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+            if self.view.frame.origin.y == 0 {
+                self.view.frame.origin.y -= keyboardSize.height
+            }
+        }
+    }
+    
+    @objc func keyboardWillHide(notification: NSNotification) {
+        if self.view.frame.origin.y != 0 {
+            self.view.frame.origin.y = 0
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -86,7 +84,7 @@ class SignInVC: UIViewController {
     
     @objc func loginButtonTapped() {
         Auth.auth().signIn(withEmail: self.emailTF.text!, password: self.passwordTF.text!) { [weak self] authResult, error in
-          guard let strongSelf = self else { return }
+            guard let strongSelf = self else { return }
             if error == nil {
                 let vc = MainVC()
                 vc.modalTransitionStyle = .crossDissolve
@@ -130,7 +128,7 @@ class SignInVC: UIViewController {
     
     @objc func signUpButtonTapped() {
         if(emailTF.text != "" && passwordTF.text != ""){
-        Auth.auth().createUser(withEmail: self.emailTF.text!, password: self.passwordTF.text!) { authResult, error in
+            Auth.auth().createUser(withEmail: self.emailTF.text!, password: self.passwordTF.text!) { authResult, error in
                 if error == nil {
                     print("Sign up Success")
                     let vc = UserInfoVC()
@@ -174,7 +172,7 @@ class SignInVC: UIViewController {
         passwordTF.layer.borderColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
         passwordTF.textColor = .black
         passwordTF.attributedPlaceholder = NSAttributedString(string: "Password",
-                                                           attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
+                                                              attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
         passwordTF.layer.borderWidth = 0.5
         //passwordTF.placeholder = "Password"
     }
