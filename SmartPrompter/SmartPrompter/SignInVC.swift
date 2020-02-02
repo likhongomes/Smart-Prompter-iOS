@@ -50,7 +50,7 @@ class SignInVC: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
         
-        signUpButtonSetup()
+        //signUpButtonSetup()
         loginButtonSetup()
         passwordTFSetup()
         emailTFSetup()
@@ -89,7 +89,7 @@ class SignInVC: UIViewController {
         view.addSubview(loginButton)
         loginButton.translatesAutoresizingMaskIntoConstraints = false
         loginButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        loginButton.bottomAnchor.constraint(equalTo: signUpButton.topAnchor, constant: -10).isActive = true
+        loginButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -10).isActive = true
         loginButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
         loginButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30).isActive = true
         loginButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30).isActive = true
