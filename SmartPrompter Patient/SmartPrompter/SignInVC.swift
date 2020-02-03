@@ -20,33 +20,31 @@ class SignInVC: UIViewController {
     let passwordTF = UITextField()
     let backButton = UIButton()
     let logoImage = UIImageView()
-    
+    let errorMessageView = UITextView()
     
     override func viewWillAppear(_ animated: Bool) {
         var handle = Auth.auth().addStateDidChangeListener { (auth, user) in
-          // ...
         }
-
     }
     
-   @objc func keyboardWillShow(notification: NSNotification) {
-       if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
-           if self.view.frame.origin.y == 0 {
-               self.view.frame.origin.y -= keyboardSize.height
-           }
-       }
-   }
-   
-   @objc func keyboardWillHide(notification: NSNotification) {
-       if self.view.frame.origin.y != 0 {
-           self.view.frame.origin.y = 0
-       }
-   }
+    @objc func keyboardWillShow(notification: NSNotification) {
+        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+            if self.view.frame.origin.y == 0 {
+                self.view.frame.origin.y -= keyboardSize.height
+            }
+        }
+    }
+    
+    @objc func keyboardWillHide(notification: NSNotification) {
+        if self.view.frame.origin.y != 0 {
+            self.view.frame.origin.y = 0
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-        
+        hideKeyboardWhenTappedAround()
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
         
@@ -56,6 +54,7 @@ class SignInVC: UIViewController {
         emailTFSetup()
         backButtonSetup()
         logoImageSetup()
+        errorMessageViewSetup()
     }
     
     func logoImageSetup() {
@@ -85,7 +84,7 @@ class SignInVC: UIViewController {
     
     @objc func loginButtonTapped() {
         Auth.auth().signIn(withEmail: self.emailTF.text!, password: self.passwordTF.text!) { [weak self] authResult, error in
-          guard let strongSelf = self else { return }
+            guard let strongSelf = self else { return }
             if error == nil {
                 let vc = MainVC()
                 vc.modalTransitionStyle = .crossDissolve
@@ -93,8 +92,25 @@ class SignInVC: UIViewController {
                 self?.present(vc, animated: true, completion: nil)
             } else {
                 print(error)
+                self!.errorMessageView.text = error?.localizedDescription
+                self?.errorMessageView.isHidden = false
             }
         }
+    }
+    
+    func errorMessageViewSetup(){
+        view.addSubview(errorMessageView)
+        errorMessageView.translatesAutoresizingMaskIntoConstraints = false
+        errorMessageView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
+        errorMessageView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
+        errorMessageView.bottomAnchor.constraint(equalTo: emailTF.topAnchor, constant: -20).isActive = true
+        errorMessageView.isEditable = false
+        errorMessageView.isSelectable = false
+        errorMessageView.backgroundColor = .clear
+        errorMessageView.heightAnchor.constraint(equalToConstant: 35).isActive = true
+        errorMessageView.textColor = .red
+        errorMessageView.textAlignment = .center
+        errorMessageView.isHidden = true
     }
     
     func signUpButtonSetup() {
@@ -112,7 +128,7 @@ class SignInVC: UIViewController {
     
     @objc func signUpButtonTapped() {
         if(emailTF.text != "" && passwordTF.text != ""){
-        Auth.auth().createUser(withEmail: self.emailTF.text!, password: self.passwordTF.text!) { authResult, error in
+            Auth.auth().createUser(withEmail: self.emailTF.text!, password: self.passwordTF.text!) { authResult, error in
                 if error == nil {
                     print("Sign up Success")
                     let vc = UserInfoVC()
@@ -121,6 +137,8 @@ class SignInVC: UIViewController {
                     self.present(vc, animated: true, completion: nil)
                 } else {
                     print(error)
+                    self.errorMessageView.text = error?.localizedDescription
+                    self.errorMessageView.isHidden = false
                 }
             }
         }
@@ -154,7 +172,7 @@ class SignInVC: UIViewController {
         passwordTF.layer.borderColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
         passwordTF.textColor = .black
         passwordTF.attributedPlaceholder = NSAttributedString(string: "Password",
-                                                           attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
+                                                              attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
         passwordTF.layer.borderWidth = 0.5
         //passwordTF.placeholder = "Password"
     }

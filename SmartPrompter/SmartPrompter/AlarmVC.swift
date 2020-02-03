@@ -286,16 +286,20 @@ class AlarmVC: UIViewController, UINavigationControllerDelegate, UIImagePickerCo
     
     @objc func changeValue(_ sender: UISlider) {
         //print("value is" , Int(sender.value));
-        if(sender.value == 0){
+        if(sender.value < 10){
             instructionLabel.text = "Remind me later"
 
-            var dateComponents = DateComponents()
-            dateComponents.hour = alarm.hour
+            //var dateComponents = DateComponents()
+            //dateComponents.hour = alarm.hour
             //dateComponents.minute = alarm.minute!+1
+            //let center = UNUserNotificationCenter.current()
             
-            scheduler.scheduleNotification(title: alarm.label!, dateComponents: dateComponents, id:alarm.firebaseID)
+            
+            
+            scheduler.scheduleIntervalNotification(title: alarm.label!, id:alarm.firebaseID)
+            
             print("scheduled again")
-        } else if(sender.value == 100){
+        } else if(sender.value > 90){
             
             alarm.active = false
             
