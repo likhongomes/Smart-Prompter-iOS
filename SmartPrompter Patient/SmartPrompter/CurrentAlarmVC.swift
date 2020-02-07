@@ -24,17 +24,25 @@ class CurrentAlarmVC: UIViewController, UITableViewDataSource, UITableViewDelega
         return cell
     }
     
+    
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let vc = AlarmVC()
         //vc.alarmDateTextField.text = activeAlarm[indexPath.row].date
         //vc.alarmTimeTextField.text = activeAlarm[indexPath.row].time
         //vc.alarmNameTextField.text = activeAlarm[indexPath.row].label
-        
+        vc.screenName = "Alarm Details"
         vc.editable = false
+        vc.saveButton.isHidden = true
+        vc.cancelButton.isHidden = true
         vc.statusStatusLabel.text = "Status: \(activeAlarm[indexPath.row].status!)"
+        vc.alarm = activeAlarm[indexPath.row]
         vc.modalTransitionStyle = .crossDissolve
         present(vc, animated: true, completion: nil)
     }
+    
+    
+    
 
 
     override func viewDidLoad() {
