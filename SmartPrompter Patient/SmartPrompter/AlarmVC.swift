@@ -10,7 +10,7 @@ import UIKit
 import Firebase
 import FirebaseStorage
 
-class AlarmVC: UIViewController {
+class AlarmVC: UIViewController, UITextFieldDelegate {
     
     let backButton = UIButton()
     let saveButton = UIButton()
@@ -30,16 +30,21 @@ class AlarmVC: UIViewController {
     let alarmTimeTextField = UITextField()
     let statusLabel = UILabel()
     let statusStatusLabel = UILabel()
-    
+    var selectedTextField = UITextField()
     let datePicker = UIDatePicker()
     let timePicker = UIDatePicker()
+    
+    
+    
     var status = ""
     var editable = true
+    var screenName = String()
+    var alarm = Alarm()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-        view.addNavigationBar(viewControllerName: "Create New Alarm", leftButton: backButton)
+        view.addNavigationBar(viewControllerName: screenName, leftButton: backButton)
         alarmDetailsLabelSetup()
         alarmNameLabelSetup()
         
@@ -57,9 +62,47 @@ class AlarmVC: UIViewController {
         cancelButtonSetup()
         deleteButtonSetup()
         showDatePicker()
-        showTimePicker()
+        //showTimePicker()
         imageViewSetup()
+        showData()
     }
+    
+    func showData(){
+        if(editable == false){
+            alarmNameTextField.text = alarm.label
+            alarmTimeTextField.text = "\(alarm.hour!):\(alarm.minute!)"
+            alarmDateTextField.text = "\(alarm.month!)/\(alarm.day!)/\(alarm.year!)"
+        }
+
+    }
+    
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        if(textField == alarmTimeTextField){
+            alarmTimeTextField.inputView = datePicker
+            datePicker.datePickerMode = .time
+
+        } else if (textField == alarmDateTextField){
+            alarmDateTextField.inputView = datePicker
+            datePicker.datePickerMode = .date
+
+        }
+        selectedTextField = textField
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        if(textField == alarmTimeTextField){
+            let formatter = DateFormatter()
+            formatter.dateFormat = "hh:mm a"
+            alarmTimeTextField.text = formatter.string(from: datePicker.date)
+
+        } else if (textField == alarmDateTextField){
+            let formatter = DateFormatter()
+            formatter.dateFormat = "MM/dd/yyyy"
+            alarmDateTextField.text = formatter.string(from: datePicker.date)
+
+        }
+    }
+
     
     func imageViewSetup(){
         view.addSubview(imageView)
@@ -86,6 +129,7 @@ class AlarmVC: UIViewController {
         }
     }
     
+        
     func showDatePicker(){
         //Formate Date
         datePicker.datePickerMode = .date
@@ -96,51 +140,27 @@ class AlarmVC: UIViewController {
         let doneButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(donedatePicker));
         let spaceButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace, target: nil, action: nil)
         let cancelButton = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelDatePicker));
-        
         toolbar.setItems([doneButton,spaceButton,cancelButton], animated: false)
-        
         alarmDateTextField.inputAccessoryView = toolbar
-        alarmDateTextField.inputView = datePicker
-        
-    }
-    
-    func showTimePicker(){
-        //Formate Date
-        timePicker.datePickerMode = .time
-        
-        //ToolBar
-        let toolbar = UIToolbar();
-        toolbar.sizeToFit()
-        let doneButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(donetimePicker));
-        let spaceButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace, target: nil, action: nil)
-        let cancelButton = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelDatePicker));
-        
-        toolbar.setItems([doneButton,spaceButton,cancelButton], animated: false)
-        
         alarmTimeTextField.inputAccessoryView = toolbar
-        alarmTimeTextField.inputView = timePicker
+        //alarmDateTextField.inputView = datePicker
         
     }
     
+
     @objc func donedatePicker(){
-        
-        let formatter = DateFormatter()
-        formatter.dateFormat = "MM/dd/yyyy"
-        alarmDateTextField.text = formatter.string(from: datePicker.date)
         self.view.endEditing(true)
     }
     
     @objc func donetimePicker(){
         
-        let formatter = DateFormatter()
-        formatter.dateFormat = "hh:mm a"
-        alarmTimeTextField.text = formatter.string(from: timePicker.date)
         self.view.endEditing(true)
     }
     
     @objc func cancelDatePicker(){
         self.view.endEditing(true)
     }
+    
 
     
     func alarmNameTextFieldSetup() {
@@ -158,10 +178,7 @@ class AlarmVC: UIViewController {
     }
     
     func alarmDateTextFieldSetup() {
-        let date = Date()
-        let format = DateFormatter()
-        format.dateFormat = "MM/dd/yyyy"
-        let formattedDate = format.string(from: date)
+        
         
         view.addSubview(alarmDateTextField)
         alarmDateTextField.translatesAutoresizingMaskIntoConstraints = false
@@ -174,6 +191,7 @@ class AlarmVC: UIViewController {
         alarmDateTextField.layer.borderColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
         alarmDateTextField.layer.borderWidth = 0.5
         alarmDateTextField.isEnabled = editable
+        alarmDateTextField.delegate = self
     }
     
     func alarmTimeTextFieldSetup() {
@@ -188,6 +206,7 @@ class AlarmVC: UIViewController {
         alarmTimeTextField.layer.borderColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
         alarmTimeTextField.layer.borderWidth = 0.5
         alarmTimeTextField.isEnabled = editable
+        alarmTimeTextField.delegate = self
     }
     
     func statusLabelSetup() {
@@ -216,7 +235,7 @@ class AlarmVC: UIViewController {
         alarmDetailsLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         alarmDetailsLabel.heightAnchor.constraint(equalToConstant: 30).isActive = true
         alarmDetailsLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 70).isActive = true
-        alarmDetailsLabel.text = "Alarm Details"
+        //alarmDetailsLabel.text = "Alarm Details"
         alarmDetailsLabel.font = UIFont.systemFont(ofSize: 30)
     }
 
@@ -270,21 +289,24 @@ class AlarmVC: UIViewController {
             //let alarm = Alarm(label: alarmNameTextField.text!, date: alarmDateTextField.text!, time: alarmTimeTextField.text!, active: 1)
             //alarmDB.insert(user: alarm)
                 
-            let components = Calendar.current.dateComponents([.hour, .minute], from: timePicker.date)
-                let dateComponent = Calendar.current.dateComponents([.hour, .minute], from: datePicker.date)
+            
+            let components = Calendar.current.dateComponents([.hour, .minute, .day, .month, .year], from: datePicker.date)
+                
                 //let hour = components.hour!
                 //let minute = components.minute!
                 
                                                                                                                                                                                                                                                                                                                                                                              
             /* ref.child("Patients").child(Auth.auth().currentUser!.uid).child("Alarms").childByAutoId().setValue(["label":alarmNameTextField.text!,"scheduledHour":components.hour,"minute":components.minute, "active":true, "year":components.year,"month":components.month,"day":components.day])
              */
+            
+            //print("xxxxxxxxxx \(dateComponent.day)")
             ref.child("Patients").child(Auth.auth().currentUser!.uid).child("Alarms").childByAutoId().setValue([
                 "label":alarmNameTextField.text!,
                 "scheduledHour":components.hour,
                 "scheduledMinute":components.minute,
-                "scheduledDay":dateComponent.day,
-                "scheduledYear":dateComponent.year,
-                "scheduledMonth":dateComponent.month,
+                "scheduledDay":components.day,
+                "scheduledYear":components.year,
+                "scheduledMonth":components.month,
                 "active":false,
                 "status":"Incomplete"])
             
@@ -332,13 +354,10 @@ class AlarmVC: UIViewController {
         deleteButton.setTitle("Delete", for: .normal)
         deleteButton.backgroundColor = .red
         deleteButton.addTarget(self, action: #selector(deleteButtonClicked), for: .touchUpInside)
-        if(editable == false){
-            deleteButton.isHidden = true
-        }
     }
     
     @objc func deleteButtonClicked() {
-        
+        print(alarm.label)
     }
 
     
@@ -351,9 +370,7 @@ class AlarmVC: UIViewController {
         buttonStack.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -10).isActive = true
         buttonStack.heightAnchor.constraint(equalToConstant: 50).isActive = true
         buttonStack.backgroundColor = .blue
-        if(editable == true){
-            buttonStack.addArrangedSubview(saveButton)
-        }
+        buttonStack.addArrangedSubview(saveButton)
         buttonStack.addArrangedSubview(cancelButton)
         buttonStack.addArrangedSubview(deleteButton)
         buttonStack.spacing = 5
