@@ -71,7 +71,7 @@ class AlarmVC: UIViewController, UITextFieldDelegate {
         if(editable == false){
             alarmNameTextField.text = alarm.label
             alarmTimeTextField.text = "\(alarm.hour!):\(alarm.minute!)"
-            //alarmDateTextField.text = "\(alarm.month!):\(alarm.day!):\(alarm.year!)"
+            alarmDateTextField.text = "\(alarm.month!)/\(alarm.day!)/\(alarm.year!)"
         }
 
     }
@@ -80,21 +80,27 @@ class AlarmVC: UIViewController, UITextFieldDelegate {
         if(textField == alarmTimeTextField){
             alarmTimeTextField.inputView = datePicker
             datePicker.datePickerMode = .time
-            
+
+        } else if (textField == alarmDateTextField){
+            alarmDateTextField.inputView = datePicker
+            datePicker.datePickerMode = .date
+
+        }
+        selectedTextField = textField
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        if(textField == alarmTimeTextField){
             let formatter = DateFormatter()
             formatter.dateFormat = "hh:mm a"
             alarmTimeTextField.text = formatter.string(from: datePicker.date)
 
         } else if (textField == alarmDateTextField){
-            alarmDateTextField.inputView = datePicker
-            datePicker.datePickerMode = .date
-            
             let formatter = DateFormatter()
             formatter.dateFormat = "MM/dd/yyyy"
             alarmDateTextField.text = formatter.string(from: datePicker.date)
 
         }
-        selectedTextField = textField
     }
 
     
@@ -141,35 +147,13 @@ class AlarmVC: UIViewController, UITextFieldDelegate {
         
     }
     
-    
-    
-//    func showTimePicker(){
-//        timePicker.datePickerMode = .time
-//        //ToolBar
-//        let toolbar = UIToolbar();
-//        toolbar.sizeToFit()
-//        let doneButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(donetimePicker));
-//        let spaceButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace, target: nil, action: nil)
-//        let cancelButton = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelDatePicker));
-//        toolbar.setItems([doneButton,spaceButton,cancelButton], animated: false)
-//        alarmTimeTextField.inputAccessoryView = toolbar
-//
-//
-//    }
-    
+
     @objc func donedatePicker(){
-        
-//        let formatter = DateFormatter()
-//        formatter.dateFormat = "MM/dd/yyyy"
-//        alarmDateTextField.text = formatter.string(from: datePicker.date)
         self.view.endEditing(true)
     }
     
     @objc func donetimePicker(){
         
-        let formatter = DateFormatter()
-        formatter.dateFormat = "hh:mm a"
-        alarmTimeTextField.text = formatter.string(from: timePicker.date)
         self.view.endEditing(true)
     }
     
@@ -194,10 +178,7 @@ class AlarmVC: UIViewController, UITextFieldDelegate {
     }
     
     func alarmDateTextFieldSetup() {
-        let date = Date()
-        let format = DateFormatter()
-        format.dateFormat = "MM/dd/yyyy"
-        let formattedDate = format.string(from: date)
+        
         
         view.addSubview(alarmDateTextField)
         alarmDateTextField.translatesAutoresizingMaskIntoConstraints = false
@@ -308,9 +289,9 @@ class AlarmVC: UIViewController, UITextFieldDelegate {
             //let alarm = Alarm(label: alarmNameTextField.text!, date: alarmDateTextField.text!, time: alarmTimeTextField.text!, active: 1)
             //alarmDB.insert(user: alarm)
                 
-            print("hjhjhjhjhjh\(datePicker.date)")
-            let components = Calendar.current.dateComponents([.hour, .minute], from: datePicker.date)
-                let dateComponent = Calendar.current.dateComponents([.hour, .minute], from: datePicker.date)
+            
+            let components = Calendar.current.dateComponents([.hour, .minute, .day, .month, .year], from: datePicker.date)
+                
                 //let hour = components.hour!
                 //let minute = components.minute!
                 
@@ -323,9 +304,9 @@ class AlarmVC: UIViewController, UITextFieldDelegate {
                 "label":alarmNameTextField.text!,
                 "scheduledHour":components.hour,
                 "scheduledMinute":components.minute,
-                "scheduledDay":dateComponent.day,
-                "scheduledYear":dateComponent.year,
-                "scheduledMonth":dateComponent.month,
+                "scheduledDay":components.day,
+                "scheduledYear":components.year,
+                "scheduledMonth":components.month,
                 "active":false,
                 "status":"Incomplete"])
             
