@@ -144,6 +144,7 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         super.viewDidLoad()
         view.backgroundColor = .white
         fetchFromFirebase()
+        
         print("alarm count ... \(activeAlarm.count)")
         //view.addNavigationBar(viewControllerName: "SmartPrompter Admin")
         topViewSetup()
@@ -191,7 +192,7 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     @objc func updateTimeLabel() {
         clockLabel.text = dateFormatter.string(from: Date())
-        
+        print("xxxxxxxx")
         //print("")
     }
     
