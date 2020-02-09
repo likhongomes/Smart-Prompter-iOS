@@ -308,7 +308,7 @@ class AlarmVC: UIViewController, UITextFieldDelegate {
                 "scheduledYear":components.year,
                 "scheduledMonth":components.month,
                 "active":false,
-                "status":"Incomplete"])
+                "status":"Active"])
             
             alarmTimeTextField.text = ""
             alarmDateTextField.text = ""

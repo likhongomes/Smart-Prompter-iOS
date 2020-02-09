@@ -386,11 +386,18 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
             
             let scheduler = AlarmScheduler()
             
-            if(
-                singleAlarm.status == "Incomplete"){
+            if(singleAlarm.status == "Active"){
                 activeAlarm.append(singleAlarm)
                 scheduler.scheduleNotification(title: singleAlarm.label!, dateComponents: dateComponents, id:singleAlarm.firebaseID!)
+            } else if (singleAlarm.status == "Incomplete"){
+                //activeAlarm.append(singleAlarm)
             }
+            
+            
+            
+            
+            
+            
 
             self.alarmTable.reloadData()
             
