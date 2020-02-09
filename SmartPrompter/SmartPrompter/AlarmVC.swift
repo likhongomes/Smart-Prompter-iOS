@@ -10,6 +10,7 @@ import UIKit
 import UserNotifications
 import FirebaseStorage
 
+
 class AlarmVC: UIViewController, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
     
     let backButton = UIButton()
@@ -299,37 +300,53 @@ class AlarmVC: UIViewController, UINavigationControllerDelegate, UIImagePickerCo
             scheduler.scheduleIntervalNotification(title: alarm.label!, id:alarm.firebaseID)
             
             print("scheduled again")
-        } else if(sender.value > 90){
+        } else if(sender.value == 100){
             
-            alarm.active = false
-            
-            instructionLabel.text = "On My Way"
             let date = Date()
             let calendar = Calendar.current
             
-            //print("data I am looking for \(notificationTitle!)")
-            var x = 0
-            while (x<5){
-                UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: ["\(notificationTitle!)\(x)"])
-                UNUserNotificationCenter.current().removeDeliveredNotifications(withIdentifiers: ["\(notificationTitle!)\(x)"])
-                print("cancelling notification \(notificationTitle!)\(x)")
-                x+=1
+            
+            if(alarm.status == "Incomplete"){
+                alarm.active = false
+                alarm.status = "aa"
+                instructionLabel.text = "On My Way"
+                alarmDetailsLabel.text = "Take a picture to confirm"
+                instructionLabel.text = "Move the slider to the right when you are ready to take a picture, or to the right to set a reminder to take a picture later."
+                imageView.image = #imageLiteral(resourceName: "camera")
+                sliderSetup()
+                //print("data I am looking for \(notificationTitle!)")
+                var x = 0
+                while (x<5){
+                    UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: ["\(notificationTitle!)\(x)"])
+                    UNUserNotificationCenter.current().removeDeliveredNotifications(withIdentifiers: ["\(notificationTitle!)\(x)"])
+                    print("cancelling notification \(notificationTitle!)\(x)")
+                    x+=1
+                }
+                
+                
+                
+                ref.child("Patients").child(userID!).child("Alarms").child("\(alarm.firebaseID!)").child("status").setValue("Incomplete")
+                ref.child("Patients").child(userID!).child("Alarms").child("\(alarm.firebaseID!)").child("acknowledgeHour").setValue(calendar.component(.hour, from: date))
+                ref.child("Patients").child(userID!).child("Alarms").child("\(alarm.firebaseID!)").child("acknowledgeMinute").setValue(calendar.component(.minute, from: date))
+                ref.child("Patients").child(userID!).child("Alarms").child("\(alarm.firebaseID!)").child("acknowledgeDay").setValue(calendar.component(.day, from: date))
+                ref.child("Patients").child(userID!).child("Alarms").child("\(alarm.firebaseID!)").child("acknowledgeMonth").setValue(calendar.component(.month, from: date))
+                ref.child("Patients").child(userID!).child("Alarms").child("\(alarm.firebaseID!)").child("acknowledgeYear").setValue(calendar.component(.year, from: date))
+            } else if (alarm.status == "aa"){
+//                ref.child("Patients").child(userID!).child("Alarms").child("\(alarm.firebaseID!)").child("status").setValue("Complete")
+//                ref.child("Patients").child(userID!).child("Alarms").child("\(alarm.firebaseID!)").child("completionHour").setValue(calendar.component(.hour, from: date))
+//                ref.child("Patients").child(userID!).child("Alarms").child("\(alarm.firebaseID!)").child("completionMinute").setValue(calendar.component(.minute, from: date))
+//                ref.child("Patients").child(userID!).child("Alarms").child("\(alarm.firebaseID!)").child("completionDay").setValue(calendar.component(.day, from: date))
+//                ref.child("Patients").child(userID!).child("Alarms").child("\(alarm.firebaseID!)").child("completionMonth").setValue(calendar.component(.month, from: date))
+//                ref.child("Patients").child(userID!).child("Alarms").child("\(alarm.firebaseID!)").child("completionYear").setValue(calendar.component(.year, from: date))
+                
+                let vc = UIImagePickerController()
+                vc.sourceType = .camera
+                vc.allowsEditing = true
+                vc.delegate = self
+                present(vc, animated: true)
             }
             
             
-            
-            ref.child("Patients").child(userID!).child("Alarms").child("\(alarm.firebaseID!)").child("status").setValue("Complete")
-            ref.child("Patients").child(userID!).child("Alarms").child("\(alarm.firebaseID!)").child("completionHour").setValue(calendar.component(.hour, from: date))
-            ref.child("Patients").child(userID!).child("Alarms").child("\(alarm.firebaseID!)").child("completionMinute").setValue(calendar.component(.minute, from: date))
-            ref.child("Patients").child(userID!).child("Alarms").child("\(alarm.firebaseID!)").child("completionDay").setValue(calendar.component(.day, from: date))
-            ref.child("Patients").child(userID!).child("Alarms").child("\(alarm.firebaseID!)").child("completionMonth").setValue(calendar.component(.month, from: date))
-            ref.child("Patients").child(userID!).child("Alarms").child("\(alarm.firebaseID!)").child("completionYear").setValue(calendar.component(.year, from: date))
-            
-            let vc = UIImagePickerController()
-            vc.sourceType = .camera
-            vc.allowsEditing = true
-            vc.delegate = self
-            present(vc, animated: true)
             
         }
     }
@@ -341,15 +358,30 @@ class AlarmVC: UIViewController, UINavigationControllerDelegate, UIImagePickerCo
                 print("No image found")
                 return
             }
-            instructionLabel.heightAnchor.constraint(equalToConstant: 40).isActive = true
-            instructionLabel.text = "Completed"
-            instructionLabel.textColor = #colorLiteral(red: 0.3411764801, green: 0.6235294342, blue: 0.1686274558, alpha: 1)
-            takenImageViewer.image = image
+                        
+            if image != nil {
+                instructionLabel.heightAnchor.constraint(equalToConstant: 40).isActive = true
+                instructionLabel.text = "Completed"
+                instructionLabel.textColor = #colorLiteral(red: 0.3411764801, green: 0.6235294342, blue: 0.1686274558, alpha: 1)
+                takenImageViewer.image = image
+                
+                let date = Date()
+                let calendar = Calendar.current
+                slider.isHidden = true
+                ref.child("Patients").child(userID!).child("Alarms").child("\(alarm.firebaseID!)").child("status").setValue("Complete")
+                ref.child("Patients").child(userID!).child("Alarms").child("\(alarm.firebaseID!)").child("completionHour").setValue(calendar.component(.hour, from: date))
+                ref.child("Patients").child(userID!).child("Alarms").child("\(alarm.firebaseID!)").child("completionMinute").setValue(calendar.component(.minute, from: date))
+                ref.child("Patients").child(userID!).child("Alarms").child("\(alarm.firebaseID!)").child("completionDay").setValue(calendar.component(.day, from: date))
+                ref.child("Patients").child(userID!).child("Alarms").child("\(alarm.firebaseID!)").child("completionMonth").setValue(calendar.component(.month, from: date))
+                ref.child("Patients").child(userID!).child("Alarms").child("\(alarm.firebaseID!)").child("completionYear").setValue(calendar.component(.year, from: date))
+            }
             
             // Data in memory
             guard let imageData = image.jpegData(compressionQuality: 0.1) else {
                 return
             }
+            
+            
             
             
             let storageRef = Storage.storage().reference()
