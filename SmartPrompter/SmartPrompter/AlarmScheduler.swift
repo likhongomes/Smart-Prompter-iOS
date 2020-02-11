@@ -66,7 +66,10 @@ class AlarmScheduler {
             //let repeatRequest = UNNotificationRequest(identifier: "\(content.userInfo["title"]!)\(x)", content: content, trigger: calendarTrigger2)
             
             UNUserNotificationCenter.current().add(request) { (error) in
-                print("Notification Report \(error?.localizedDescription)")
+                if(error?.localizedDescription != nil){
+                    print("Pushed notification \(content.title)")
+                }
+                //print("Notification Report \(error?.localizedDescription)")
             }
             
         }

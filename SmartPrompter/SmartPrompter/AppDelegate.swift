@@ -72,7 +72,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                      @escaping (UIBackgroundFetchResult) -> Void) {
         let count = activeAlarm.count
         
-        fetchFromFirebase()
+        //fetchFromFirebase()
         if(count == activeAlarm.count){
             completionHandler(.noData)
         } else if (count != activeAlarm.count){
