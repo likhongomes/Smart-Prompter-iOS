@@ -121,7 +121,7 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         //vc.alarmDateTextField.text = activeAlarm[indexPath.row].date
         vc.alarmTimeTextField.text = "\(activeAlarm[indexPath.row].hour):\(activeAlarm[indexPath.row].minute)"
         vc.alarmNameTextField.text = activeAlarm[indexPath.row].label
-        //vc.alarmIndex = indexPath
+        vc.alarmIndex = indexPath.row
         //vc.notificationData =
         //vc.statusStatusLabel.text = "\(activeAlarm[indexPath.row].active!)"
         vc.modalTransitionStyle = .crossDissolve
@@ -387,10 +387,11 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
             
             let scheduler = AlarmScheduler()
             
-            if(singleAlarm.status != "Complete" && singleAlarm.status != "Active"){
+            if(singleAlarm.status != "Complete"){
                 activeAlarm.append(singleAlarm)
-            } else if (singleAlarm.status == "Active"){
                 scheduler.scheduleNotification(title: singleAlarm.label!, dateComponents: dateComponents, id:singleAlarm.firebaseID!)
+            } else if (singleAlarm.status == "Incomplete"){
+                //activeAlarm.append(singleAlarm)
             }
             
             
