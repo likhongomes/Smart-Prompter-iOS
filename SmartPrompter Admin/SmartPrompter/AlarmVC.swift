@@ -114,7 +114,7 @@ class AlarmVC: UIViewController, UITextFieldDelegate {
         imageView.contentMode = .scaleAspectFit
         
         
-        let islandRef = Storage.storage().reference().child("\(userID!)/\(alarmNameTextField.text!)")
+        let islandRef = Storage.storage().reference().child("\(userID!)/\(alarm.label!)")
 
         // Download in memory with a maximum allowed size of 1MB (1 * 1024 * 1024 bytes)
         islandRef.getData(maxSize: 1 * 1024 * 1024) { data, error in

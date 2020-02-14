@@ -37,9 +37,11 @@ class AlarmVC: UIViewController, UINavigationControllerDelegate, UIImagePickerCo
     let datePicker = UIDatePicker()
     let timePicker = UIDatePicker()
     let slider = UISlider()
+    let pictureSlider = UISlider()
     let imageView = UIImageView()
     var notificationTitle:Any?
     let takenImageViewer = UIImageView()
+    var alarmIndex = Int()
     
 
     override func viewDidLoad() {
@@ -56,6 +58,14 @@ class AlarmVC: UIViewController, UINavigationControllerDelegate, UIImagePickerCo
         sliderSetup()
         imageViewSetup()
         takenImageViewSetup()
+        if(alarm.status == "Incomplete"){
+            imageView.image = #imageLiteral(resourceName: "camera")
+            pictureSliderSetup()
+            slider.isHidden = true
+            instructionLabel.text = "On My Way"
+            alarmDetailsLabel.text = "Take a picture to confirm"
+            instructionLabel.text = "Move the slider to the right when you are ready to take a picture, or to the right to set a reminder to take a picture later."
+        }
         
         let date = Date()
         let calendar = Calendar.current
@@ -263,7 +273,7 @@ class AlarmVC: UIViewController, UINavigationControllerDelegate, UIImagePickerCo
         slider.translatesAutoresizingMaskIntoConstraints = false
         slider.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 40).isActive = true
         slider.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -40).isActive = true
-        slider.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -40).isActive = true
+        slider.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -80).isActive = true
         slider.heightAnchor.constraint(equalToConstant: 20).isActive = true
         slider.center = self.view.center
         
@@ -280,76 +290,107 @@ class AlarmVC: UIViewController, UINavigationControllerDelegate, UIImagePickerCo
         
     }
     
-   
-    
-    
-
-    
     @objc func changeValue(_ sender: UISlider) {
-        //print("value is" , Int(sender.value));
-        if(sender.value < 10){
-            instructionLabel.text = "Remind me later"
-
-            //var dateComponents = DateComponents()
-            //dateComponents.hour = alarm.hour
-            //dateComponents.minute = alarm.minute!+1
-            //let center = UNUserNotificationCenter.current()
-            
-            
-            
-            scheduler.scheduleIntervalNotification(title: alarm.label!, id:alarm.firebaseID)
-            
-            print("scheduled again")
-        } else if(sender.value == 100){
-            
-            let date = Date()
-            let calendar = Calendar.current
-            
-            
-            if(alarm.status == "Incomplete"){
-                alarm.active = false
-                alarm.status = "aa"
-                instructionLabel.text = "On My Way"
-                alarmDetailsLabel.text = "Take a picture to confirm"
-                instructionLabel.text = "Move the slider to the right when you are ready to take a picture, or to the right to set a reminder to take a picture later."
-                imageView.image = #imageLiteral(resourceName: "camera")
-                sliderSetup()
-                //print("data I am looking for \(notificationTitle!)")
-                var x = 0
-                while (x<5){
-                    UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: ["\(notificationTitle!)\(x)"])
-                    UNUserNotificationCenter.current().removeDeliveredNotifications(withIdentifiers: ["\(notificationTitle!)\(x)"])
-                    print("cancelling notification \(notificationTitle!)\(x)")
-                    x+=1
-                }
+            print("value is" , Int(sender.value));
+            if(sender.value < 10){
+                instructionLabel.text = "Remind me later"
                 
                 
+                scheduler.scheduleIntervalNotification(title: alarm.label!, id:alarm.firebaseID)
                 
-                ref.child("Patients").child(userID!).child("Alarms").child("\(alarm.firebaseID!)").child("status").setValue("Incomplete")
-                ref.child("Patients").child(userID!).child("Alarms").child("\(alarm.firebaseID!)").child("acknowledgeHour").setValue(calendar.component(.hour, from: date))
-                ref.child("Patients").child(userID!).child("Alarms").child("\(alarm.firebaseID!)").child("acknowledgeMinute").setValue(calendar.component(.minute, from: date))
-                ref.child("Patients").child(userID!).child("Alarms").child("\(alarm.firebaseID!)").child("acknowledgeDay").setValue(calendar.component(.day, from: date))
-                ref.child("Patients").child(userID!).child("Alarms").child("\(alarm.firebaseID!)").child("acknowledgeMonth").setValue(calendar.component(.month, from: date))
-                ref.child("Patients").child(userID!).child("Alarms").child("\(alarm.firebaseID!)").child("acknowledgeYear").setValue(calendar.component(.year, from: date))
-            } else if (alarm.status == "aa"){
-//                ref.child("Patients").child(userID!).child("Alarms").child("\(alarm.firebaseID!)").child("status").setValue("Complete")
-//                ref.child("Patients").child(userID!).child("Alarms").child("\(alarm.firebaseID!)").child("completionHour").setValue(calendar.component(.hour, from: date))
-//                ref.child("Patients").child(userID!).child("Alarms").child("\(alarm.firebaseID!)").child("completionMinute").setValue(calendar.component(.minute, from: date))
-//                ref.child("Patients").child(userID!).child("Alarms").child("\(alarm.firebaseID!)").child("completionDay").setValue(calendar.component(.day, from: date))
-//                ref.child("Patients").child(userID!).child("Alarms").child("\(alarm.firebaseID!)").child("completionMonth").setValue(calendar.component(.month, from: date))
-//                ref.child("Patients").child(userID!).child("Alarms").child("\(alarm.firebaseID!)").child("completionYear").setValue(calendar.component(.year, from: date))
+                print("scheduled again")
+            } else if(sender.value > 90){
                 
-                let vc = UIImagePickerController()
-                vc.sourceType = .camera
-                vc.allowsEditing = true
-                vc.delegate = self
-                present(vc, animated: true)
+                let date = Date()
+                let calendar = Calendar.current
+                
+                    alarm.active = false
+                    alarm.status = "Incomplete"
+                    instructionLabel.text = "On My Way"
+                    alarmDetailsLabel.text = "Take a picture to confirm"
+                    instructionLabel.text = "Move the slider to the right when you are ready to take a picture, or to the right to set a reminder to take a picture later."
+                    imageView.image = #imageLiteral(resourceName: "camera")
+                    slider.isHidden = true
+                    pictureSliderSetup()
+                    //print("data I am looking for \(notificationTitle!)")
+                    var x = 0
+                    while (x<5){
+                        UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: ["\(notificationTitle!)\(x)"])
+                        UNUserNotificationCenter.current().removeDeliveredNotifications(withIdentifiers: ["\(notificationTitle!)\(x)"])
+                        print("cancelling notification \(notificationTitle!)\(x)")
+                        x+=1
+                    }
+                    
+                    
+                    
+                    ref.child("Patients").child(userID!).child("Alarms").child("\(alarm.firebaseID!)").child("status").setValue("Incomplete")
+                    ref.child("Patients").child(userID!).child("Alarms").child("\(alarm.firebaseID!)").child("acknowledgeHour").setValue(calendar.component(.hour, from: date))
+                    ref.child("Patients").child(userID!).child("Alarms").child("\(alarm.firebaseID!)").child("acknowledgeMinute").setValue(calendar.component(.minute, from: date))
+                    ref.child("Patients").child(userID!).child("Alarms").child("\(alarm.firebaseID!)").child("acknowledgeDay").setValue(calendar.component(.day, from: date))
+                    ref.child("Patients").child(userID!).child("Alarms").child("\(alarm.firebaseID!)").child("acknowledgeMonth").setValue(calendar.component(.month, from: date))
+                    ref.child("Patients").child(userID!).child("Alarms").child("\(alarm.firebaseID!)").child("acknowledgeYear").setValue(calendar.component(.year, from: date))
+                
+                
             }
-            
-            
-            
         }
-    }
+
+    
+   func pictureSliderSetup() {
+       self.view.addSubview(pictureSlider)
+       //slider.frame = CGRect(x: 0, y: 0, width: 250, height: 35)
+       pictureSlider.translatesAutoresizingMaskIntoConstraints = false
+       pictureSlider.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 40).isActive = true
+       pictureSlider.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -40).isActive = true
+       pictureSlider.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -40).isActive = true
+       pictureSlider.heightAnchor.constraint(equalToConstant: 20).isActive = true
+       pictureSlider.center = self.view.center
+       
+       pictureSlider.minimumTrackTintColor = .gray
+       pictureSlider.maximumTrackTintColor = .gray
+       pictureSlider.thumbTintColor = .purple
+       
+       pictureSlider.maximumValue = 100
+       pictureSlider.minimumValue = 0
+       pictureSlider.setValue(50, animated: false)
+       
+       pictureSlider.addTarget(self, action: #selector(changeValuePictureSlider(_:)), for: .valueChanged)
+   }
+    
+    
+
+    
+        
+    
+    @objc func changeValuePictureSlider(_ sender: UISlider) {
+            //print("value is" , Int(sender.value));
+            if(sender.value < 10){
+                instructionLabel.text = "Remind me later"
+                
+                scheduler.scheduleIntervalNotification(title: alarm.label!, id:alarm.firebaseID)
+                
+                print("scheduled again")
+            } else if(sender.value == 100){
+                
+                
+                    var x = 0
+                    while (x<5){
+                        UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: ["\(notificationTitle!)\(x)"])
+                        UNUserNotificationCenter.current().removeDeliveredNotifications(withIdentifiers: ["\(notificationTitle!)\(x)"])
+                        print("cancelling notification \(notificationTitle!)\(x)")
+                        x+=1
+                    }
+                    
+                    
+                    let vc = UIImagePickerController()
+                    vc.sourceType = .camera
+                    vc.allowsEditing = true
+                    vc.delegate = self
+                    present(vc, animated: true)
+            }
+        }
+    
+    
+
     
         func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
             picker.dismiss(animated: true)
@@ -364,6 +405,7 @@ class AlarmVC: UIViewController, UINavigationControllerDelegate, UIImagePickerCo
                 instructionLabel.text = "Completed"
                 instructionLabel.textColor = #colorLiteral(red: 0.3411764801, green: 0.6235294342, blue: 0.1686274558, alpha: 1)
                 takenImageViewer.image = image
+                pictureSlider.isHidden = true
                 
                 let date = Date()
                 let calendar = Calendar.current

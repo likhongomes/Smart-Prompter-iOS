@@ -96,7 +96,7 @@ class PastAlarmsVC: UIViewController, UITableViewDelegate, UITableViewDataSource
             singleAlarm.status = value?["status"] as? String
             
             
-            if(singleAlarm.active == true){
+            if(singleAlarm.status == "Complete"){
                 self.inactiveAlarm.append(singleAlarm)
             }
             
