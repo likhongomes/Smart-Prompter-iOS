@@ -70,8 +70,8 @@ class AlarmVC: UIViewController, UITextFieldDelegate {
     func showData(){
         if(editable == false){
             alarmNameTextField.text = alarm.label
-            alarmTimeTextField.text = "\(alarm.hour!):\(alarm.minute!)"
-            alarmDateTextField.text = "\(alarm.month!)/\(alarm.day!)/\(alarm.year!)"
+            alarmTimeTextField.text = "\(alarm.scheduledHour!):\(alarm.scheduledMinute!)"
+            alarmDateTextField.text = "\(alarm.scheduledMonth!)/\(alarm.scheduledDay!)/\(alarm.scheduledYear!)"
         }
 
     }

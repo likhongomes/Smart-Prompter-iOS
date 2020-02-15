@@ -13,7 +13,8 @@ import FirebaseStorage
 class AlarmView: UIViewController, UITextFieldDelegate {
     
     let backButton = UIButton()
-    let saveButton = UIButton()
+    let detailTextView = UITextView()
+    
     let cancelButton = UIButton()
     let deleteButton = UIButton()
     let buttonStack = UIStackView()
@@ -31,8 +32,6 @@ class AlarmView: UIViewController, UITextFieldDelegate {
     let statusLabel = UILabel()
     let statusStatusLabel = UILabel()
     var selectedTextField = UITextField()
-    let datePicker = UIDatePicker()
-    let timePicker = UIDatePicker()
     
     
     
@@ -44,70 +43,64 @@ class AlarmView: UIViewController, UITextFieldDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-        //view.addNavigationBar(viewControllerName: screenName, leftButton: backButton)
-        alarmDetailsLabelSetup()
-        alarmNameLabelSetup()
+        view.addNavigationBar(viewControllerName: screenName, leftButton: backButton)
+        //alarmDetailsLabelSetup()
+        //alarmNameLabelSetup()
         
         
-        alarmNameTextFieldSetup()
-        dateLabelSetup()
-        alarmDateTextFieldSetup()
-        timeLabelSetup()
-        alarmTimeTextFieldSetup()
+        //alarmNameTextFieldSetup()
+        //dateLabelSetup()
+        //alarmDateTextFieldSetup()
+        //timeLabelSetup()
+        //alarmTimeTextFieldSetup()
         //statusLabelSetup()
-        statusStatusLabelSetup()
-        backButtonSetup()
-        //buttonStackSetup()
-        //saveButtonSetup()
-        //cancelButtonSetup()
-        //deleteButtonSetup()
-        showDatePicker()
-        //showTimePicker()
+        
+        //backButtonSetup()
+        cancelButtonSetup()
+
         imageViewSetup()
-        showData()
+        statusStatusLabelSetup()
+        detailTextViewSetup()
+        prepareDataforDetailTextView()
+        //showData()
     }
     
-    func showData(){
-        if(editable == false){
-            alarmNameTextField.text = alarm.label
-            alarmTimeTextField.text = "\(alarm.hour!):\(alarm.minute!)"
-            alarmDateTextField.text = "\(alarm.month!)/\(alarm.day!)/\(alarm.year!)"
-        }
 
+    func detailTextViewSetup(){
+        view.addSubview(detailTextView)
+        detailTextView.translatesAutoresizingMaskIntoConstraints = false
+        detailTextView.leadingAnchor.constraint(equalTo: view.leadingAnchor,constant: 20).isActive = true
+        detailTextView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
+        detailTextView.bottomAnchor.constraint(equalTo: cancelButton.topAnchor,constant: -10).isActive = true
+        detailTextView.topAnchor.constraint(equalTo: statusStatusLabel.bottomAnchor, constant: 10).isActive = true
+        detailTextView.isSelectable = false
+        detailTextView.isEditable = false
+        detailTextView.isScrollEnabled = true
+        
+        detailTextView.textAlignment = .center
+        //detailTextView.text = "the quick brown fox jumps over the lazy dog"
+        
     }
-    
-    func textFieldDidBeginEditing(_ textField: UITextField) {
-        if(textField == alarmTimeTextField){
-            alarmTimeTextField.inputView = datePicker
-            datePicker.datePickerMode = .time
+        
+    func prepareDataforDetailTextView(){
 
-        } else if (textField == alarmDateTextField){
-            alarmDateTextField.inputView = datePicker
-            datePicker.datePickerMode = .date
-
-        }
-        selectedTextField = textField
+        detailTextView.text = """
+        Scheduled Date:  \(alarm.scheduledMonth!)/\(alarm.scheduledDay!)/\(alarm.scheduledYear!)
+        Scheduled Time:  \(alarm.scheduledHour!%12):\(alarm.scheduledMinute!)
+        
+        Acknowledged Date:
+        Acknowledged Time:
+        
+        Completed Time:
+        Completed Date:
+        """
     }
-    
-    func textFieldDidEndEditing(_ textField: UITextField) {
-        if(textField == alarmTimeTextField){
-            let formatter = DateFormatter()
-            formatter.dateFormat = "hh:mm a"
-            alarmTimeTextField.text = formatter.string(from: datePicker.date)
-
-        } else if (textField == alarmDateTextField){
-            let formatter = DateFormatter()
-            formatter.dateFormat = "MM/dd/yyyy"
-            alarmDateTextField.text = formatter.string(from: datePicker.date)
-
-        }
-    }
-
+   
     
     func imageViewSetup(){
         view.addSubview(imageView)
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        imageView.topAnchor.constraint(equalTo: view.topAnchor, constant: 60).isActive = true
         imageView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         imageView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
         imageView.heightAnchor.constraint(equalToConstant: 300).isActive = true
@@ -130,24 +123,8 @@ class AlarmView: UIViewController, UITextFieldDelegate {
     }
     
         
-    func showDatePicker(){
-        //Formate Date
-        datePicker.datePickerMode = .date
-        
-        //ToolBar
-        let toolbar = UIToolbar();
-        toolbar.sizeToFit()
-        let doneButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(donedatePicker));
-        let spaceButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace, target: nil, action: nil)
-        let cancelButton = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelDatePicker));
-        toolbar.setItems([doneButton,spaceButton,cancelButton], animated: false)
-        alarmDateTextField.inputAccessoryView = toolbar
-        alarmTimeTextField.inputAccessoryView = toolbar
-        //alarmDateTextField.inputView = datePicker
-        
-    }
     
-
+    
     @objc func donedatePicker(){
         self.view.endEditing(true)
     }
@@ -264,94 +241,35 @@ class AlarmView: UIViewController, UITextFieldDelegate {
     
     
     func backButtonSetup() {
-        view.addSubview(backButton)
-        backButton.translatesAutoresizingMaskIntoConstraints = false
-        backButton.heightAnchor.constraint(equalToConstant: 60).isActive = true
-        backButton.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-        backButton.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-        //backButton.setBackgroundImage(UIImage(named: "backButton"), for: .normal)
-        //backButton.contentMode = .scaleAspectFill
-        backButton.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
-        backButton.setTitle("Back", for: .normal)
-        backButton.backgroundColor = .red
-        backButton.addTarget(self, action: #selector(backButtonClicked), for: .touchUpInside)
+        func backButtonSetup() {
+            view.addSubview(backButton)
+            backButton.translatesAutoresizingMaskIntoConstraints = false
+            backButton.heightAnchor.constraint(equalToConstant: 60).isActive = true
+            backButton.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+            backButton.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+            //backButton.setBackgroundImage(UIImage(named: "backButton"), for: .normal)
+            //backButton.contentMode = .scaleAspectFill
+            backButton.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+            backButton.setTitle("Back", for: .normal)
+            backButton.backgroundColor = .red
+            backButton.addTarget(self, action: #selector(backButtonClicked), for: .touchUpInside)
+        }
     }
     
     @objc func backButtonClicked() {
         dismiss(animated: true, completion: nil)
     }
 
-    func saveButtonSetup() {
-        saveButton.translatesAutoresizingMaskIntoConstraints = false
-        saveButton.setTitle("Save", for: .normal)
-        saveButton.backgroundColor = .red
-        saveButton.addTarget(self, action: #selector(saveButtonClicked), for: .touchUpInside)
-    }
-    
-    @objc func saveButtonClicked() {
         
-        if(alarmTimeTextField.text != "" && alarmDateTextField.text != "" && alarmNameTextField.text != ""){
-            //let alarm = Alarm(label: alarmNameTextField.text!, date: alarmDateTextField.text!, time: alarmTimeTextField.text!, active: 1)
-            //alarmDB.insert(user: alarm)
-                
-            
-            let components = Calendar.current.dateComponents([.hour, .minute, .day, .month, .year], from: datePicker.date)
-                
-                //let hour = components.hour!
-                //let minute = components.minute!
-                
-                                                                                                                                                                                                                                                                                                                                                                             
-            /* ref.child("Patients").child(Auth.auth().currentUser!.uid).child("Alarms").childByAutoId().setValue(["label":alarmNameTextField.text!,"scheduledHour":components.hour,"minute":components.minute, "active":true, "year":components.year,"month":components.month,"day":components.day])
-             */
-            
-            //print("xxxxxxxxxx \(dateComponent.day)")
-            ref.child("Patients").child(Auth.auth().currentUser!.uid).child("Alarms").childByAutoId().setValue([
-                "label":alarmNameTextField.text!,
-                "scheduledHour":components.hour,
-                "scheduledMinute":components.minute,
-                "scheduledDay":components.day,
-                "scheduledYear":components.year,
-                "scheduledMonth":components.month,
-                "active":false,
-                "status":"Active"])
-            
-            alarmTimeTextField.text = ""
-            alarmDateTextField.text = ""
-            alarmNameTextField.text = ""
-            
-            alarmTimeTextField.layer.borderColor = #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)
-            alarmDateTextField.layer.borderColor = #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)
-            alarmNameTextField.layer.borderColor = #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)
-            
-            //activeAlarm = alarmDB.getActiveAlarms()
-            //inactiveAlarm = alarmDB.getInactiveAlarms()
-            dismiss(animated: true, completion: nil)
-        } else {
-            if (alarmTimeTextField.text == ""){
-                alarmTimeTextField.layer.borderColor = #colorLiteral(red: 0.9254902005, green: 0.2352941185, blue: 0.1019607857, alpha: 1)
-                alarmTimeTextField.layer.borderWidth = 1
-            }
-            if(alarmDateTextField.text == ""){
-                alarmDateTextField.layer.borderColor = #colorLiteral(red: 0.9254902005, green: 0.2352941185, blue: 0.1019607857, alpha: 1)
-                alarmDateTextField.layer.borderWidth = 1
-            }
-            if(alarmNameTextField.text == ""){
-                alarmNameTextField.layer.borderColor = #colorLiteral(red: 0.9254902005, green: 0.2352941185, blue: 0.1019607857, alpha: 1)
-                alarmNameTextField.layer.borderWidth = 1
-            }
-        }
-        
-    }
-    
     func cancelButtonSetup() {
         view.addSubview(cancelButton)
         cancelButton.translatesAutoresizingMaskIntoConstraints = false
         cancelButton.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         cancelButton.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-        cancelButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -20).isActive = true
-        cancelButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        cancelButton.setTitle("Cancel", for: .normal)
+        cancelButton.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        cancelButton.heightAnchor.constraint(equalToConstant: 60).isActive = true
         cancelButton.backgroundColor = .red
+        cancelButton.setTitle("Cancel", for: .normal)
         cancelButton.addTarget(self, action: #selector(cancelButtonClicked), for: .touchUpInside)
     }
     
@@ -371,28 +289,12 @@ class AlarmView: UIViewController, UITextFieldDelegate {
     }
 
     
-    
-    func buttonStackSetup() {
-        view.addSubview(buttonStack)
-        buttonStack.translatesAutoresizingMaskIntoConstraints = false
-        buttonStack.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10).isActive = true
-        buttonStack.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10).isActive = true
-        buttonStack.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -10).isActive = true
-        buttonStack.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        buttonStack.backgroundColor = .blue
-        buttonStack.addArrangedSubview(saveButton)
-        buttonStack.addArrangedSubview(cancelButton)
-        buttonStack.addArrangedSubview(deleteButton)
-        buttonStack.spacing = 5
-        buttonStack.distribution = .fillEqually
-    }
-    
     func statusStatusLabelSetup() {
         view.addSubview(statusStatusLabel)
         statusStatusLabel.translatesAutoresizingMaskIntoConstraints = false
         statusStatusLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         statusStatusLabel.heightAnchor.constraint(equalToConstant: 30).isActive = true
-        statusStatusLabel.topAnchor.constraint(equalTo: alarmTimeTextField.bottomAnchor, constant: 20).isActive = true
+        statusStatusLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 10).isActive = true
         
         if (statusStatusLabel.text == "Complete"){
             statusStatusLabel.text = status

@@ -25,10 +25,10 @@ class PastAlarmsVC: UIViewController, UITableViewDelegate, UITableViewDataSource
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let vc = AlarmView()
-        vc.screenName = "Alarm Details"
+        vc.screenName = inactiveAlarm[indexPath.row].label!
         vc.editable = false
-        vc.saveButton.isHidden = true
-        vc.cancelButton.isHidden = true
+        
+        //vc.cancelButton.isHidden = true
         vc.statusStatusLabel.text = "Status: \(inactiveAlarm[indexPath.row].status!)"
         vc.alarm = inactiveAlarm[indexPath.row]
         vc.editable = false
@@ -87,11 +87,11 @@ class PastAlarmsVC: UIViewController, UITableViewDelegate, UITableViewDataSource
           let value = snapshot.value as? NSDictionary
             let singleAlarm = Alarm()
             singleAlarm.active = value?["active"] as? Bool
-            singleAlarm.hour = value?["scheduledHour"] as? Int
-            singleAlarm.minute = value?["scheduledMinute"] as? Int
-            singleAlarm.day = value?["scheduledDay"] as? Int
-            singleAlarm.month = value?["scheduledMonth"] as? Int
-            singleAlarm.year = value?["scheduledYear"] as? Int
+            singleAlarm.scheduledHour = value?["scheduledHour"] as? Int
+            singleAlarm.scheduledMinute = value?["scheduledMinute"] as? Int
+            singleAlarm.scheduledDay = value?["scheduledDay"] as? Int
+            singleAlarm.scheduledMonth = value?["scheduledMonth"] as? Int
+            singleAlarm.scheduledYear = value?["scheduledYear"] as? Int
             singleAlarm.label = value?["label"] as? String
             singleAlarm.status = value?["status"] as? String
             

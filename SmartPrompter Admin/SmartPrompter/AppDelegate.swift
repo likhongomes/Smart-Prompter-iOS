@@ -122,8 +122,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
           let value = snapshot.value as? NSDictionary
             let singleAlarm = Alarm()
             singleAlarm.active = value?["active"] as? Bool
-            singleAlarm.hour = value?["hour"] as? Int
-            singleAlarm.minute = value?["minute"] as? Int
+            singleAlarm.scheduledHour = value?["hour"] as? Int
+            singleAlarm.scheduledMinute = value?["minute"] as? Int
             singleAlarm.label = value?["label"] as? String
             
             

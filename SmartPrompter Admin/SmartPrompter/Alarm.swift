@@ -13,36 +13,49 @@ class Alarm: PersistableRecord, Codable, FetchableRecord {
     
     var id:Int?
     var label:String?
-    var hour:Int?
-    var minute:Int?
+    var scheduledHour:Int?
+    var scheduledMinute:Int?
     var active:Bool?
-    var year:Int?
-    var month:Int?
-    var day:Int?
+    var scheduledYear:Int?
+    var scheduledMonth:Int?
+    var scheduledDay:Int?
+    
+    var acknowledgedDay:Int?
+    var acknowledgedMonth:Int?
+    var acknowledgedYear:Int?
+    var acknowledgedHour:Int?
+    var acknowledgedMinute:Int?
+    
+    var completedDay:Int?
+    var completedMonth:Int?
+    var completedYear:Int?
+    var completedHour:Int?
+    var completedMinute:Int?
+    
     var status:String?
     var deleteRequest:Bool?
     
     
-    func encode(to container: inout PersistenceContainer) {
-        container["label"] = label
-        container["hour"] = hour
-        container["minute"] = minute
-        container["active"] = active
-        container["year"] = year
-        container["month"] = month
-        container["day"] = day
-    }
+//    func encode(to container: inout PersistenceContainer) {
+//        container["label"] = label
+//        container["hour"] = scheduledHour
+//        container["minute"] = scheduledMinute
+//        container["active"] = active
+//        container["year"] = scheduledYear
+//        container["month"] = scheduledMonth
+//        container["day"] = scheduledDay
+//    }
     
     init(){}
     
     init(label:String, hour:Int, minute:Int, year:Int, month:Int, day:Int, active:Bool, status:String) {
         self.label = label
-        self.hour = hour
-        self.minute = minute
+        self.scheduledHour = hour
+        self.scheduledMinute = minute
         self.active = active
-        self.year = year
-        self.month = month
-        self.minute = minute
+        self.scheduledYear = year
+        self.scheduledMonth = month
+        self.scheduledMinute = minute
         self.status = status
         self.deleteRequest = false
     }
