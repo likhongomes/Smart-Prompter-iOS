@@ -24,7 +24,7 @@ class PastAlarmsVC: UIViewController, UITableViewDelegate, UITableViewDataSource
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let vc = AlarmVC()
+        let vc = AlarmView()
         vc.screenName = "Alarm Details"
         vc.editable = false
         vc.saveButton.isHidden = true

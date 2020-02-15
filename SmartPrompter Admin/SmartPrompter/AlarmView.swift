@@ -10,7 +10,7 @@ import UIKit
 import Firebase
 import FirebaseStorage
 
-class AlarmVC: UIViewController, UITextFieldDelegate {
+class AlarmView: UIViewController, UITextFieldDelegate {
     
     let backButton = UIButton()
     let saveButton = UIButton()
@@ -38,13 +38,13 @@ class AlarmVC: UIViewController, UITextFieldDelegate {
     
     var status = ""
     var editable = true
-    var screenName = String() 
+    var screenName = String()
     var alarm = Alarm()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-        view.addNavigationBar(viewControllerName: screenName, leftButton: backButton)
+        //view.addNavigationBar(viewControllerName: screenName, leftButton: backButton)
         alarmDetailsLabelSetup()
         alarmNameLabelSetup()
         
@@ -57,13 +57,13 @@ class AlarmVC: UIViewController, UITextFieldDelegate {
         //statusLabelSetup()
         statusStatusLabelSetup()
         backButtonSetup()
-        buttonStackSetup()
-        saveButtonSetup()
-        cancelButtonSetup()
-        deleteButtonSetup()
+        //buttonStackSetup()
+        //saveButtonSetup()
+        //cancelButtonSetup()
+        //deleteButtonSetup()
         showDatePicker()
         //showTimePicker()
-        //imageViewSetup()
+        imageViewSetup()
         showData()
     }
     
@@ -105,31 +105,28 @@ class AlarmVC: UIViewController, UITextFieldDelegate {
 
     
     func imageViewSetup(){
-        if(alarm.label! != nil){
-            view.addSubview(imageView)
-            imageView.translatesAutoresizingMaskIntoConstraints = false
-            imageView.topAnchor.constraint(equalTo: statusStatusLabel.bottomAnchor, constant: 10).isActive = true
-            imageView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-            imageView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-            imageView.bottomAnchor.constraint(equalTo: cancelButton.topAnchor, constant: -10).isActive = true
-            imageView.contentMode = .scaleAspectFit
-            
-            
-            let islandRef = Storage.storage().reference().child("\(userID!)/\(alarm.label!)")
-
-            // Download in memory with a maximum allowed size of 1MB (1 * 1024 * 1024 bytes)
-            islandRef.getData(maxSize: 1 * 1024 * 1024) { data, error in
-              if let error = error {
-                // Uh-oh, an error occurred!
-                print("downloading image \(error)")
-              } else {
-                // Data for "images/island.jpg" is returned
-                let image = UIImage(data: data!)
-                self.imageView.image = image
-              }
-            }
-        }
+        view.addSubview(imageView)
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        imageView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        imageView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        imageView.heightAnchor.constraint(equalToConstant: 300).isActive = true
+        imageView.contentMode = .scaleAspectFit
+        imageView.backgroundColor = .black
         
+        let islandRef = Storage.storage().reference().child("\(userID!)/\(alarm.label!)")
+
+        // Download in memory with a maximum allowed size of 1MB (1 * 1024 * 1024 bytes)
+        islandRef.getData(maxSize: 1 * 1024 * 1024) { data, error in
+          if let error = error {
+            // Uh-oh, an error occurred!
+            print("downloading image \(error)")
+          } else {
+            // Data for "images/island.jpg" is returned
+            let image = UIImage(data: data!)
+            self.imageView.image = image
+          }
+        }
     }
     
         
@@ -267,11 +264,16 @@ class AlarmVC: UIViewController, UITextFieldDelegate {
     
     
     func backButtonSetup() {
+        view.addSubview(backButton)
         backButton.translatesAutoresizingMaskIntoConstraints = false
-        backButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
-        backButton.widthAnchor.constraint(equalToConstant: 30).isActive = true
-        backButton.setBackgroundImage(UIImage(named: "backButton"), for: .normal)
-        backButton.contentMode = .scaleAspectFill
+        backButton.heightAnchor.constraint(equalToConstant: 60).isActive = true
+        backButton.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        backButton.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        //backButton.setBackgroundImage(UIImage(named: "backButton"), for: .normal)
+        //backButton.contentMode = .scaleAspectFill
+        backButton.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        backButton.setTitle("Back", for: .normal)
+        backButton.backgroundColor = .red
         backButton.addTarget(self, action: #selector(backButtonClicked), for: .touchUpInside)
     }
     
@@ -342,7 +344,12 @@ class AlarmVC: UIViewController, UITextFieldDelegate {
     }
     
     func cancelButtonSetup() {
+        view.addSubview(cancelButton)
         cancelButton.translatesAutoresizingMaskIntoConstraints = false
+        cancelButton.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        cancelButton.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        cancelButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -20).isActive = true
+        cancelButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
         cancelButton.setTitle("Cancel", for: .normal)
         cancelButton.backgroundColor = .red
         cancelButton.addTarget(self, action: #selector(cancelButtonClicked), for: .touchUpInside)
