@@ -102,7 +102,7 @@ class CurrentAlarmVC: UIViewController, UITableViewDataSource, UITableViewDelega
             
             
             print(singleAlarm.status)
-            if(singleAlarm.status! == "Incomplete"){
+            if(singleAlarm.status! != "Complete"){
                 self.activeAlarm.append(singleAlarm)
                 print("Printing current Alarm \(singleAlarm)")
             } else {
