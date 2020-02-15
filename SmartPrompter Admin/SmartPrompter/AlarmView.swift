@@ -76,24 +76,49 @@ class AlarmView: UIViewController, UITextFieldDelegate {
         detailTextView.isSelectable = false
         detailTextView.isEditable = false
         detailTextView.isScrollEnabled = true
-        
+        detailTextView.font = UIFont.systemFont(ofSize: 18)
         detailTextView.textAlignment = .center
         //detailTextView.text = "the quick brown fox jumps over the lazy dog"
         
     }
         
+    
+    
     func prepareDataforDetailTextView(){
-
+        
+        
+        
+        
+        
         detailTextView.text = """
         Scheduled Date:  \(alarm.scheduledMonth!)/\(alarm.scheduledDay!)/\(alarm.scheduledYear!)
-        Scheduled Time:  \(alarm.scheduledHour!%12):\(alarm.scheduledMinute!)
-        
-        Acknowledged Date:
-        Acknowledged Time:
-        
-        Completed Time:
-        Completed Date:
+        Scheduled Time:  \(alarm.scheduledHour!%12):\(alarm.scheduledMinute!)\n\n
         """
+        
+        if alarm.acknowledgedMonth != nil && alarm.acknowledgedDay != nil && alarm.acknowledgedYear != nil {
+            detailTextView.text.append("""
+                Acknowledge Date: \(alarm.acknowledgedMonth!)/\(alarm.acknowledgedDay!)/\(alarm.acknowledgedYear!)\n
+        """)
+        }
+        
+        if alarm.acknowledgedHour != nil && alarm.acknowledgedMinute != nil {
+            detailTextView.text.append("""
+                Acknowledge Time: \(alarm.acknowledgedHour!):\(alarm.acknowledgedMinute!)\n
+        """)
+        }
+
+        if alarm.completedMonth != nil && alarm.completedDay != nil && alarm.completedYear != nil {
+            detailTextView.text.append("""
+                \nCompleted Date: \(alarm.completedMonth!)/\(alarm.completedDay!)/\(alarm.completedYear!)\n
+        """)
+        }
+        
+        if alarm.completedHour != nil && alarm.completedMinute != nil {
+            detailTextView.text.append("""
+                Acknowledge Time: \(alarm.completedHour!):\(alarm.completedMinute!)
+        """)
+        }
+                
     }
    
     

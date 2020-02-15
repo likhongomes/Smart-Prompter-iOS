@@ -92,6 +92,19 @@ class PastAlarmsVC: UIViewController, UITableViewDelegate, UITableViewDataSource
             singleAlarm.scheduledDay = value?["scheduledDay"] as? Int
             singleAlarm.scheduledMonth = value?["scheduledMonth"] as? Int
             singleAlarm.scheduledYear = value?["scheduledYear"] as? Int
+            
+            singleAlarm.acknowledgedHour = value?["acknowledgeHour"] as? Int
+            singleAlarm.acknowledgedMinute = value?["acknowledgeMinute"] as? Int
+            singleAlarm.acknowledgedDay = value?["acknowledgeDay"] as? Int
+            singleAlarm.acknowledgedMonth = value?["acknowledgeMonth"] as? Int
+            singleAlarm.acknowledgedYear = value?["acknowledgeYear"] as? Int
+            
+            singleAlarm.completedHour = value?["completionHour"] as? Int
+            singleAlarm.completedMinute = value?["completionMinute"] as? Int
+            singleAlarm.completedDay = value?["completionDay"] as? Int
+            singleAlarm.completedMonth = value?["completionMonth"] as? Int
+            singleAlarm.completedYear = value?["completionYear"] as? Int
+            
             singleAlarm.label = value?["label"] as? String
             singleAlarm.status = value?["status"] as? String
             

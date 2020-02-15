@@ -46,6 +46,8 @@ class Alarm: PersistableRecord, Codable, FetchableRecord {
 //        container["day"] = scheduledDay
 //    }
     
+    
+    
     init(){}
     
     init(label:String, hour:Int, minute:Int, year:Int, month:Int, day:Int, active:Bool, status:String) {
