@@ -315,6 +315,7 @@ class AlarmVC: UIViewController, UINavigationControllerDelegate, UIImagePickerCo
                     //print("data I am looking for \(notificationTitle!)")
                     var x = 0
                     while (x<5){
+                        print("removed \(notificationTitle!)")
                         UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: ["\(notificationTitle!)\(x)"])
                         UNUserNotificationCenter.current().removeDeliveredNotifications(withIdentifiers: ["\(notificationTitle!)\(x)"])
                         print("cancelling notification \(notificationTitle!)\(x)")

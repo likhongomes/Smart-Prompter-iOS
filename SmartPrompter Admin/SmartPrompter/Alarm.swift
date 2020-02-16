@@ -12,6 +12,7 @@ import GRDB
 class Alarm: PersistableRecord, Codable, FetchableRecord {
     
     var id:Int?
+    var firebaseID:String?
     var label:String?
     var scheduledHour:Int?
     var scheduledMinute:Int?
@@ -33,7 +34,7 @@ class Alarm: PersistableRecord, Codable, FetchableRecord {
     var completedMinute:Int?
     
     var status:String?
-    var deleteRequest:Bool?
+    var deleteRequest:String?
     
     
 //    func encode(to container: inout PersistenceContainer) {
@@ -59,7 +60,7 @@ class Alarm: PersistableRecord, Codable, FetchableRecord {
         self.scheduledMonth = month
         self.scheduledMinute = minute
         self.status = status
-        self.deleteRequest = false
+        self.deleteRequest = ""
     }
 }
 

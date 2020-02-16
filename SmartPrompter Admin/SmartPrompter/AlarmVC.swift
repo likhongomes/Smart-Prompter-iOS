@@ -361,6 +361,9 @@ class AlarmVC: UIViewController, UITextFieldDelegate {
     
     @objc func deleteButtonClicked() {
         print(alarm.label)
+        alarm.deleteRequest = "Requested"
+        ref.child("Patients").child(Auth.auth().currentUser!.uid).child("Alarms").child("\(alarm.firebaseID!)").child("deleteRequest").setValue("Requested")
+        dismiss(animated: true, completion: nil)
     }
 
     

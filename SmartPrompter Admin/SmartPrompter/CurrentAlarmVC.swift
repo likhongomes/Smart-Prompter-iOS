@@ -91,6 +91,7 @@ class CurrentAlarmVC: UIViewController, UITableViewDataSource, UITableViewDelega
         
           let value = snapshot.value as? NSDictionary
             let singleAlarm = Alarm()
+            singleAlarm.firebaseID = snapshot.key
             singleAlarm.active = value?["active"] as? Bool
             singleAlarm.scheduledHour = value?["scheduledHour"] as? Int
             singleAlarm.scheduledMinute = value?["scheduledMinute"] as? Int

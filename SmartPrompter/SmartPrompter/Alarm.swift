@@ -21,7 +21,7 @@ class Alarm: PersistableRecord, Codable, FetchableRecord {
     var minute:Int?
     var active:Bool?
     var status:String?
-
+    var deleteRequest:String?
     
     
     func encode(to container: inout PersistenceContainer) {
@@ -44,6 +44,7 @@ class Alarm: PersistableRecord, Codable, FetchableRecord {
         self.year = year
         self.month = month
         self.minute = minute
+        self.deleteRequest = ""
     }
 }
 

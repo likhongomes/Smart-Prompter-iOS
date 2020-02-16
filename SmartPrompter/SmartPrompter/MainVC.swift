@@ -362,6 +362,25 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     func fetchFromFirebase(){
         let userID = Auth.auth().currentUser?.uid
+        ref.child("Patients").child(userID!).child("Alarms").observe(.childChanged, with: { (DataSnapshot) in
+            print("child changed")
+            let value = DataSnapshot.value as? [String:AnyObject]
+            print(value?["deleteRequest"] as! String)
+            
+            if(value?["deleteRequest"] as? String == "Requested"){
+                var x = 0
+                while (x<5){
+                    UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: ["\(value!["label"]!)\(x)"])
+                    print("removing \(value!["label"]!)")
+                    x+=1
+                }
+                self.ref.child("Patients").child(userID!).child("Alarms").child("\(DataSnapshot.key)").removeValue()
+            }
+            
+            
+        }) { (Error) in
+            
+        }
         ref.child("Patients").child(userID!).child("Alarms").observe(.childAdded, with: { (snapshot) in
             
         
@@ -375,7 +394,7 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
             singleAlarm.minute = value?["scheduledMinute"] as? Int
             singleAlarm.label = value?["label"] as? String
             singleAlarm.status = value?["status"] as? String
-            
+            singleAlarm.deleteRequest = value?["deleteRequest"] as? String
             
                         
             var dateComponents = DateComponents()
@@ -383,13 +402,14 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
             dateComponents.minute = singleAlarm.minute
             dateComponents.month = singleAlarm.month
             dateComponents.year = singleAlarm.year
-            
+            print("change observed")
             
             let scheduler = AlarmScheduler()
             
             if(singleAlarm.status != "Complete"){
                 activeAlarm.append(singleAlarm)
                 scheduler.scheduleNotification(title: singleAlarm.label!, dateComponents: dateComponents, id:singleAlarm.firebaseID!)
+                
             } else if (singleAlarm.status == "Incomplete"){
                 //activeAlarm.append(singleAlarm)
             }
