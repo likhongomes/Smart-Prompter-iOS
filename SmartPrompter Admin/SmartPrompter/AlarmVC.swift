@@ -38,7 +38,7 @@ class AlarmVC: UIViewController, UITextFieldDelegate {
     
     var status = ""
     var editable = true
-    var screenName = String()
+    var screenName = String() 
     var alarm = Alarm()
     
     override func viewDidLoad() {
@@ -63,15 +63,15 @@ class AlarmVC: UIViewController, UITextFieldDelegate {
         deleteButtonSetup()
         showDatePicker()
         //showTimePicker()
-        imageViewSetup()
+        //imageViewSetup()
         showData()
     }
     
     func showData(){
         if(editable == false){
             alarmNameTextField.text = alarm.label
-            alarmTimeTextField.text = "\(alarm.hour!):\(alarm.minute!)"
-            alarmDateTextField.text = "\(alarm.month!)/\(alarm.day!)/\(alarm.year!)"
+            alarmTimeTextField.text = "\(alarm.scheduledHour!):\(alarm.scheduledMinute!)"
+            alarmDateTextField.text = "\(alarm.scheduledMonth!)/\(alarm.scheduledDay!)/\(alarm.scheduledYear!)"
         }
 
     }
@@ -105,28 +105,31 @@ class AlarmVC: UIViewController, UITextFieldDelegate {
 
     
     func imageViewSetup(){
-        view.addSubview(imageView)
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.topAnchor.constraint(equalTo: statusStatusLabel.bottomAnchor, constant: 10).isActive = true
-        imageView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-        imageView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-        imageView.bottomAnchor.constraint(equalTo: cancelButton.topAnchor, constant: -10).isActive = true
-        imageView.contentMode = .scaleAspectFit
-        
-        
-        let islandRef = Storage.storage().reference().child("\(userID!)/\(alarm.label!)")
+        if(alarm.label! != nil){
+            view.addSubview(imageView)
+            imageView.translatesAutoresizingMaskIntoConstraints = false
+            imageView.topAnchor.constraint(equalTo: statusStatusLabel.bottomAnchor, constant: 10).isActive = true
+            imageView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+            imageView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+            imageView.bottomAnchor.constraint(equalTo: cancelButton.topAnchor, constant: -10).isActive = true
+            imageView.contentMode = .scaleAspectFit
+            
+            
+            let islandRef = Storage.storage().reference().child("\(userID!)/\(alarm.label!)")
 
-        // Download in memory with a maximum allowed size of 1MB (1 * 1024 * 1024 bytes)
-        islandRef.getData(maxSize: 1 * 1024 * 1024) { data, error in
-          if let error = error {
-            // Uh-oh, an error occurred!
-            print("downloading image \(error)")
-          } else {
-            // Data for "images/island.jpg" is returned
-            let image = UIImage(data: data!)
-            self.imageView.image = image
-          }
+            // Download in memory with a maximum allowed size of 1MB (1 * 1024 * 1024 bytes)
+            islandRef.getData(maxSize: 1 * 1024 * 1024) { data, error in
+              if let error = error {
+                // Uh-oh, an error occurred!
+                print("downloading image \(error)")
+              } else {
+                // Data for "images/island.jpg" is returned
+                let image = UIImage(data: data!)
+                self.imageView.image = image
+              }
+            }
         }
+        
     }
     
         

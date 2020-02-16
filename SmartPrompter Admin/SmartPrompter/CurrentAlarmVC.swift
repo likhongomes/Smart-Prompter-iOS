@@ -92,17 +92,17 @@ class CurrentAlarmVC: UIViewController, UITableViewDataSource, UITableViewDelega
           let value = snapshot.value as? NSDictionary
             let singleAlarm = Alarm()
             singleAlarm.active = value?["active"] as? Bool
-            singleAlarm.hour = value?["scheduledHour"] as? Int
-            singleAlarm.minute = value?["scheduledMinute"] as? Int
-            singleAlarm.day = value?["scheduledDay"] as? Int
-            singleAlarm.month = value?["scheduledMonth"] as? Int
-            singleAlarm.year = value?["scheduledYear"] as? Int
+            singleAlarm.scheduledHour = value?["scheduledHour"] as? Int
+            singleAlarm.scheduledMinute = value?["scheduledMinute"] as? Int
+            singleAlarm.scheduledDay = value?["scheduledDay"] as? Int
+            singleAlarm.scheduledMonth = value?["scheduledMonth"] as? Int
+            singleAlarm.scheduledYear = value?["scheduledYear"] as? Int
             singleAlarm.label = value?["label"] as? String
             singleAlarm.status = value?["status"] as? String
             
             
             print(singleAlarm.status)
-            if(singleAlarm.status! == "Incomplete"){
+            if(singleAlarm.status! != "Complete"){
                 self.activeAlarm.append(singleAlarm)
                 print("Printing current Alarm \(singleAlarm)")
             } else {
