@@ -408,7 +408,8 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
             
             if(day == dateComponents.day && month == dateComponents.month && year == dateComponents.year){
                 totalTask += 1
-                if(singleAlarm.status! == "Completed"){
+                
+                if(singleAlarm.status! == "Complete"){
                     completedTask += 1
                 }
             }

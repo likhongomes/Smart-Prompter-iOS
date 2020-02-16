@@ -15,19 +15,42 @@ class RewardVC: UIViewController {
     let button = UIButton()
     let textView = UITextView()
     var fraction = Double()
+    let imageView = UIImageView()
+    let imageArray = [#imageLiteral(resourceName: "meme2"),#imageLiteral(resourceName: "meme4"),#imageLiteral(resourceName: "meme6"),#imageLiteral(resourceName: "meme3"),#imageLiteral(resourceName: "meme5"),#imageLiteral(resourceName: "meme1")]
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         view.backgroundColor = .white
         fraction = completedTask/totalTask
-        print("printing \(totalTask) \(completedTask) \(fraction*100)")
-        progressCircleSetup()
-        buttonSetup()
+        
         textViewSetup()
+        buttonSetup()
+        if fraction == 1 {
+            imageViewSetup()
+            imageView.image = imageArray[Int.random(in: 0..<5)]
+            textView.text = "All tasks completed! Well done!"
+        } else {
+            progressCircleSetup()
+            textView.text = "You have completed another task! Well done!"
+        }
         
         
         
+        
+        
+        
+    }
+    
+    func imageViewSetup(){
+        view.addSubview(imageView)
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        imageView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        imageView.topAnchor.constraint(equalTo: textView.bottomAnchor, constant: 20).isActive = true
+        imageView.bottomAnchor.constraint(equalTo: button.topAnchor, constant: -20).isActive = true
+        imageView.contentMode = .scaleAspectFit
+        imageView.image = #imageLiteral(resourceName: "meme2")
     }
 
     func progressCircleSetup(){
@@ -92,7 +115,7 @@ class RewardVC: UIViewController {
         textView.topAnchor.constraint(equalTo: view.topAnchor, constant: 40).isActive = true
         textView.leadingAnchor.constraint(lessThanOrEqualTo: view.leadingAnchor,constant: 20).isActive = true
         textView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
-        textView.text = "You have completed another task! Well done!"
+        
         textView.font = UIFont.boldSystemFont(ofSize: 30)
         textView.backgroundColor = .clear
         textView.textAlignment = .center
