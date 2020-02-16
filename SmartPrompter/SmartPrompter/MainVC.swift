@@ -14,16 +14,6 @@ extension MainVC:UNUserNotificationCenterDelegate{
     @available(iOS 10.0, *)
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
         
-        //let content = notification.request.content
-        //let intervalTrigger = UNTimeIntervalNotificationTrigger(timeInterval: 60, repeats: true)
-        
-        //let repeatRequest = UNNotificationRequest(identifier: "repeatAlarm", content: content, trigger: intervalTrigger)
-        
-        //UNUserNotificationCenter.current().add(repeatRequest) { (error) in
-          //  print(error as Any)
-        //}
-
-        //print("alarm delivered \(notification.request.content.title)")
         completionHandler([.alert,.sound,.badge])
     }
     
@@ -365,18 +355,22 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         ref.child("Patients").child(userID!).child("Alarms").observe(.childChanged, with: { (DataSnapshot) in
             print("child changed")
             let value = DataSnapshot.value as? [String:AnyObject]
-            print(value?["deleteRequest"] as! String)
+            let data = value?["deleteRequest"] as? String
+            print(data)
             
-            if(value?["deleteRequest"] as? String == "Requested"){
-                var x = 0
-                while (x<5){
-                    UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: ["\(value!["label"]!)\(x)"])
-                    print("removing \(value!["label"]!)")
-                    x+=1
+            if(data != nil){
+                if(value?["deleteRequest"] as? String == "Requested"){
+                    var x = 0
+                    while (x<5){
+                        UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: ["\(value!["label"]!)\(x)"])
+                        print("removing \(value!["label"]!)")
+                        x+=1
+                    }
+                    self.ref.child("Patients").child(userID!).child("Alarms").child("\(DataSnapshot.key)").removeValue()
                 }
-                self.ref.child("Patients").child(userID!).child("Alarms").child("\(DataSnapshot.key)").removeValue()
+
             }
-            
+                        
             
         }) { (Error) in
             
@@ -392,6 +386,7 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
             singleAlarm.active = value?["active"] as? Bool
             singleAlarm.hour = value?["scheduledHour"] as? Int
             singleAlarm.minute = value?["scheduledMinute"] as? Int
+            singleAlarm.day = value?["scheduledDay"] as? Int
             singleAlarm.label = value?["label"] as? String
             singleAlarm.status = value?["status"] as? String
             singleAlarm.deleteRequest = value?["deleteRequest"] as? String
@@ -402,10 +397,29 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
             dateComponents.minute = singleAlarm.minute
             dateComponents.month = singleAlarm.month
             dateComponents.year = singleAlarm.year
-            print("change observed")
-            
+            dateComponents.day = singleAlarm.day
             let scheduler = AlarmScheduler()
             
+            let date = Date()
+            let calendar = Calendar.current
+            let day = calendar.component(.day, from: date)
+            let month = calendar.component(.month, from: date)
+            let year = calendar.component(.year, from: date)
+            
+            if(day == dateComponents.day && month == dateComponents.month && year == dateComponents.year){
+                totalTask += 1
+                if(singleAlarm.status! == "Completed"){
+                    completedTask += 1
+                }
+            }
+
+            
+            let currentDate = Date()
+            let currentCalendar = Calendar.current
+            
+            
+            
+                        
             if(singleAlarm.status != "Complete"){
                 activeAlarm.append(singleAlarm)
                 scheduler.scheduleNotification(title: singleAlarm.label!, dateComponents: dateComponents, id:singleAlarm.firebaseID!)

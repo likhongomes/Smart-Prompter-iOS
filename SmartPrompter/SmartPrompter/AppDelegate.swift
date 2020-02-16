@@ -24,6 +24,10 @@ let userID = Auth.auth().currentUser?.uid
 let scheduler = AlarmScheduler()
 let fUtil = FirebaseUtil()
 
+
+var totalTask = Double()
+var completedTask = Double()
+
 @available(iOS 10.0, *)
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
@@ -37,7 +41,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
-        
+        completedTask = 0
+        totalTask = 0
         UNUserNotificationCenter.current().delegate = self
         
         FirebaseApp.configure()
@@ -52,6 +57,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         if Auth.auth().currentUser != nil {
           self.window?.rootViewController = MainVC()
+            
         } else {
           self.window?.rootViewController = SignInVC()
         }

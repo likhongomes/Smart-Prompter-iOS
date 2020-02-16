@@ -417,6 +417,11 @@ class AlarmVC: UIViewController, UINavigationControllerDelegate, UIImagePickerCo
                 ref.child("Patients").child(userID!).child("Alarms").child("\(alarm.firebaseID!)").child("completionDay").setValue(calendar.component(.day, from: date))
                 ref.child("Patients").child(userID!).child("Alarms").child("\(alarm.firebaseID!)").child("completionMonth").setValue(calendar.component(.month, from: date))
                 ref.child("Patients").child(userID!).child("Alarms").child("\(alarm.firebaseID!)").child("completionYear").setValue(calendar.component(.year, from: date))
+                completedTask += 1
+                dismiss(animated: true, completion: nil)
+                let vc = RewardVC()
+                vc.modalPresentationStyle = .fullScreen
+                present(vc, animated: true, completion: nil)
             }
             
             // Data in memory
