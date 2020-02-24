@@ -14,3 +14,4 @@ jobs:
       uses: steven0351/publish-jazzy-docs@v1
       with:
         personal_access_token: ${{ secrets.SmartPrompterSecrets }}
+        args: "--min-acl private"
