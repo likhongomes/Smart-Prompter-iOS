@@ -1,8 +1,9 @@
 name: PublishDocumentation
 
 on: 
-  release:
-    types: [published]
+  push:
+    branches: 
+      - master
 
 jobs:
   deploy_docs:
