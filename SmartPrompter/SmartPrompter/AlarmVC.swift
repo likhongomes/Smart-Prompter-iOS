@@ -97,11 +97,12 @@ class AlarmVC: UIViewController, UINavigationControllerDelegate, UIImagePickerCo
     func imageViewSetup() {
         view.addSubview(imageView)
         imageView.translatesAutoresizingMaskIntoConstraints = false
+        
         imageView.heightAnchor.constraint(equalToConstant: 100).isActive = true
         imageView.widthAnchor.constraint(equalToConstant: 100).isActive = true
         imageView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         //imageView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
-        imageView.topAnchor.constraint(equalTo: view.topAnchor, constant: 70).isActive = true
+        imageView.topAnchor.constraint(equalTo: view.topAnchor, constant: 80).isActive = true
         imageView.image = UIImage(named: "alarm")
         
     }

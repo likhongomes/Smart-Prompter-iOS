@@ -332,15 +332,15 @@ extension MainVC: UNUserNotificationCenterDelegate {
         logoutButton.translatesAutoresizingMaskIntoConstraints = false
         logoutButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
         if #available(iOS 11.0, *) {
-            logoutButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20).isActive = true
+            logoutButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10).isActive = true
         } else {
-            logoutButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 20).isActive = true
+            logoutButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 10).isActive = true
         }
         logoutButton.heightAnchor.constraint(equalToConstant: 25).isActive = true
         logoutButton.titleLabel?.font = UIFont.systemFont(ofSize: 16)
         logoutButton.backgroundColor = .clear
         logoutButton.widthAnchor.constraint(equalToConstant: 60).isActive = true
-        logoutButton.setTitle("Log\nOut", for: .normal)
+        logoutButton.setTitle("Log Out", for: .normal)
         logoutButton.addTarget(self, action: #selector(logoutButtonClicked), for: .touchUpInside)
         //logoutButton.backgroundColor = .black
     }
@@ -387,9 +387,9 @@ extension MainVC: UNUserNotificationCenterDelegate {
         welcomeTextView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
         welcomeTextView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
         if #available(iOS 11.0, *) {
-            welcomeTextView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20).isActive = true
+            welcomeTextView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10).isActive = true
         } else {
-            welcomeTextView.topAnchor.constraint(equalTo: view.topAnchor, constant: 20).isActive = true
+            welcomeTextView.topAnchor.constraint(equalTo: view.topAnchor, constant: 10).isActive = true
         }
         //welcomeTextView.heightAnchor.constraint(equalToConstant: 70).isActive = true
         //welcomeTextView.backgroundColor = .clear
