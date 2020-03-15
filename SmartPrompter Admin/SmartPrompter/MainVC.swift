@@ -48,7 +48,11 @@ class MainVC: UIViewController {
         view.addSubview(logoutButton)
         logoutButton.translatesAutoresizingMaskIntoConstraints = false
         logoutButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
-        logoutButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 20).isActive = true
+        if #available(iOS 11.0, *) {
+            logoutButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20).isActive = true
+        } else {
+            logoutButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 20).isActive = true
+        }
         logoutButton.heightAnchor.constraint(equalToConstant: 25).isActive = true
         logoutButton.backgroundColor = .clear
         logoutButton.widthAnchor.constraint(equalToConstant: 25).isActive = true

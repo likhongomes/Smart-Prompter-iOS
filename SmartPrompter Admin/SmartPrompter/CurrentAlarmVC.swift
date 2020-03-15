@@ -72,7 +72,7 @@ class CurrentAlarmVC: UIViewController, UITableViewDataSource, UITableViewDelega
     func alarmTableSetup() {
         view.addSubview(alarmTable)
         alarmTable.translatesAutoresizingMaskIntoConstraints = false
-        alarmTable.topAnchor.constraint(equalTo: view.topAnchor, constant: 60).isActive = true
+        alarmTable.topAnchor.constraint(equalTo: view.topAnchor, constant: 90).isActive = true
         alarmTable.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         alarmTable.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
         alarmTable.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
