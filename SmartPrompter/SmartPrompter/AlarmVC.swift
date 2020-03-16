@@ -302,9 +302,24 @@ class AlarmVC: UIViewController, UINavigationControllerDelegate, UIImagePickerCo
             print("value is" , Int(sender.value));
             if(sender.value < 10){
                 instructionLabel.text = "Remind me later"
-                
-                
                 scheduler.scheduleIntervalNotification(title: alarm.label!, id:alarm.firebaseID)
+                
+                let alert = UIAlertController(title: "Task Delayed", message: "Task delayed for 5 minutes", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
+                      switch action.style{
+                      case .default:
+                            self.dismiss(animated: true, completion: nil)
+
+                      case .cancel:
+                            print("cancel")
+
+                      case .destructive:
+                            print("destructive")
+
+
+                }}))
+                alert.actions
+                self.present(alert, animated: true, completion: {})
                 
                 print("scheduled again")
             } else if(sender.value > 90){
@@ -376,6 +391,24 @@ class AlarmVC: UIViewController, UINavigationControllerDelegate, UIImagePickerCo
                 instructionLabel.text = "Remind me later"
                 
                 scheduler.scheduleIntervalNotification(title: alarm.label!, id:alarm.firebaseID)
+                
+                let alert = UIAlertController(title: "Task Delayed", message: "Task delayed for 5 minutes", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
+                      switch action.style{
+                      case .default:
+                            self.dismiss(animated: true, completion: nil)
+
+                      case .cancel:
+                            print("cancel")
+
+                      case .destructive:
+                            print("destructive")
+
+
+                }}))
+                alert.actions
+                self.present(alert, animated: true, completion: {})
+
                 
                 print("scheduled again")
             } else if(sender.value == 100){
