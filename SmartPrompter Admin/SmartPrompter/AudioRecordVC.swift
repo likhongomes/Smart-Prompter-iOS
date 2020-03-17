@@ -19,7 +19,7 @@ class AudioRecordVC: UIViewController, AVAudioRecorderDelegate {
     var recordButton = UIButton()
     var recordingSession: AVAudioSession!
     var audioRecorder: AVAudioRecorder!
-    let audioFilename:URL? = nil
+    var audioFilename:URL? = nil
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -70,7 +70,7 @@ class AudioRecordVC: UIViewController, AVAudioRecorderDelegate {
     
     
     func startRecording() {
-        let audioFilename = getDocumentsDirectory().appendingPathComponent("recording.m4a")
+        audioFilename = getDocumentsDirectory().appendingPathComponent("recording.m4a")
         //directoryString = audioFilename
         print("directory \(audioFilename)")
         
@@ -82,7 +82,7 @@ class AudioRecordVC: UIViewController, AVAudioRecorderDelegate {
         ]
 
         do {
-            audioRecorder = try AVAudioRecorder(url: audioFilename, settings: settings)
+            audioRecorder = try AVAudioRecorder(url: audioFilename!, settings: settings)
             audioRecorder.delegate = self
             audioRecorder.record()
 
@@ -114,6 +114,7 @@ class AudioRecordVC: UIViewController, AVAudioRecorderDelegate {
             startRecording()
         } else {
             finishRecording(success: true)
+            uploadToFirebase()
         }
     }
     
@@ -124,17 +125,16 @@ class AudioRecordVC: UIViewController, AVAudioRecorderDelegate {
     }
     
     func uploadToFirebase() {
-        
+        print("uploading audio to firebase")
         let audioName = NSUUID().uuidString //You'll get unique audioFile name
-        let storageRef = Storage.storage().reference().child("audio").child(audioName)
+        let storageRef = Storage.storage().reference().child("\(userID!)").child("audio")
         let metadata  = StorageMetadata()
         
-        // File located on disk
-        let localFile = URL(string: "path/to/image")!
+        
 
         // Create a reference to the file you want to upload
-        let riversRef = storageRef.child("images/rivers.jpg")
-
+        let riversRef = storageRef.child("/patientCall.m4a")
+        print("audio file name \(audioFilename)")
         if audioFilename != nil {
             // Upload the file to the path "images/rivers.jpg"
             let uploadTask = riversRef.putFile(from: audioFilename!, metadata: nil) { metadata, error in
@@ -150,6 +150,7 @@ class AudioRecordVC: UIViewController, AVAudioRecorderDelegate {
                   // Uh-oh, an error occurred!
                   return
                 }
+                print("downloadURL \(downloadURL)")
               }
             }
         }
