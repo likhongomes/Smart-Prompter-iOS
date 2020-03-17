@@ -69,7 +69,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         //getNotificationSettings()
         //fetchFromFirebase()
         
-        
+        downloadNotificationSound()
         
         application.setMinimumBackgroundFetchInterval(UIApplication.backgroundFetchIntervalMinimum)
         return true
@@ -224,8 +224,35 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
          completionHandler()
        }
 
+    
+    func downloadNotificationSound(){
+        //let islandRef = Storage.storage().reference().child("\(userID!)/\(alarm.label!)")
+        let islandRef = Storage.storage().reference().child("\(userID!)").child("audio").child("/patientCall.m4a")
+
+        
+        // Download in memory with a maximum allowed size of 1MB (1 * 1024 * 1024 bytes)
+        //islandRef.write(toFile: getDocumentsDirectory().appendingPathComponent("recording.m4a")){ url, error in
+        islandRef.write(toFile: getDocumentsDirectory().appendingPathComponent("recording.m4a")){ url, error in
+            print("audio file directory \(getDocumentsDirectory().appendingPathComponent("recording.m4a"))")
+        //islandRef.getData(maxSize: 1 * 1024 * 1024) { data, error in
+          if let error = error {
+            // Uh-oh, an error occurred!
+            print("downloading image \(error)")
+          } else {
+            print("worked")
+            // Data for "images/island.jpg" is returned
+            //let image = UIImage(data: data!)
+            //self.imageView.image = image
+          }
+        }
+    }
 
     
+}
+
+func getDocumentsDirectory() -> URL {
+    let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+    return paths[0]
 }
 
 @available(iOS 11.0, *)

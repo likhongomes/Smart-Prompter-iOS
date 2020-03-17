@@ -20,7 +20,7 @@ class AlarmScheduler {
             content.categoryIdentifier = "alarm"
             content.sound = UNNotificationSound.default
             content.badge = 1
-            content.sound = UNNotificationSound.init(named: UNNotificationSoundName(rawValue: "sweet_text.mp3"))
+            content.sound = UNNotificationSound.init(named: UNNotificationSoundName(rawValue: "recording.m4a"))
             content.userInfo = ["FirebaseID":id,"title":title, "hour":dateComponents.hour, "minute":dateComponents.minute,"day":dateComponents.day,"month":dateComponents.month,"year":dateComponents.year]
             
             UNUserNotificationCenter.current().getDeliveredNotifications { (notifications) in
