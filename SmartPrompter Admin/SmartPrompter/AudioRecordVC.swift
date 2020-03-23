@@ -10,24 +10,31 @@ import UIKit
 import AVFoundation
 import Firebase
 
-class AudioRecordVC: UIViewController, AVAudioRecorderDelegate {
+class AudioRecordVC: UIViewController, AVAudioRecorderDelegate, AVAudioPlayerDelegate {
 
 //    var recordButton = UIButton()
 //    var recordingSession = AVAudioSession()
 //    var audioRecorder = AVAudioRecorder()
     
     var recordButton = UIButton()
+    let playButton = UIButton()
+    
     var recordingSession: AVAudioSession!
     var audioRecorder: AVAudioRecorder!
+    var audioPlayer: AVAudioPlayer?
     var audioFilename:URL? = nil
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        view.backgroundColor = #colorLiteral(red: 0.2470588235, green: 0.7019607843, blue: 0.3098039216, alpha: 1)
+        audioPlayer?.delegate = self
+        
         recordButtonSetup()
+        playButtonSetup()
         
         recordingSession = AVAudioSession.sharedInstance()
 
+        //MARK: Recorder
         do {
             try recordingSession.setCategory(.playAndRecord, mode: .default)
             try recordingSession.setActive(true)
@@ -42,20 +49,30 @@ class AudioRecordVC: UIViewController, AVAudioRecorderDelegate {
             }
         } catch {
             // failed to record!
+        
         }
+        
+        
+        loadAudioPlayer()
 
         
     }
     
-    func recordButtonSetup() {
-        view.addSubview(recordButton)
-        recordButton.translatesAutoresizingMaskIntoConstraints = false
-        recordButton.heightAnchor.constraint(equalToConstant: 200).isActive = true
-        recordButton.widthAnchor.constraint(equalToConstant: 200).isActive = true
-        recordButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        recordButton.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
-        recordButton.backgroundColor = .red
-        recordButton.setTitle("Record", for: .normal)
+    func loadAudioPlayer() {
+        let audioURL = getDocumentsDirectory().appendingPathComponent("recording.m4a")
+        
+        //MARK: Audio Player
+        do {
+            audioPlayer = try AVAudioPlayer(contentsOf: audioURL)
+            audioPlayer?.prepareToPlay()
+        } catch {
+            //print("Audio player error: \(error.localizedDescription)")
+        }
+    }
+    
+    func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
+        playButton.isSelected = false
+        print("audio stopped")
     }
     
 
@@ -100,7 +117,7 @@ class AudioRecordVC: UIViewController, AVAudioRecorderDelegate {
     func finishRecording(success: Bool) {
         audioRecorder.stop()
         audioRecorder = nil
-
+        loadAudioPlayer()
         if success {
             recordButton.setTitle("Tap to Re-record", for: .normal)
         } else {
@@ -156,5 +173,48 @@ class AudioRecordVC: UIViewController, AVAudioRecorderDelegate {
         }
     }
     
+    
+}
+
+extension AudioRecordVC {
+    
+    func playButtonSetup(){
+        view.addSubview(playButton)
+        playButton.translatesAutoresizingMaskIntoConstraints = false
+        playButton.widthAnchor.constraint(equalToConstant: 100).isActive = true
+        playButton.heightAnchor.constraint(equalToConstant: 100).isActive = true
+        playButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        playButton.topAnchor.constraint(equalTo: recordButton.bottomAnchor, constant: 20).isActive = true
+        playButton.setTitle("Play", for: .normal)
+        playButton.setTitle("Stop", for: .selected)
+        playButton.setTitleColor(#colorLiteral(red: 0.2470588235, green: 0.7019607843, blue: 0.3098039216, alpha: 1), for: .normal)
+        playButton.backgroundColor = .white
+        playButton.layer.cornerRadius = 50
+        playButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 25)
+        playButton.addTarget(self, action: #selector(playButtonTapped), for: .touchUpInside)
+    }
+    
+    @objc func playButtonTapped(){
+        if playButton.isSelected == true {
+            playButton.isSelected = false
+            audioPlayer?.stop()
+        } else {
+            playButton.isSelected = true
+            audioPlayer?.play()
+            print("Playing audio")
+        }
+    }
+    
+    func recordButtonSetup() {
+        view.addSubview(recordButton)
+        recordButton.translatesAutoresizingMaskIntoConstraints = false
+        recordButton.heightAnchor.constraint(equalToConstant: 200).isActive = true
+        recordButton.widthAnchor.constraint(equalToConstant: 200).isActive = true
+        recordButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        recordButton.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        recordButton.backgroundColor = .red
+        recordButton.layer.cornerRadius = 100
+        recordButton.setTitle("Record", for: .normal)
+    }
     
 }
