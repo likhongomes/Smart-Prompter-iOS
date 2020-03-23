@@ -71,6 +71,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         downloadNotificationSound()
         
+        let fileManager = FileManager.default
+        let soundsDirectoryURL = fileManager.urls(for: .libraryDirectory, in: .userDomainMask).first!.appendingPathComponent("Sounds")
+        //attempt to create the folder
+        do {
+            try fileManager.createDirectory(atPath: soundsDirectoryURL.path,
+                                            withIntermediateDirectories: true, attributes: nil)
+        } catch let error as NSError {
+            print("Error: \(error.localizedDescription)")
+        }
+        
+        
+        
+        
         application.setMinimumBackgroundFetchInterval(UIApplication.backgroundFetchIntervalMinimum)
         return true
     }
@@ -226,13 +239,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
     
     func downloadNotificationSound(){
+        
+        let fileManager = FileManager.default
+        let soundsDirectoryURL = fileManager.urls(for: .libraryDirectory, in: .userDomainMask).first!.appendingPathComponent("Sounds")
+        //attempt to create the folder
+        do {
+            try fileManager.createDirectory(atPath: soundsDirectoryURL.path,
+                                            withIntermediateDirectories: true, attributes: nil)
+        } catch let error as NSError {
+            print("Error: \(error.localizedDescription)")
+        }
+        
+        
         //let islandRef = Storage.storage().reference().child("\(userID!)/\(alarm.label!)")
         let islandRef = Storage.storage().reference().child("\(userID!)").child("audio").child("/patientCall.m4a")
 
         
         // Download in memory with a maximum allowed size of 1MB (1 * 1024 * 1024 bytes)
         //islandRef.write(toFile: getDocumentsDirectory().appendingPathComponent("recording.m4a")){ url, error in
-        islandRef.write(toFile: getDocumentsDirectory().appendingPathComponent("recording.m4a")){ url, error in
+        islandRef.write(toFile: soundsDirectoryURL.appendingPathComponent("recording.m4a")){ url, error in
             print("audio file directory \(getDocumentsDirectory().appendingPathComponent("recording.m4a"))")
         //islandRef.getData(maxSize: 1 * 1024 * 1024) { data, error in
           if let error = error {

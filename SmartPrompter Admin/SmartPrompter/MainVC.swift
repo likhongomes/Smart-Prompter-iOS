@@ -8,6 +8,7 @@
 
 import UIKit
 import Firebase
+import CoreData
 
 class MainVC: UIViewController {
     
@@ -40,7 +41,17 @@ class MainVC: UIViewController {
         
         let trigger = UNCalendarNotificationTrigger(dateMatching: triggerDate, repeats: false)
         
+        let fileManager = FileManager.default
         
+        let soundsDirectoryURL = fileManager.urls(for: .libraryDirectory, in: .userDomainMask).first!.appendingPathComponent("Sounds")
+
+        //attempt to create the folder
+        do {
+            try fileManager.createDirectory(atPath: soundsDirectoryURL.path,
+                                            withIntermediateDirectories: true, attributes: nil)
+        } catch let error as NSError {
+            print("Error: \(error.localizedDescription)")
+        }
         
     }
     
