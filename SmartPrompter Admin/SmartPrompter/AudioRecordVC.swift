@@ -18,6 +18,10 @@ class AudioRecordVC: UIViewController, AVAudioRecorderDelegate, AVAudioPlayerDel
     
     var recordButton = UIButton()
     let playButton = UIButton()
+    let topLabel = UILabel()
+    let instruction = UITextView()
+    let backButton = UIButton()
+    let nextButton = UIButton()
     
     var recordingSession: AVAudioSession!
     var audioRecorder: AVAudioRecorder!
@@ -27,10 +31,13 @@ class AudioRecordVC: UIViewController, AVAudioRecorderDelegate, AVAudioPlayerDel
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = #colorLiteral(red: 0.2470588235, green: 0.7019607843, blue: 0.3098039216, alpha: 1)
+        view.addNavigationBar(viewControllerName: "Setup Alert Tone", leftButton: backButton)
         audioPlayer?.delegate = self
-        
+        backButtonSetup()
         recordButtonSetup()
         playButtonSetup()
+        instructionTextViewSetup()
+        nextButtonSetup()
         
         recordingSession = AVAudioSession.sharedInstance()
 
@@ -60,13 +67,12 @@ class AudioRecordVC: UIViewController, AVAudioRecorderDelegate, AVAudioPlayerDel
     
     func loadAudioPlayer() {
         let audioURL = getDocumentsDirectory().appendingPathComponent("recording.m4a")
-        
         //MARK: Audio Player
         do {
             audioPlayer = try AVAudioPlayer(contentsOf: audioURL)
             audioPlayer?.prepareToPlay()
         } catch {
-            //print("Audio player error: \(error.localizedDescription)")
+            playButton.isHidden = true
         }
     }
     
@@ -118,6 +124,7 @@ class AudioRecordVC: UIViewController, AVAudioRecorderDelegate, AVAudioPlayerDel
         audioRecorder.stop()
         audioRecorder = nil
         loadAudioPlayer()
+        playButton.isHidden = false
         if success {
             recordButton.setTitle("Tap to Re-record", for: .normal)
         } else {
@@ -215,6 +222,70 @@ extension AudioRecordVC {
         recordButton.backgroundColor = .red
         recordButton.layer.cornerRadius = 100
         recordButton.setTitle("Record", for: .normal)
+    }
+    
+    func topLabelSetup(){
+        view.addSubview(topLabel)
+        topLabel.translatesAutoresizingMaskIntoConstraints = false
+        topLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 40).isActive = true
+        topLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -40).isActive = true
+        if #available(iOS 11.0, *) {
+            topLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20).isActive = true
+        } else {
+            topLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 20).isActive = true
+        }
+        topLabel.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        topLabel.text = "Setup Alert Tone"
+        topLabel.font = UIFont.boldSystemFont(ofSize: 30)
+        topLabel.textColor = .white
+        topLabel.textAlignment = .center
+    }
+    
+    func instructionTextViewSetup(){
+        view.addSubview(instruction)
+        instruction.translatesAutoresizingMaskIntoConstraints = false
+        if #available(iOS 11.0, *) {
+            instruction.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 70).isActive = true
+        } else {
+            instruction.topAnchor.constraint(equalTo: view.topAnchor, constant: 70).isActive = true
+        }
+        instruction.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 40).isActive = true
+        instruction.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -40).isActive = true
+        instruction.heightAnchor.constraint(equalToConstant: 150).isActive = true
+        instruction.text = "Press the red button to record a Notification tone for your patient. Press the red button again to stop recording. Press the white play button to play back the recording. Press done button afterwards"
+        instruction.font = UIFont.systemFont(ofSize: 18)
+        instruction.textAlignment = .center
+        instruction.backgroundColor = .clear
+        instruction.textColor = .white
+    }
+    
+    func backButtonSetup() {
+        backButton.translatesAutoresizingMaskIntoConstraints = false
+        backButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        backButton.widthAnchor.constraint(equalToConstant: 30).isActive = true
+        backButton.setBackgroundImage(UIImage(named: "backButton"), for: .normal)
+        backButton.contentMode = .scaleAspectFill
+        backButton.addTarget(self, action: #selector(backButtonClicked), for: .touchUpInside)
+    }
+    
+    @objc func backButtonClicked(){
+        dismiss(animated: true, completion: nil)
+    }
+    
+    func nextButtonSetup() {
+        view.addSubview(nextButton)
+        nextButton.translatesAutoresizingMaskIntoConstraints = false
+        nextButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        nextButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -40).isActive = true
+        nextButton.setTitle("Next", for: .normal)
+        nextButton.addTarget(self, action: #selector(nextButtonTapped), for: .touchUpInside)
+    }
+    
+    @objc func nextButtonTapped(){
+        let vc = MainVC()
+        vc.modalPresentationStyle = .fullScreen
+        vc.modalTransitionStyle = .crossDissolve
+        present(vc, animated: true, completion: nil)
     }
     
 }

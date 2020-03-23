@@ -22,6 +22,7 @@ class MainVC: UIViewController {
     let welcomeTextView = UITextView()
     let secondTextView = UITextView()
     let logoutButton = UIButton()
+    let recordAudioButton = UIButton()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,6 +36,7 @@ class MainVC: UIViewController {
         viewAlarmButtonSetup()
         pastAlarmsButtonSetup()
         logoutButtonSetup()
+        recordAudioButtonSetup()
         
         let date = Date(timeIntervalSinceNow: 3600)
         let triggerDate = Calendar.current.dateComponents([.year,.month,.day,.hour,.minute,.second,], from: date)
@@ -66,8 +68,9 @@ class MainVC: UIViewController {
         }
         logoutButton.heightAnchor.constraint(equalToConstant: 25).isActive = true
         logoutButton.backgroundColor = .clear
-        logoutButton.widthAnchor.constraint(equalToConstant: 25).isActive = true
-        logoutButton.setImage(UIImage(named:"logoutButton"), for: .normal)
+        logoutButton.widthAnchor.constraint(equalToConstant: 70).isActive = true
+        logoutButton.setTitle("Logout", for: .normal)
+        //logoutButton.setImage(UIImage(named:"logoutButton"), for: .normal)
         logoutButton.addTarget(self, action: #selector(logoutButtonClicked), for: .touchUpInside)
         //logoutButton.backgroundColor = .black
     }
@@ -199,4 +202,31 @@ class MainVC: UIViewController {
         vc.modalPresentationStyle = .fullScreen
         present(vc, animated: true, completion: nil)
     }
+}
+
+
+extension MainVC {
+    
+    func recordAudioButtonSetup() {
+        view.addSubview(recordAudioButton)
+        recordAudioButton.translatesAutoresizingMaskIntoConstraints = false
+        recordAudioButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10).isActive = true
+        recordAudioButton.heightAnchor.constraint(equalToConstant: 25).isActive = true
+        recordAudioButton.widthAnchor.constraint(equalToConstant: 70).isActive = true
+        if #available(iOS 11.0, *) {
+            recordAudioButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20).isActive = true
+        } else {
+            recordAudioButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 20).isActive = true
+        }
+        recordAudioButton.setTitle("Record", for: .normal)
+        recordAudioButton.addTarget(self, action: #selector(recordAudioButtonTapped), for: .touchUpInside)
+    }
+    
+    @objc func recordAudioButtonTapped(){
+        let vc = AudioRecordVC()
+        vc.modalTransitionStyle = .crossDissolve
+        vc.modalPresentationStyle = .fullScreen
+        present(vc, animated: true, completion: nil)
+    }
+    
 }
