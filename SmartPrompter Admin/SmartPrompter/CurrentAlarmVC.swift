@@ -21,6 +21,9 @@ class CurrentAlarmVC: UIViewController, UITableViewDataSource, UITableViewDelega
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = alarmTable.dequeueReusableCell(withIdentifier: "tableCell", for: indexPath as IndexPath) as! UITableViewCell
         cell.textLabel?.text = activeAlarm[indexPath.row].label
+        if activeAlarm[indexPath.row].deleteRequest == "Requested" {
+            cell.backgroundColor = .red
+        }
         return cell
     }
     
@@ -53,6 +56,7 @@ class CurrentAlarmVC: UIViewController, UITableViewDataSource, UITableViewDelega
         alarmTable.reloadData()
     }
     
+    
     func backButtonSetup() {
         backButton.translatesAutoresizingMaskIntoConstraints = false
         //backButton.leadingAnchor.constraint(equalTo: navView.leadingAnchor, constant: 5).isActive = true
@@ -72,7 +76,7 @@ class CurrentAlarmVC: UIViewController, UITableViewDataSource, UITableViewDelega
     func alarmTableSetup() {
         view.addSubview(alarmTable)
         alarmTable.translatesAutoresizingMaskIntoConstraints = false
-        alarmTable.topAnchor.constraint(equalTo: view.topAnchor, constant: 60).isActive = true
+        alarmTable.topAnchor.constraint(equalTo: view.topAnchor, constant: 90).isActive = true
         alarmTable.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         alarmTable.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
         alarmTable.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
@@ -83,7 +87,7 @@ class CurrentAlarmVC: UIViewController, UITableViewDataSource, UITableViewDelega
     }
 
     func fetchFromFirebase(){
-        
+        print("Firebase called")
         activeAlarm = [Alarm]()
         //inactiveAlarm = [Alarm]()
         
@@ -100,7 +104,7 @@ class CurrentAlarmVC: UIViewController, UITableViewDataSource, UITableViewDelega
             singleAlarm.scheduledYear = value?["scheduledYear"] as? Int
             singleAlarm.label = value?["label"] as? String
             singleAlarm.status = value?["status"] as? String
-            
+            singleAlarm.deleteRequest = value?["deleteRequest"] as? String
             
             print(singleAlarm.status)
             if(singleAlarm.status! != "Complete"){
