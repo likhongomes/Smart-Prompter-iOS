@@ -10,7 +10,7 @@ import UIKit
 import Firebase
 import FirebaseStorage
 
-class CreateNewAlarmVC: UIViewController, UITextFieldDelegate {
+class CreateNewAlarmVC: UIViewController, UITextFieldDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
     
     let backButton = UIButton()
     let saveButton = UIButton()
@@ -22,7 +22,7 @@ class CreateNewAlarmVC: UIViewController, UITextFieldDelegate {
     let dateLabel = UILabel()
     let timeLabel = UILabel()
     let imageView = UIImageView()
-    
+    let imageButtonStack = UIStackView()
     
     let alarmNameTextField = UITextField()
     let alarmDateTextField = UITextField()
@@ -32,9 +32,12 @@ class CreateNewAlarmVC: UIViewController, UITextFieldDelegate {
     var selectedTextField = UITextField()
     let datePicker = UIDatePicker()
     let timePicker = UIDatePicker()
-    let topBar = UIView()
+    let topImageView = UIImageView()
     let addImageButton = UIButton()
     let vcName = UILabel()
+    let cameraButton = UIButton()
+    let imagePickerButton = UIButton()
+    let imageBackButton = UIButton()
     
     var status = ""
     var editable = true
@@ -46,7 +49,7 @@ class CreateNewAlarmVC: UIViewController, UITextFieldDelegate {
         view.backgroundColor = .white
         view.addNavigationBar(viewControllerName: screenName, leftButton: backButton)
         
-        topBarSetup()
+        topImageViewSetup()
         vcNmaeSetup()
         alarmNameLabelSetup()
         alarmNameTextFieldSetup()
@@ -60,52 +63,145 @@ class CreateNewAlarmVC: UIViewController, UITextFieldDelegate {
         cancelButtonSetup()
         showDatePicker()
         showData()
+        imageButtonStackSetup()
+        imagePickerButtonSetup()
         addImageButtonSetup()
+        cameraButtonSetup()
+        imageBackButtonSetup()
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        picker.dismiss(animated: true)
+
+        guard let image = info[.editedImage] as? UIImage else {
+            print("No image found")
+            return
+        }
+        imagePickerButton.isHidden = true
+        cameraButton.isHidden = true
+        addImageButton.isHidden = false
+        addImageButton.setTitle("", for: .normal)
+        topImageView.image = image
+    }
+    
+    func imageButtonStackSetup(){
+        topImageView.addSubview(imageButtonStack)
+        imageButtonStack.translatesAutoresizingMaskIntoConstraints = false
+        imageButtonStack.leadingAnchor.constraint(equalTo: topImageView.leadingAnchor, constant: 10).isActive = true
+        imageButtonStack.trailingAnchor.constraint(equalTo: topImageView.trailingAnchor, constant: -10).isActive = true
+        imageButtonStack.bottomAnchor.constraint(equalTo: topImageView.bottomAnchor, constant: -10).isActive = true
+        imageButtonStack.topAnchor.constraint(equalTo: topImageView.topAnchor, constant: 30).isActive = true
+        imageButtonStack.backgroundColor = .red
+        imageButtonStack.distribution = .fillEqually
+        imageButtonStack.spacing = 10
+    }
+    
+    
+    
+    func topImageViewSetup(){
+        view.addSubview(topImageView)
+        topImageView.translatesAutoresizingMaskIntoConstraints = false
+        topImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        topImageView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        topImageView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        topImageView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.4).isActive = true
+        topImageView.backgroundColor = #colorLiteral(red: 0.2470588235, green: 0.7019607843, blue: 0.3098039216, alpha: 1)
+        topImageView.contentMode = .scaleAspectFit
+        topImageView.isUserInteractionEnabled = true
+    }
+    
+    
+    
+    func addImageButtonSetup(){
+        imageButtonStack.addArrangedSubview(addImageButton)
+        addImageButton.translatesAutoresizingMaskIntoConstraints = false
+        addImageButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 25)
+        if topImageView.image == nil {
+            addImageButton.setTitle("Tap to add image", for: .normal)
+        }
+        addImageButton.contentMode = .scaleAspectFit
+        addImageButton.addTarget(self, action: #selector(addImageTapped), for: .touchUpInside)
+    }
+    
+    @objc func addImageTapped(){
+        UIView.animate(withDuration: 0.2) {
+            self.cameraButton.isHidden = false
+            self.addImageButton.isHidden = true
+            self.imagePickerButton.isHidden = false
+            self.imageBackButton.isHidden = false
+        }
+        
+    }
+    
+    func cameraButtonSetup(){
+        imageButtonStack.addArrangedSubview(cameraButton)
+        cameraButton.translatesAutoresizingMaskIntoConstraints = false
+        cameraButton.setTitle("Camera", for: .normal)
+        cameraButton.contentMode = .scaleAspectFit
+        cameraButton.addTarget(self, action: #selector(cameraButtonTapped), for: .touchUpInside)
+        cameraButton.backgroundColor = UIColor.black.withAlphaComponent(0.2)
+        cameraButton.isHidden = true
+    }
+    
+    @objc func cameraButtonTapped(){
+        let vc = UIImagePickerController()
+        vc.sourceType = .camera
+        vc.allowsEditing = true
+        vc.delegate = self
+        present(vc, animated: true)
+    }
+    
+    func imagePickerButtonSetup(){
+        imageButtonStack.addArrangedSubview(imagePickerButton)
+        imagePickerButton.translatesAutoresizingMaskIntoConstraints = false
+        imagePickerButton.setTitle("Photos", for: .normal)
+        imagePickerButton.contentMode = .scaleAspectFit
+        imagePickerButton.addTarget(self, action: #selector(imagePickerButtonTapped), for: .touchUpInside)
+        imagePickerButton.backgroundColor = UIColor.black.withAlphaComponent(0.2)
+        imagePickerButton.isHidden = true
+    }
+    
+    @objc func imagePickerButtonTapped(){
+        let vc = UIImagePickerController()
+        vc.sourceType = .savedPhotosAlbum
+        vc.allowsEditing = true
+        vc.delegate = self
+        present(vc, animated: true)
+    }
+    
+    func imageBackButtonSetup(){
+        view.addSubview(imageBackButton)
+        imageBackButton.translatesAutoresizingMaskIntoConstraints = false
+        imageBackButton.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        imageBackButton.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        imageBackButton.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        imageBackButton.topAnchor.constraint(equalTo: topImageView.bottomAnchor).isActive = true
+        imageBackButton.backgroundColor = UIColor.black.withAlphaComponent(0.5)
+        imageBackButton.addTarget(self, action: #selector(imageBackButonTapped), for: .touchUpInside)
+        imageBackButton.isHidden = true
+    }
+    
+    @objc func imageBackButonTapped(){
+        UIView.animate(withDuration: 0.2) {
+            self.cameraButton.isHidden = true
+            self.imagePickerButton.isHidden = true
+            self.imageBackButton.isHidden = true
+            self.addImageButton.isHidden = false
+        }
     }
     
     func vcNmaeSetup(){
         view.addSubview(vcName)
         vcName.translatesAutoresizingMaskIntoConstraints = false
         vcName.widthAnchor.constraint(equalToConstant: 200).isActive = true
-        vcName.leadingAnchor.constraint(equalTo: topBar.leadingAnchor, constant: 20).isActive = true
-        vcName.trailingAnchor.constraint(equalTo: topBar.trailingAnchor, constant: -20).isActive = true
+        vcName.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
+        vcName.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
         vcName.textAlignment = .center
-        vcName.textColor = .white
+        vcName.textColor = .black
         vcName.heightAnchor.constraint(equalToConstant: 50).isActive = true
         vcName.font = UIFont.boldSystemFont(ofSize: 30)
         vcName.text = "Create New Alarm"
-        vcName.bottomAnchor.constraint(equalTo: topBar.bottomAnchor, constant: -5).isActive = true
-    }
-    
-    func topBarSetup(){
-        view.addSubview(topBar)
-        topBar.translatesAutoresizingMaskIntoConstraints = false
-        topBar.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-        topBar.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-        topBar.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-        topBar.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.4).isActive = true
-        topBar.backgroundColor = #colorLiteral(red: 0.2470588235, green: 0.7019607843, blue: 0.3098039216, alpha: 1)
-    }
-    
-    func addImageButtonSetup(){
-        topBar.addSubview(addImageButton)
-        addImageButton.translatesAutoresizingMaskIntoConstraints = false
-        if #available(iOS 11.0, *) {
-            addImageButton.topAnchor.constraint(equalTo: topBar.safeAreaLayoutGuide.topAnchor, constant: 5).isActive = true
-        } else {
-            addImageButton.topAnchor.constraint(equalTo: topBar.topAnchor, constant: 5).isActive = true
-        }
-        addImageButton.bottomAnchor.constraint(equalTo: topBar.bottomAnchor, constant: -5).isActive = true
-        addImageButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        addImageButton.widthAnchor.constraint(equalToConstant: 200).isActive = true
-        addImageButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 25)
-        addImageButton.setTitle("Tap to add image", for: .normal)
-        addImageButton.contentMode = .scaleAspectFit
-        addImageButton.addTarget(self, action: #selector(addImageTapped), for: .touchUpInside)
-    }
-    
-    @objc func addImageTapped(){
-        print("adding image")
+        vcName.topAnchor.constraint(equalTo: topImageView.bottomAnchor, constant: 10).isActive = true
     }
     
     func showData(){
@@ -232,7 +328,7 @@ class CreateNewAlarmVC: UIViewController, UITextFieldDelegate {
         alarmNameLabel.translatesAutoresizingMaskIntoConstraints = false
         alarmNameLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         alarmNameLabel.heightAnchor.constraint(equalToConstant: 30).isActive = true
-        alarmNameLabel.topAnchor.constraint(equalTo: topBar.bottomAnchor, constant: 5).isActive = true
+        alarmNameLabel.topAnchor.constraint(equalTo: vcName.bottomAnchor, constant: 5).isActive = true
         alarmNameLabel.text = "Label"
     }
 
