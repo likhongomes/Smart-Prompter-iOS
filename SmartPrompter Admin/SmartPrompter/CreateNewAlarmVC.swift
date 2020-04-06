@@ -43,6 +43,7 @@ class CreateNewAlarmVC: UIViewController, UITextFieldDelegate, UINavigationContr
     var editable = true
     var screenName = String()
     var alarm = Alarm()
+    var image = UIImage()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -73,10 +74,13 @@ class CreateNewAlarmVC: UIViewController, UITextFieldDelegate, UINavigationContr
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         picker.dismiss(animated: true)
 
+        
         guard let image = info[.editedImage] as? UIImage else {
             print("No image found")
             return
         }
+        self.image = image
+        
         imagePickerButton.isHidden = true
         cameraButton.isHidden = true
         addImageButton.isHidden = false
@@ -398,8 +402,8 @@ class CreateNewAlarmVC: UIViewController, UITextFieldDelegate, UINavigationContr
             alarmDateTextField.layer.borderColor = #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)
             alarmNameTextField.layer.borderColor = #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)
             
-            //activeAlarm = alarmDB.getActiveAlarms()
-            //inactiveAlarm = alarmDB.getInactiveAlarms()
+            let fbController = FirebaseController()
+            fbController.uploadImage(image: image, alarmName: alarmNameTextField.text!)
             dismiss(animated: true, completion: nil)
         } else {
             if (alarmTimeTextField.text == ""){

@@ -175,7 +175,6 @@ class AlarmVC: UIViewController, UINavigationControllerDelegate, UIImagePickerCo
 
     
     
-    
     func alarmDateTextFieldSetup() {
         let date = Date()
         let format = DateFormatter()
