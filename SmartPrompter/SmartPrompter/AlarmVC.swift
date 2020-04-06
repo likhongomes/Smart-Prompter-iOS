@@ -98,11 +98,11 @@ class AlarmVC: UIViewController, UINavigationControllerDelegate, UIImagePickerCo
         view.addSubview(imageView)
         imageView.translatesAutoresizingMaskIntoConstraints = false
         
-        imageView.heightAnchor.constraint(equalToConstant: 100).isActive = true
-        imageView.widthAnchor.constraint(equalToConstant: 100).isActive = true
+        imageView.heightAnchor.constraint(equalToConstant: 120).isActive = true
+        imageView.widthAnchor.constraint(equalToConstant: 120).isActive = true
         imageView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         //imageView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
-        imageView.topAnchor.constraint(equalTo: view.topAnchor, constant: 80).isActive = true
+        imageView.topAnchor.constraint(equalTo: view.topAnchor, constant: 60).isActive = true
         
         let islandRef = Storage.storage().reference().child("\(userID!)/\(alarm.label!)Icon")
 
@@ -111,16 +111,13 @@ class AlarmVC: UIViewController, UINavigationControllerDelegate, UIImagePickerCo
           if let error = error {
             // Uh-oh, an error occurred!
             print("downloading image \(error)")
-            
+            self.imageView.image = #imageLiteral(resourceName: "alarm")
           } else {
             // Data for "images/island.jpg" is returned
             let image = UIImage(data: data!)
             if image != nil {
                 self.imageView.image = image
-            } else {
-                self.imageView.image = #imageLiteral(resourceName: "alarm")
             }
-            
           }
         }
     }
