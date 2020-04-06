@@ -17,7 +17,7 @@ class FirebaseController {
 
     }
     
-    func uploadImage(image:UIImage, alarmName:String){
+    func uploadImage(image:UIImage, imageName:String){
         guard let imageData = image.jpegData(compressionQuality: 0.1) else {
             return
         }
@@ -25,7 +25,8 @@ class FirebaseController {
         let storageRef = Storage.storage().reference()
 
         // Create a reference to the file you want to upload
-        let riversRef = storageRef.child("\(userID!)/\(alarmName)Icon")
+        
+        let riversRef = storageRef.child("\(userID!)/\(imageName)Icon")
 
         // Upload the file to the path "images/rivers.jpg"
         let uploadTask = riversRef.putData(imageData, metadata: nil) { (metadata, error) in

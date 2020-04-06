@@ -69,6 +69,7 @@ class CreateNewAlarmVC: UIViewController, UITextFieldDelegate, UINavigationContr
         addImageButtonSetup()
         cameraButtonSetup()
         imageBackButtonSetup()
+        hideKeyboardWhenTappedAround()
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
@@ -86,6 +87,7 @@ class CreateNewAlarmVC: UIViewController, UITextFieldDelegate, UINavigationContr
         addImageButton.isHidden = false
         addImageButton.setTitle("", for: .normal)
         topImageView.image = image
+        imageBackButton.isHidden = true
     }
     
     func imageButtonStackSetup(){
@@ -394,6 +396,12 @@ class CreateNewAlarmVC: UIViewController, UITextFieldDelegate, UINavigationContr
                 "active":false,
                 "status":"Active"])
             
+            if image != nil {
+                let fbController = FirebaseController()
+                fbController.uploadImage(image: image, imageName: alarmNameTextField.text!)
+            }
+            
+            
             alarmTimeTextField.text = ""
             alarmDateTextField.text = ""
             alarmNameTextField.text = ""
@@ -402,8 +410,7 @@ class CreateNewAlarmVC: UIViewController, UITextFieldDelegate, UINavigationContr
             alarmDateTextField.layer.borderColor = #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)
             alarmNameTextField.layer.borderColor = #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)
             
-            let fbController = FirebaseController()
-            fbController.uploadImage(image: image, alarmName: alarmNameTextField.text!)
+            
             dismiss(animated: true, completion: nil)
         } else {
             if (alarmTimeTextField.text == ""){

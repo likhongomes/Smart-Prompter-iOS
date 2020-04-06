@@ -45,6 +45,8 @@ class AlarmVC: UIViewController, UITextFieldDelegate {
         super.viewDidLoad()
         view.backgroundColor = .white
         view.addNavigationBar(viewControllerName: screenName, leftButton: backButton)
+        
+        
         alarmDetailsLabelSetup()
         alarmNameLabelSetup()
         
@@ -65,7 +67,11 @@ class AlarmVC: UIViewController, UITextFieldDelegate {
         //showTimePicker()
         //imageViewSetup()
         showData()
+        
+        self.hideKeyboardWhenTappedAround()
     }
+    
+
     
     func showData(){
         if(editable == false){
@@ -178,6 +184,7 @@ class AlarmVC: UIViewController, UITextFieldDelegate {
         alarmNameTextField.layer.borderColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
         alarmNameTextField.layer.borderWidth = 0.5
         alarmNameTextField.isEnabled = editable
+        alarmNameTextField.delegate = self
     }
     
     func alarmDateTextFieldSetup() {
