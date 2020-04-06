@@ -103,8 +103,26 @@ class AlarmVC: UIViewController, UINavigationControllerDelegate, UIImagePickerCo
         imageView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         //imageView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
         imageView.topAnchor.constraint(equalTo: view.topAnchor, constant: 80).isActive = true
-        imageView.image = UIImage(named: "alarm")
         
+        let islandRef = Storage.storage().reference().child("\(userID!)/\(alarm.label!)Icon")
+
+        // Download in memory with a maximum allowed size of 1MB (1 * 1024 * 1024 bytes)
+        islandRef.getData(maxSize: 1 * 1024 * 1024) { data, error in
+          if let error = error {
+            // Uh-oh, an error occurred!
+            print("downloading image \(error)")
+            
+          } else {
+            // Data for "images/island.jpg" is returned
+            let image = UIImage(data: data!)
+            if image != nil {
+                self.imageView.image = image
+            } else {
+                self.imageView.image = #imageLiteral(resourceName: "alarm")
+            }
+            
+          }
+        }
     }
     
     func showDatePicker(){

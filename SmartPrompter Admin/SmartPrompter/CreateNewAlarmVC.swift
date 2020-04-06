@@ -397,6 +397,7 @@ class CreateNewAlarmVC: UIViewController, UITextFieldDelegate, UINavigationContr
                 "status":"Active"])
             
             if image != nil {
+                print("got called")
                 let fbController = FirebaseController()
                 fbController.uploadImage(image: image, imageName: alarmNameTextField.text!)
             }
