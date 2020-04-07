@@ -335,7 +335,13 @@ class AlarmVC: UIViewController, UINavigationControllerDelegate, UIImagePickerCo
             ref.child("Patients").child(userID!).child("Alarms").child("\(alarm.firebaseID!)").child("completionDay").setValue(calendar.component(.day, from: date))
             ref.child("Patients").child(userID!).child("Alarms").child("\(alarm.firebaseID!)").child("completionMonth").setValue(calendar.component(.month, from: date))
             ref.child("Patients").child(userID!).child("Alarms").child("\(alarm.firebaseID!)").child("completionYear").setValue(calendar.component(.year, from: date))
-            completedTask += 1
+            
+            
+            if alarm.year == calendar.component(.year, from: date) && alarm.month == calendar.component(.month, from: date) && alarm.day == calendar.component(.day, from: date) {
+                completedTask += 1
+            }
+            
+            
             dismiss(animated: true, completion: {
                 
                 
