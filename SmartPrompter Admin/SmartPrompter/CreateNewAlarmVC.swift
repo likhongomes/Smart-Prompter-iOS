@@ -10,7 +10,7 @@ import UIKit
 import Firebase
 import FirebaseStorage
 
-class AlarmVC: UIViewController, UITextFieldDelegate {
+class CreateNewAlarmVC: UIViewController, UITextFieldDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
     
     let backButton = UIButton()
     let saveButton = UIButton()
@@ -18,12 +18,11 @@ class AlarmVC: UIViewController, UITextFieldDelegate {
     let deleteButton = UIButton()
     let buttonStack = UIStackView()
     
-    let alarmDetailsLabel = UILabel()
     let alarmNameLabel = UILabel()
     let dateLabel = UILabel()
     let timeLabel = UILabel()
     let imageView = UIImageView()
-    
+    let imageButtonStack = UIStackView()
     
     let alarmNameTextField = UITextField()
     let alarmDateTextField = UITextField()
@@ -33,45 +32,183 @@ class AlarmVC: UIViewController, UITextFieldDelegate {
     var selectedTextField = UITextField()
     let datePicker = UIDatePicker()
     let timePicker = UIDatePicker()
-    
-    
+    let topImageView = UIImageView()
+    let addImageButton = UIButton()
+    let vcName = UILabel()
+    let cameraButton = UIButton()
+    let imagePickerButton = UIButton()
+    let imageBackButton = UIButton()
     
     var status = ""
     var editable = true
-    var screenName = String() 
+    var screenName = String()
     var alarm = Alarm()
+    var image = UIImage()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
         view.addNavigationBar(viewControllerName: screenName, leftButton: backButton)
         
-        
-        alarmDetailsLabelSetup()
+        topImageViewSetup()
+        vcNmaeSetup()
         alarmNameLabelSetup()
-        
-        
         alarmNameTextFieldSetup()
         dateLabelSetup()
         alarmDateTextFieldSetup()
         timeLabelSetup()
         alarmTimeTextFieldSetup()
-        //statusLabelSetup()
         statusStatusLabelSetup()
-        backButtonSetup()
         buttonStackSetup()
         saveButtonSetup()
         cancelButtonSetup()
-        deleteButtonSetup()
         showDatePicker()
-        //showTimePicker()
-        //imageViewSetup()
         showData()
-        
-        self.hideKeyboardWhenTappedAround()
+        imageButtonStackSetup()
+        imagePickerButtonSetup()
+        addImageButtonSetup()
+        cameraButtonSetup()
+        imageBackButtonSetup()
+        hideKeyboardWhenTappedAround()
     }
     
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        picker.dismiss(animated: true)
 
+        
+        guard let image = info[.editedImage] as? UIImage else {
+            print("No image found")
+            return
+        }
+        self.image = image
+        
+        imagePickerButton.isHidden = true
+        cameraButton.isHidden = true
+        addImageButton.isHidden = false
+        addImageButton.setTitle("", for: .normal)
+        topImageView.image = image
+        imageBackButton.isHidden = true
+    }
+    
+    func imageButtonStackSetup(){
+        topImageView.addSubview(imageButtonStack)
+        imageButtonStack.translatesAutoresizingMaskIntoConstraints = false
+        imageButtonStack.leadingAnchor.constraint(equalTo: topImageView.leadingAnchor, constant: 10).isActive = true
+        imageButtonStack.trailingAnchor.constraint(equalTo: topImageView.trailingAnchor, constant: -10).isActive = true
+        imageButtonStack.bottomAnchor.constraint(equalTo: topImageView.bottomAnchor, constant: -10).isActive = true
+        imageButtonStack.topAnchor.constraint(equalTo: topImageView.topAnchor, constant: 30).isActive = true
+        imageButtonStack.backgroundColor = .red
+        imageButtonStack.distribution = .fillEqually
+        imageButtonStack.spacing = 10
+    }
+    
+    
+    
+    func topImageViewSetup(){
+        view.addSubview(topImageView)
+        topImageView.translatesAutoresizingMaskIntoConstraints = false
+        topImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        topImageView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        topImageView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        topImageView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.4).isActive = true
+        topImageView.backgroundColor = #colorLiteral(red: 0.2470588235, green: 0.7019607843, blue: 0.3098039216, alpha: 1)
+        topImageView.contentMode = .scaleAspectFit
+        topImageView.isUserInteractionEnabled = true
+    }
+    
+    
+    
+    func addImageButtonSetup(){
+        imageButtonStack.addArrangedSubview(addImageButton)
+        addImageButton.translatesAutoresizingMaskIntoConstraints = false
+        addImageButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 25)
+        if topImageView.image == nil {
+            addImageButton.setTitle("Tap to add image", for: .normal)
+        }
+        addImageButton.contentMode = .scaleAspectFit
+        addImageButton.addTarget(self, action: #selector(addImageTapped), for: .touchUpInside)
+    }
+    
+    @objc func addImageTapped(){
+        UIView.animate(withDuration: 0.2) {
+            self.cameraButton.isHidden = false
+            self.addImageButton.isHidden = true
+            self.imagePickerButton.isHidden = false
+            self.imageBackButton.isHidden = false
+        }
+        
+    }
+    
+    func cameraButtonSetup(){
+        imageButtonStack.addArrangedSubview(cameraButton)
+        cameraButton.translatesAutoresizingMaskIntoConstraints = false
+        cameraButton.setTitle("Camera", for: .normal)
+        cameraButton.contentMode = .scaleAspectFit
+        cameraButton.addTarget(self, action: #selector(cameraButtonTapped), for: .touchUpInside)
+        cameraButton.backgroundColor = UIColor.black.withAlphaComponent(0.2)
+        cameraButton.isHidden = true
+    }
+    
+    @objc func cameraButtonTapped(){
+        let vc = UIImagePickerController()
+        vc.sourceType = .camera
+        vc.allowsEditing = true
+        vc.delegate = self
+        present(vc, animated: true)
+    }
+    
+    func imagePickerButtonSetup(){
+        imageButtonStack.addArrangedSubview(imagePickerButton)
+        imagePickerButton.translatesAutoresizingMaskIntoConstraints = false
+        imagePickerButton.setTitle("Photos", for: .normal)
+        imagePickerButton.contentMode = .scaleAspectFit
+        imagePickerButton.addTarget(self, action: #selector(imagePickerButtonTapped), for: .touchUpInside)
+        imagePickerButton.backgroundColor = UIColor.black.withAlphaComponent(0.2)
+        imagePickerButton.isHidden = true
+    }
+    
+    @objc func imagePickerButtonTapped(){
+        let vc = UIImagePickerController()
+        vc.sourceType = .savedPhotosAlbum
+        vc.allowsEditing = true
+        vc.delegate = self
+        present(vc, animated: true)
+    }
+    
+    func imageBackButtonSetup(){
+        view.addSubview(imageBackButton)
+        imageBackButton.translatesAutoresizingMaskIntoConstraints = false
+        imageBackButton.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        imageBackButton.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        imageBackButton.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        imageBackButton.topAnchor.constraint(equalTo: topImageView.bottomAnchor).isActive = true
+        imageBackButton.backgroundColor = UIColor.black.withAlphaComponent(0.5)
+        imageBackButton.addTarget(self, action: #selector(imageBackButonTapped), for: .touchUpInside)
+        imageBackButton.isHidden = true
+    }
+    
+    @objc func imageBackButonTapped(){
+        UIView.animate(withDuration: 0.2) {
+            self.cameraButton.isHidden = true
+            self.imagePickerButton.isHidden = true
+            self.imageBackButton.isHidden = true
+            self.addImageButton.isHidden = false
+        }
+    }
+    
+    func vcNmaeSetup(){
+        view.addSubview(vcName)
+        vcName.translatesAutoresizingMaskIntoConstraints = false
+        vcName.widthAnchor.constraint(equalToConstant: 200).isActive = true
+        vcName.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
+        vcName.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
+        vcName.textAlignment = .center
+        vcName.textColor = .black
+        vcName.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        vcName.font = UIFont.boldSystemFont(ofSize: 30)
+        vcName.text = "Create New Alarm"
+        vcName.topAnchor.constraint(equalTo: topImageView.bottomAnchor, constant: 10).isActive = true
+    }
     
     func showData(){
         if(editable == false){
@@ -110,33 +247,6 @@ class AlarmVC: UIViewController, UITextFieldDelegate {
     }
 
     
-    func imageViewSetup(){
-        if(alarm.label! != nil){
-            view.addSubview(imageView)
-            imageView.translatesAutoresizingMaskIntoConstraints = false
-            imageView.topAnchor.constraint(equalTo: statusStatusLabel.bottomAnchor, constant: 10).isActive = true
-            imageView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-            imageView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-            imageView.bottomAnchor.constraint(equalTo: cancelButton.topAnchor, constant: -10).isActive = true
-            imageView.contentMode = .scaleAspectFit
-            
-            
-            let islandRef = Storage.storage().reference().child("\(userID!)/\(alarm.label!)")
-
-            // Download in memory with a maximum allowed size of 1MB (1 * 1024 * 1024 bytes)
-            islandRef.getData(maxSize: 1 * 1024 * 1024) { data, error in
-              if let error = error {
-                // Uh-oh, an error occurred!
-                print("downloading image \(error)")
-              } else {
-                // Data for "images/island.jpg" is returned
-                let image = UIImage(data: data!)
-                self.imageView.image = image
-              }
-            }
-        }
-        
-    }
     
         
     func showDatePicker(){
@@ -184,7 +294,6 @@ class AlarmVC: UIViewController, UITextFieldDelegate {
         alarmNameTextField.layer.borderColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
         alarmNameTextField.layer.borderWidth = 0.5
         alarmNameTextField.isEnabled = editable
-        alarmNameTextField.delegate = self
     }
     
     func alarmDateTextFieldSetup() {
@@ -218,35 +327,15 @@ class AlarmVC: UIViewController, UITextFieldDelegate {
         alarmTimeTextField.isEnabled = editable
         alarmTimeTextField.delegate = self
     }
-    
-    func statusLabelSetup() {
-        view.addSubview(statusLabel)
-        statusLabel.translatesAutoresizingMaskIntoConstraints = false
-        statusLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        statusLabel.heightAnchor.constraint(equalToConstant: 30).isActive = true
-        statusLabel.topAnchor.constraint(equalTo: alarmTimeTextField.bottomAnchor, constant: 10).isActive = true
-        if (editable == false){
-            statusLabel.text = "Status"
-        }
-    }
+
     
     func alarmNameLabelSetup() {
         view.addSubview(alarmNameLabel)
         alarmNameLabel.translatesAutoresizingMaskIntoConstraints = false
         alarmNameLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         alarmNameLabel.heightAnchor.constraint(equalToConstant: 30).isActive = true
-        alarmNameLabel.topAnchor.constraint(equalTo: alarmDetailsLabel.bottomAnchor, constant: 5).isActive = true
+        alarmNameLabel.topAnchor.constraint(equalTo: vcName.bottomAnchor, constant: 5).isActive = true
         alarmNameLabel.text = "Label"
-    }
-    
-    func alarmDetailsLabelSetup() {
-        view.addSubview(alarmDetailsLabel)
-        alarmDetailsLabel.translatesAutoresizingMaskIntoConstraints = false
-        alarmDetailsLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        alarmDetailsLabel.heightAnchor.constraint(equalToConstant: 30).isActive = true
-        alarmDetailsLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 70).isActive = true
-        //alarmDetailsLabel.text = "Alarm Details"
-        alarmDetailsLabel.font = UIFont.systemFont(ofSize: 30)
     }
 
     
@@ -268,19 +357,6 @@ class AlarmVC: UIViewController, UITextFieldDelegate {
         timeLabel.text = "Time"
     }
 
-
-    
-    
-    
-    
-    func backButtonSetup() {
-        backButton.translatesAutoresizingMaskIntoConstraints = false
-        backButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
-        backButton.widthAnchor.constraint(equalToConstant: 30).isActive = true
-        backButton.setBackgroundImage(UIImage(named: "backButton"), for: .normal)
-        backButton.contentMode = .scaleAspectFill
-        backButton.addTarget(self, action: #selector(backButtonClicked), for: .touchUpInside)
-    }
     
     @objc func backButtonClicked() {
         dismiss(animated: true, completion: nil)
@@ -320,6 +396,13 @@ class AlarmVC: UIViewController, UITextFieldDelegate {
                 "active":false,
                 "status":"Active"])
             
+            if image != nil {
+                print("got called")
+                let fbController = FirebaseController()
+                fbController.uploadImage(image: image, imageName: alarmNameTextField.text!)
+            }
+            
+            
             alarmTimeTextField.text = ""
             alarmDateTextField.text = ""
             alarmNameTextField.text = ""
@@ -328,8 +411,7 @@ class AlarmVC: UIViewController, UITextFieldDelegate {
             alarmDateTextField.layer.borderColor = #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)
             alarmNameTextField.layer.borderColor = #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)
             
-            //activeAlarm = alarmDB.getActiveAlarms()
-            //inactiveAlarm = alarmDB.getInactiveAlarms()
+            
             dismiss(animated: true, completion: nil)
         } else {
             if (alarmTimeTextField.text == ""){
@@ -350,7 +432,7 @@ class AlarmVC: UIViewController, UITextFieldDelegate {
     
     func cancelButtonSetup() {
         cancelButton.translatesAutoresizingMaskIntoConstraints = false
-        cancelButton.setTitle("Cancel", for: .normal)
+        cancelButton.setTitle("Back", for: .normal)
         cancelButton.backgroundColor = .red
         cancelButton.addTarget(self, action: #selector(cancelButtonClicked), for: .touchUpInside)
     }
@@ -359,19 +441,6 @@ class AlarmVC: UIViewController, UITextFieldDelegate {
         dismiss(animated: true, completion: nil)
     }
     
-    func deleteButtonSetup() {
-        deleteButton.translatesAutoresizingMaskIntoConstraints = false
-        deleteButton.setTitle("Delete", for: .normal)
-        deleteButton.backgroundColor = .red
-        deleteButton.addTarget(self, action: #selector(deleteButtonClicked), for: .touchUpInside)
-    }
-    
-    @objc func deleteButtonClicked() {
-        print(alarm.label)
-        alarm.deleteRequest = "Requested"
-        ref.child("Patients").child(Auth.auth().currentUser!.uid).child("Alarms").child("\(alarm.firebaseID!)").child("deleteRequest").setValue("Requested")
-        dismiss(animated: true, completion: nil)
-    }
 
     
     
@@ -383,9 +452,8 @@ class AlarmVC: UIViewController, UITextFieldDelegate {
         buttonStack.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -10).isActive = true
         buttonStack.heightAnchor.constraint(equalToConstant: 50).isActive = true
         buttonStack.backgroundColor = .blue
-        buttonStack.addArrangedSubview(saveButton)
         buttonStack.addArrangedSubview(cancelButton)
-        buttonStack.addArrangedSubview(deleteButton)
+        buttonStack.addArrangedSubview(saveButton)
         buttonStack.spacing = 5
         buttonStack.distribution = .fillEqually
     }

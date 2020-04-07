@@ -156,7 +156,7 @@ class MainVC: UIViewController {
     }
     
     @objc func newAlarmButtonClicked() {
-        let vc = AlarmVC()
+        let vc = CreateNewAlarmVC()
         vc.modalTransitionStyle = .crossDissolve
         vc.modalPresentationStyle = .fullScreen
         present(vc, animated: true, completion: nil)
