@@ -154,8 +154,8 @@
 		6E30BF7D2320BFDD005ABEFC /* SmartPrompter */ = {
 			isa = PBXGroup;
 			children = (
-				6E6ADAFC23388BC400ACE15B /* SmartPrompter.entitlements */,
 				6E63CCAC243F92C8003EBFC4 /* RootViewController.swift */,
+				6E6ADAFC23388BC400ACE15B /* SmartPrompter.entitlements */,
 				6E30BF7E2320BFDD005ABEFC /* AppDelegate.swift */,
 				6E30BF802320BFDD005ABEFC /* UserInfoVC.swift */,
 				6ECDC4F42383A724004A856F /* SignInVC.swift */,

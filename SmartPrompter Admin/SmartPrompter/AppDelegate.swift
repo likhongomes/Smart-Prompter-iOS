@@ -45,8 +45,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         if Auth.auth().currentUser != nil {
             fetchFromFirebase()
-          //self.window?.rootViewController = MainVC()
-            self.window?.rootViewController = RootViewController()
+          self.window?.rootViewController = MainVC()
+            //self.window?.rootViewController = RootViewController()
         } else {
           self.window?.rootViewController = SignInVC()
         }

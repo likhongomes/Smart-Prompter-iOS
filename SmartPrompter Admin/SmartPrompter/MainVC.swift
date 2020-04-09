@@ -10,7 +10,7 @@ import UIKit
 import Firebase
 import CoreData
 
-class MainVC: UIViewController {
+class MainVC: RootViewController {
     
     let newAlarmButton = UIButton()
     let viewAlarmButton = UIButton()
@@ -19,24 +19,37 @@ class MainVC: UIViewController {
     
     let upperQuad = UIView()
     let lowerQuad = UIView()
-    let welcomeTextView = UITextView()
     let secondTextView = UITextView()
-    let logoutButton = UIButton()
-    let recordAudioButton = UIButton()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = #colorLiteral(red: 0.2470588235, green: 0.7019607843, blue: 0.3098039216, alpha: 1)
-        //view.addNavigationBar(viewControllerName: "SmartPrompter Admin")
+        viewControllerLabelSetup(labelType: .main)
+        topLeftButtonSetup(buttonType: .rectangle)
+        topLeftButton.setTitleColor(.white, for: .normal)
+        topLeftButton.setTitle("Sound", for: .normal)
         
-        stackSetup()
-        welcomeTextViewSetup()
+        topRightButtonSetup(buttonType: .rectangle)
+        topRightButton.setTitleColor(.white, for: .normal)
+        topRightButton.setTitle("Logout", for: .normal)
+        
+        viewContollerLabel.text = "SmartPrompter"
+        viewContollerLabel.textColor = .white
+        
+        
+        
+        buttonStack.addArrangedSubview(newAlarmButton)
+        buttonStack.addArrangedSubview(viewAlarmButton)
+        buttonStack.addArrangedSubview(pastAlarmsButton)
+        buttonStack.axis = .vertical
+        buttonStack.spacing = 10
+        
         secondTextViewSetup()
         newAlarmButtonSetup()
         viewAlarmButtonSetup()
         pastAlarmsButtonSetup()
-        logoutButtonSetup()
-        recordAudioButtonSetup()
+        
+        
         
         let date = Date(timeIntervalSinceNow: 3600)
         let triggerDate = Calendar.current.dateComponents([.year,.month,.day,.hour,.minute,.second,], from: date)
@@ -54,29 +67,16 @@ class MainVC: UIViewController {
         } catch let error as NSError {
             print("Error: \(error.localizedDescription)")
         }
-        
     }
     
-    func logoutButtonSetup(){
-        view.addSubview(logoutButton)
-        logoutButton.translatesAutoresizingMaskIntoConstraints = false
-        logoutButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
-        if #available(iOS 11.0, *) {
-            logoutButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20).isActive = true
-        } else {
-            logoutButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 20).isActive = true
-        }
-        logoutButton.heightAnchor.constraint(equalToConstant: 25).isActive = true
-        logoutButton.backgroundColor = .clear
-        logoutButton.widthAnchor.constraint(equalToConstant: 70).isActive = true
-        logoutButton.setTitle("Logout", for: .normal)
-        //logoutButton.setImage(UIImage(named:"logoutButton"), for: .normal)
-        logoutButton.addTarget(self, action: #selector(logoutButtonClicked), for: .touchUpInside)
-        //logoutButton.backgroundColor = .black
+    override func topLeftButtonTapped() {
+        let vc = AudioRecordVC()
+        vc.modalTransitionStyle = .crossDissolve
+        vc.modalPresentationStyle = .fullScreen
+        present(vc, animated: true, completion: nil)
     }
     
-    @objc func logoutButtonClicked() {
-        print("logout clicked")
+    override func topRightButtonTapped() {
         let firebaseAuth = Auth.auth()
         do {
           try firebaseAuth.signOut()
@@ -89,31 +89,18 @@ class MainVC: UIViewController {
         }
     }
     
-    func welcomeTextViewSetup() {
-        view.addSubview(welcomeTextView)
-        welcomeTextView.translatesAutoresizingMaskIntoConstraints = false
-        welcomeTextView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
-        welcomeTextView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
-        welcomeTextView.topAnchor.constraint(equalTo: view.topAnchor, constant: 70).isActive = true
-        welcomeTextView.heightAnchor.constraint(equalToConstant: 70).isActive = true
-        //welcomeTextView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        //welcomeTextView.bottomAnchor.constraint(equalTo: stack.topAnchor, constant: -50).isActive = true
-        welcomeTextView.text = "SmartPrompter"
-        welcomeTextView.textAlignment = .center
-        welcomeTextView.font = UIFont.boldSystemFont(ofSize: 36)
-        welcomeTextView.textColor = .white
-        welcomeTextView.isEditable = false
-        welcomeTextView.isSelectable = false
-
-        welcomeTextView.backgroundColor = .clear
+    @objc func logoutButtonClicked() {
+        
     }
+    
+
     
     func secondTextViewSetup() {
         view.addSubview(secondTextView)
         secondTextView.translatesAutoresizingMaskIntoConstraints = false
         secondTextView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
         secondTextView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
-        secondTextView.topAnchor.constraint(equalTo: welcomeTextView.bottomAnchor, constant: 10).isActive = true
+        secondTextView.topAnchor.constraint(equalTo: viewContollerLabel.bottomAnchor, constant: 10).isActive = true
         secondTextView.heightAnchor.constraint(equalToConstant: 100).isActive = true
         //secondTextView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         //secondTextView.bottomAnchor.constraint(equalTo: stack.topAnchor, constant: -50).isActive = true
@@ -128,20 +115,6 @@ class MainVC: UIViewController {
     
     
     
-    func stackSetup() {
-        view.addSubview(stack)
-        stack.translatesAutoresizingMaskIntoConstraints = false
-        stack.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        stack.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -20).isActive = true
-        stack.axis = .vertical
-        stack.distribution = .fillEqually
-        stack.spacing = 30
-        stack.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
-        stack.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
-        stack.addArrangedSubview(newAlarmButton)
-        stack.addArrangedSubview(viewAlarmButton)
-        stack.addArrangedSubview(pastAlarmsButton)
-    }
     
     func newAlarmButtonSetup() {
         //view.addSubview(newAlarmButton)
@@ -207,26 +180,7 @@ class MainVC: UIViewController {
 
 extension MainVC {
     
-    func recordAudioButtonSetup() {
-        view.addSubview(recordAudioButton)
-        recordAudioButton.translatesAutoresizingMaskIntoConstraints = false
-        recordAudioButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10).isActive = true
-        recordAudioButton.heightAnchor.constraint(equalToConstant: 25).isActive = true
-        recordAudioButton.widthAnchor.constraint(equalToConstant: 70).isActive = true
-        if #available(iOS 11.0, *) {
-            recordAudioButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20).isActive = true
-        } else {
-            recordAudioButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 20).isActive = true
-        }
-        recordAudioButton.setTitle("Record", for: .normal)
-        recordAudioButton.addTarget(self, action: #selector(recordAudioButtonTapped), for: .touchUpInside)
-    }
     
-    @objc func recordAudioButtonTapped(){
-        let vc = AudioRecordVC()
-        vc.modalTransitionStyle = .crossDissolve
-        vc.modalPresentationStyle = .fullScreen
-        present(vc, animated: true, completion: nil)
-    }
+    
     
 }
