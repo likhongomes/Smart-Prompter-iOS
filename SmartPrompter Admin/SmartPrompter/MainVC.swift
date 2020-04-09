@@ -149,7 +149,7 @@ class MainVC: RootViewController {
     }
     
     @objc func viewAlarmButtonClicked() {
-        let vc = CurrentAlarmVC()
+        let vc = CurrentAlarmListVC()
         vc.modalTransitionStyle = .crossDissolve
         vc.modalPresentationStyle = .fullScreen
         present(vc, animated: true, completion: nil)
@@ -170,7 +170,7 @@ class MainVC: RootViewController {
     }
     
     @objc func pastAlarmButtonClicked() {
-        let vc = PastAlarmsVC()
+        let vc = PastAlarmListVC()
         vc.modalTransitionStyle = .crossDissolve
         vc.modalPresentationStyle = .fullScreen
         present(vc, animated: true, completion: nil)

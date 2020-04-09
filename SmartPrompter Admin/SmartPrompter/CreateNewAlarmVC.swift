@@ -14,7 +14,6 @@ class CreateNewAlarmVC: RootViewController, UITextFieldDelegate, UINavigationCon
     
 
     let saveButton = UIButton()
-
     let deleteButton = UIButton()
     
     let alarmNameLabel = UILabel()

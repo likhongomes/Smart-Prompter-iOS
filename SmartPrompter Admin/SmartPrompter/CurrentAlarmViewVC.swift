@@ -10,13 +10,12 @@ import UIKit
 import Firebase
 import FirebaseStorage
 
-class AlarmVC: UIViewController, UITextFieldDelegate {
+class CurrentAlarmViewVC: RootViewController, UITextFieldDelegate {
     
     let backButton = UIButton()
     let saveButton = UIButton()
-    let cancelButton = UIButton()
     let deleteButton = UIButton()
-    let buttonStack = UIStackView()
+
     
     let alarmDetailsLabel = UILabel()
     let alarmNameLabel = UILabel()
@@ -44,8 +43,12 @@ class AlarmVC: UIViewController, UITextFieldDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-        view.addNavigationBar(viewControllerName: screenName, leftButton: backButton)
         
+        topLeftButtonSetup(buttonType: .square)
+        topLeftButton.setImage(#imageLiteral(resourceName: "backButton"), for: .normal)
+        
+        viewControllerLabelSetup(labelType: .sub)
+        viewContollerLabel.text = screenName
         
         alarmDetailsLabelSetup()
         alarmNameLabelSetup()
@@ -59,19 +62,23 @@ class AlarmVC: UIViewController, UITextFieldDelegate {
         //statusLabelSetup()
         statusStatusLabelSetup()
         backButtonSetup()
-        buttonStackSetup()
+
         saveButtonSetup()
-        cancelButtonSetup()
         deleteButtonSetup()
         showDatePicker()
         //showTimePicker()
         //imageViewSetup()
         showData()
         
+        buttonStack.addArrangedSubview(saveButton)
+        buttonStack.addArrangedSubview(deleteButton)
+        
         self.hideKeyboardWhenTappedAround()
     }
     
-
+    override func topLeftButtonTapped() {
+        dismiss(animated: true, completion: nil)
+    }
     
     func showData(){
         if(editable == false){
@@ -117,7 +124,7 @@ class AlarmVC: UIViewController, UITextFieldDelegate {
             imageView.topAnchor.constraint(equalTo: statusStatusLabel.bottomAnchor, constant: 10).isActive = true
             imageView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
             imageView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-            imageView.bottomAnchor.constraint(equalTo: cancelButton.topAnchor, constant: -10).isActive = true
+            imageView.bottomAnchor.constraint(equalTo: buttonStack.topAnchor, constant: -10).isActive = true
             imageView.contentMode = .scaleAspectFit
             
             
@@ -348,12 +355,7 @@ class AlarmVC: UIViewController, UITextFieldDelegate {
         
     }
     
-    func cancelButtonSetup() {
-        cancelButton.translatesAutoresizingMaskIntoConstraints = false
-        cancelButton.setTitle("Cancel", for: .normal)
-        cancelButton.backgroundColor = .red
-        cancelButton.addTarget(self, action: #selector(cancelButtonClicked), for: .touchUpInside)
-    }
+
     
     @objc func cancelButtonClicked() {
         dismiss(animated: true, completion: nil)
@@ -374,21 +376,6 @@ class AlarmVC: UIViewController, UITextFieldDelegate {
     }
 
     
-    
-    func buttonStackSetup() {
-        view.addSubview(buttonStack)
-        buttonStack.translatesAutoresizingMaskIntoConstraints = false
-        buttonStack.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10).isActive = true
-        buttonStack.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10).isActive = true
-        buttonStack.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -10).isActive = true
-        buttonStack.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        buttonStack.backgroundColor = .blue
-        buttonStack.addArrangedSubview(saveButton)
-        buttonStack.addArrangedSubview(cancelButton)
-        buttonStack.addArrangedSubview(deleteButton)
-        buttonStack.spacing = 5
-        buttonStack.distribution = .fillEqually
-    }
     
     func statusStatusLabelSetup() {
         view.addSubview(statusStatusLabel)

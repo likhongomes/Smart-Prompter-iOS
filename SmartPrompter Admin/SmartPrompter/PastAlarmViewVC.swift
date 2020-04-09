@@ -10,14 +10,14 @@ import UIKit
 import Firebase
 import FirebaseStorage
 
-class AlarmView: UIViewController, UITextFieldDelegate {
+class PastAlarmViewVC: RootViewController, UITextFieldDelegate {
     
     let backButton = UIButton()
     let detailTextView = UITextView()
     
     let cancelButton = UIButton()
     let deleteButton = UIButton()
-    let buttonStack = UIStackView()
+
     
     let alarmDetailsLabel = UILabel()
     let alarmNameLabel = UILabel()
@@ -43,19 +43,11 @@ class AlarmView: UIViewController, UITextFieldDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-        view.addNavigationBar(viewControllerName: screenName, leftButton: backButton)
-        //alarmDetailsLabelSetup()
-        //alarmNameLabelSetup()
+        topLeftButtonSetup(buttonType: .square)
+        topLeftButton.setImage(#imageLiteral(resourceName: "backButton"), for: .normal)
         
-        
-        //alarmNameTextFieldSetup()
-        //dateLabelSetup()
-        //alarmDateTextFieldSetup()
-        //timeLabelSetup()
-        //alarmTimeTextFieldSetup()
-        //statusLabelSetup()
-        
-        //backButtonSetup()
+        viewControllerLabelSetup(labelType: .sub)
+        viewContollerLabel.text = screenName
         cancelButtonSetup()
 
         imageViewSetup()

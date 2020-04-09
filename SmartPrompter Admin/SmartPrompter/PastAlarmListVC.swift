@@ -1,5 +1,5 @@
 //
-//  CurrentAlarmVC.swift
+//  PastAlarmsVC.swift
 //  SmartPrompter
 //
 //  Created by Likhon Gomes on 9/10/19.
@@ -7,57 +7,51 @@
 //
 
 import UIKit
+import SQLite3
+import GRDB
 
-class CurrentAlarmVC: RootViewController , UITableViewDataSource, UITableViewDelegate {
-    var activeAlarm = [Alarm]()
-    let alarmTable = UITableView()
+class PastAlarmListVC: RootViewController, UITableViewDelegate, UITableViewDataSource {
     
+    var inactiveAlarm = [Alarm]()
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return activeAlarm.count
+        return inactiveAlarm.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = alarmTable.dequeueReusableCell(withIdentifier: "tableCell", for: indexPath as IndexPath) as! UITableViewCell
-        cell.textLabel?.text = activeAlarm[indexPath.row].label
         cell.textLabel?.font = UIFont.systemFont(ofSize: 22)
-        if activeAlarm[indexPath.row].deleteRequest == "Requested" {
-            cell.backgroundColor = .red
-        }
+        cell.textLabel?.text = inactiveAlarm[indexPath.row].label
         return cell
     }
     
-    
-    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let vc = AlarmVC()
-        vc.screenName = "Alarm Details"
+        let vc = PastAlarmViewVC()
+        vc.screenName = inactiveAlarm[indexPath.row].label!
         vc.editable = false
-        vc.saveButton.isHidden = true
-        vc.cancelButton.isHidden = true
-        vc.statusStatusLabel.text = "Status: \(activeAlarm[indexPath.row].status!)"
-        vc.alarm = activeAlarm[indexPath.row]
+        vc.statusStatusLabel.text = "Status: \(inactiveAlarm[indexPath.row].status!)"
+        vc.alarm = inactiveAlarm[indexPath.row]
+        vc.editable = false
         vc.modalTransitionStyle = .crossDissolve
+        vc.modalPresentationStyle = .fullScreen
         present(vc, animated: true, completion: nil)
     }
-    
-    
-    
 
-
+    let backButton = UIButton()
+    let alarmTable = UITableView()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         view.backgroundColor = .white
         viewControllerLabelSetup(labelType: .sub)
         viewContollerLabel.text = "Current Alarms"
         topLeftButtonSetup(buttonType: .square)
         topLeftButton.setImage(#imageLiteral(resourceName: "backButton"), for: .normal)
-
+        
         alarmTableSetup()
         fetchFromFirebase()
         alarmTable.reloadData()
     }
-    
     
     override func topLeftButtonTapped() {
         dismiss(animated: true, completion: nil)
@@ -73,36 +67,45 @@ class CurrentAlarmVC: RootViewController , UITableViewDataSource, UITableViewDel
         alarmTable.register(UITableViewCell.self, forCellReuseIdentifier: "tableCell")
         alarmTable.delegate = self
         alarmTable.dataSource = self
-        
-    }
 
+    }
+    
     func fetchFromFirebase(){
-        print("Firebase called")
-        activeAlarm = [Alarm]()
-        //inactiveAlarm = [Alarm]()
-        
+        //activeAlarm = [Alarm]()
+        inactiveAlarm = [Alarm]()
         ref.child("Patients").child(userID!).child("Alarms").observe(.childAdded, with: { (snapshot) in
         
           let value = snapshot.value as? NSDictionary
             let singleAlarm = Alarm()
-            singleAlarm.firebaseID = snapshot.key
             singleAlarm.active = value?["active"] as? Bool
             singleAlarm.scheduledHour = value?["scheduledHour"] as? Int
             singleAlarm.scheduledMinute = value?["scheduledMinute"] as? Int
             singleAlarm.scheduledDay = value?["scheduledDay"] as? Int
             singleAlarm.scheduledMonth = value?["scheduledMonth"] as? Int
             singleAlarm.scheduledYear = value?["scheduledYear"] as? Int
+            
+            singleAlarm.acknowledgedHour = value?["acknowledgeHour"] as? Int
+            singleAlarm.acknowledgedMinute = value?["acknowledgeMinute"] as? Int
+            singleAlarm.acknowledgedDay = value?["acknowledgeDay"] as? Int
+            singleAlarm.acknowledgedMonth = value?["acknowledgeMonth"] as? Int
+            singleAlarm.acknowledgedYear = value?["acknowledgeYear"] as? Int
+            
+            singleAlarm.completedHour = value?["completionHour"] as? Int
+            singleAlarm.completedMinute = value?["completionMinute"] as? Int
+            singleAlarm.completedDay = value?["completionDay"] as? Int
+            singleAlarm.completedMonth = value?["completionMonth"] as? Int
+            singleAlarm.completedYear = value?["completionYear"] as? Int
+            
             singleAlarm.label = value?["label"] as? String
             singleAlarm.status = value?["status"] as? String
-            singleAlarm.deleteRequest = value?["deleteRequest"] as? String
             
-            print(singleAlarm.status)
-            if(singleAlarm.status! != "Complete"){
-                self.activeAlarm.append(singleAlarm)
-                print("Printing current Alarm \(singleAlarm)")
-            } else {
-                //inactiveAlarm.append(singleAlarm)
+            
+            if(singleAlarm.status == "Complete"){
+                self.inactiveAlarm.append(singleAlarm)
             }
+            
+            
+            print(value)
             self.alarmTable.reloadData()
             //print("Printing snapshot \(snapshot)")
             
@@ -112,5 +115,7 @@ class CurrentAlarmVC: RootViewController , UITableViewDataSource, UITableViewDel
             print(error.localizedDescription)
         }
     }
+
+    
 
 }
