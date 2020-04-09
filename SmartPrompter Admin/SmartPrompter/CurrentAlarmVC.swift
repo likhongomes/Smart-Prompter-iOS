@@ -21,6 +21,7 @@ class CurrentAlarmVC: UIViewController, UITableViewDataSource, UITableViewDelega
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = alarmTable.dequeueReusableCell(withIdentifier: "tableCell", for: indexPath as IndexPath) as! UITableViewCell
         cell.textLabel?.text = activeAlarm[indexPath.row].label
+        cell.textLabel?.font = UIFont.systemFont(ofSize: 22)
         if activeAlarm[indexPath.row].deleteRequest == "Requested" {
             cell.backgroundColor = .red
         }

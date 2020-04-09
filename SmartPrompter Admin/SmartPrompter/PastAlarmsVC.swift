@@ -19,6 +19,7 @@ class PastAlarmsVC: UIViewController, UITableViewDelegate, UITableViewDataSource
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = alarmTable.dequeueReusableCell(withIdentifier: "tableCell", for: indexPath as IndexPath) as! UITableViewCell
+        cell.textLabel?.font = UIFont.systemFont(ofSize: 22)
         cell.textLabel?.text = inactiveAlarm[indexPath.row].label
         return cell
     }
