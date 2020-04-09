@@ -252,7 +252,7 @@ extension AudioRecordVC {
         instruction.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 40).isActive = true
         instruction.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -40).isActive = true
         instruction.heightAnchor.constraint(equalToConstant: 150).isActive = true
-        instruction.text = "Press the red button to record a Notification tone for your patient. Press the red button again to stop recording. Press the white play button to play back the recording. Press done button afterwards"
+        instruction.text = "Press the red button to record a Notification tone for your client. Press the red button again to stop recording. Press the white play button to play back the recording. Press done button afterwards"
         instruction.font = UIFont.systemFont(ofSize: 18)
         instruction.textAlignment = .center
         instruction.backgroundColor = .clear
