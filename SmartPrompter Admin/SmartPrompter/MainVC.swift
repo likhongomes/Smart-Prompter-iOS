@@ -117,7 +117,7 @@ class MainVC: UIViewController {
         secondTextView.heightAnchor.constraint(equalToConstant: 100).isActive = true
         //secondTextView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         //secondTextView.bottomAnchor.constraint(equalTo: stack.topAnchor, constant: -50).isActive = true
-        secondTextView.text = "Please select an opertation from the the options below"
+        secondTextView.text = "Please select an opertation from the options below"
         secondTextView.textAlignment = .center
         secondTextView.font = UIFont.systemFont(ofSize: 18)
         secondTextView.textColor = .white
