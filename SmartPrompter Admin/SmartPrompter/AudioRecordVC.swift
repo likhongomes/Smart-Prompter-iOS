@@ -32,7 +32,6 @@ class AudioRecordVC: UIViewController, AVAudioRecorderDelegate, AVAudioPlayerDel
         super.viewDidLoad()
         view.backgroundColor = #colorLiteral(red: 0.2470588235, green: 0.7019607843, blue: 0.3098039216, alpha: 1)
         view.addNavigationBar(viewControllerName: "Setup Alert Tone", leftButton: backButton)
-        audioPlayer?.delegate = self
         backButtonSetup()
         recordButtonSetup()
         playButtonSetup()
@@ -70,6 +69,7 @@ class AudioRecordVC: UIViewController, AVAudioRecorderDelegate, AVAudioPlayerDel
         //MARK: Audio Player
         do {
             audioPlayer = try AVAudioPlayer(contentsOf: audioURL)
+            audioPlayer?.delegate = self
             audioPlayer?.prepareToPlay()
         } catch {
             playButton.isHidden = true
