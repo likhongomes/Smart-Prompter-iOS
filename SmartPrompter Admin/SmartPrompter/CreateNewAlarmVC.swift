@@ -10,13 +10,12 @@ import UIKit
 import Firebase
 import FirebaseStorage
 
-class CreateNewAlarmVC: UIViewController, UITextFieldDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
+class CreateNewAlarmVC: RootViewController, UITextFieldDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
     
-    let backButton = UIButton()
+
     let saveButton = UIButton()
-    let cancelButton = UIButton()
+
     let deleteButton = UIButton()
-    let buttonStack = UIStackView()
     
     let alarmNameLabel = UILabel()
     let dateLabel = UILabel()
@@ -48,7 +47,9 @@ class CreateNewAlarmVC: UIViewController, UITextFieldDelegate, UINavigationContr
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-        view.addNavigationBar(viewControllerName: screenName, leftButton: backButton)
+        
+        
+        
         
         topImageViewSetup()
         vcNmaeSetup()
@@ -59,9 +60,9 @@ class CreateNewAlarmVC: UIViewController, UITextFieldDelegate, UINavigationContr
         timeLabelSetup()
         alarmTimeTextFieldSetup()
         statusStatusLabelSetup()
-        buttonStackSetup()
+
         saveButtonSetup()
-        cancelButtonSetup()
+
         showDatePicker()
         showData()
         imageButtonStackSetup()
@@ -70,6 +71,10 @@ class CreateNewAlarmVC: UIViewController, UITextFieldDelegate, UINavigationContr
         cameraButtonSetup()
         imageBackButtonSetup()
         hideKeyboardWhenTappedAround()
+        
+        topLeftButtonSetup(buttonType: .square)
+        topLeftButton.setImage(#imageLiteral(resourceName: "back") , for: .normal)
+        buttonStack.addArrangedSubview(saveButton)
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
@@ -194,6 +199,10 @@ class CreateNewAlarmVC: UIViewController, UITextFieldDelegate, UINavigationContr
             self.imageBackButton.isHidden = true
             self.addImageButton.isHidden = false
         }
+    }
+    
+    override func topLeftButtonTapped() {
+        dismiss(animated: true, completion: nil)
     }
     
     func vcNmaeSetup(){
@@ -430,33 +439,9 @@ class CreateNewAlarmVC: UIViewController, UITextFieldDelegate, UINavigationContr
         
     }
     
-    func cancelButtonSetup() {
-        cancelButton.translatesAutoresizingMaskIntoConstraints = false
-        cancelButton.setTitle("Back", for: .normal)
-        cancelButton.backgroundColor = .red
-        cancelButton.addTarget(self, action: #selector(cancelButtonClicked), for: .touchUpInside)
-    }
-    
-    @objc func cancelButtonClicked() {
-        dismiss(animated: true, completion: nil)
-    }
-    
-
     
     
-    func buttonStackSetup() {
-        view.addSubview(buttonStack)
-        buttonStack.translatesAutoresizingMaskIntoConstraints = false
-        buttonStack.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10).isActive = true
-        buttonStack.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10).isActive = true
-        buttonStack.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -10).isActive = true
-        buttonStack.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        buttonStack.backgroundColor = .blue
-        buttonStack.addArrangedSubview(cancelButton)
-        buttonStack.addArrangedSubview(saveButton)
-        buttonStack.spacing = 5
-        buttonStack.distribution = .fillEqually
-    }
+    
     
     func statusStatusLabelSetup() {
         view.addSubview(statusStatusLabel)

@@ -10,7 +10,7 @@ import UIKit
 import AVFoundation
 import Firebase
 
-class AudioRecordVC: UIViewController, AVAudioRecorderDelegate, AVAudioPlayerDelegate {
+class AudioRecordVC: RootViewController, AVAudioRecorderDelegate, AVAudioPlayerDelegate {
 
 //    var recordButton = UIButton()
 //    var recordingSession = AVAudioSession()
@@ -18,9 +18,9 @@ class AudioRecordVC: UIViewController, AVAudioRecorderDelegate, AVAudioPlayerDel
     
     var recordButton = UIButton()
     let playButton = UIButton()
-    let topLabel = UILabel()
+
     let instruction = UITextView()
-    let backButton = UIButton()
+
     let nextButton = UIButton()
     
     var recordingSession: AVAudioSession!
@@ -31,8 +31,11 @@ class AudioRecordVC: UIViewController, AVAudioRecorderDelegate, AVAudioPlayerDel
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = #colorLiteral(red: 0.2470588235, green: 0.7019607843, blue: 0.3098039216, alpha: 1)
-        view.addNavigationBar(viewControllerName: "Setup Alert Tone", leftButton: backButton)
-        backButtonSetup()
+        viewControllerLabelSetup(labelType: .sub)
+        viewContollerLabel.text = "Alarm Sound"
+        viewContollerLabel.textColor = .white
+        topLeftButtonSetup(buttonType: .square)
+        topLeftButton.setImage(#imageLiteral(resourceName: "back"), for: .normal)
         recordButtonSetup()
         playButtonSetup()
         instructionTextViewSetup()
@@ -133,6 +136,10 @@ class AudioRecordVC: UIViewController, AVAudioRecorderDelegate, AVAudioPlayerDel
         }
     }
     
+    override func topLeftButtonTapped() {
+        dismiss(animated: true, completion: nil)
+    }
+    
     @objc func recordTapped() {
         if audioRecorder == nil {
             startRecording()
@@ -224,22 +231,7 @@ extension AudioRecordVC {
         recordButton.setTitle("Record", for: .normal)
     }
     
-    func topLabelSetup(){
-        view.addSubview(topLabel)
-        topLabel.translatesAutoresizingMaskIntoConstraints = false
-        topLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 40).isActive = true
-        topLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -40).isActive = true
-        if #available(iOS 11.0, *) {
-            topLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20).isActive = true
-        } else {
-            topLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 20).isActive = true
-        }
-        topLabel.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        topLabel.text = "Setup Alert Tone"
-        topLabel.font = UIFont.boldSystemFont(ofSize: 30)
-        topLabel.textColor = .white
-        topLabel.textAlignment = .center
-    }
+
     
     func instructionTextViewSetup(){
         view.addSubview(instruction)
@@ -259,14 +251,7 @@ extension AudioRecordVC {
         instruction.textColor = .white
     }
     
-    func backButtonSetup() {
-        backButton.translatesAutoresizingMaskIntoConstraints = false
-        backButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
-        backButton.widthAnchor.constraint(equalToConstant: 30).isActive = true
-        backButton.setBackgroundImage(UIImage(named: "backButton"), for: .normal)
-        backButton.contentMode = .scaleAspectFill
-        backButton.addTarget(self, action: #selector(backButtonClicked), for: .touchUpInside)
-    }
+    
     
     @objc func backButtonClicked(){
         dismiss(animated: true, completion: nil)
