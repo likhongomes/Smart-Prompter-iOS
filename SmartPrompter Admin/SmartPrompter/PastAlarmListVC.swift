@@ -60,7 +60,11 @@ class PastAlarmListVC: RootViewController, UITableViewDelegate, UITableViewDataS
     func alarmTableSetup() {
         view.addSubview(alarmTable)
         alarmTable.translatesAutoresizingMaskIntoConstraints = false
-        alarmTable.topAnchor.constraint(equalTo: view.topAnchor, constant: 70).isActive = true
+        if #available(iOS 11.0, *) {
+            alarmTable.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 70).isActive = true
+        } else {
+            alarmTable.topAnchor.constraint(equalTo: view.topAnchor, constant: 70).isActive = true
+        }
         alarmTable.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         alarmTable.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
         alarmTable.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
