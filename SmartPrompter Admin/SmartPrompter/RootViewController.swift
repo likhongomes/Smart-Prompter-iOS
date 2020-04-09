@@ -87,7 +87,7 @@ class RootViewController: UIViewController {
             } else {
                 viewContollerLabel.bottomAnchor.constraint(equalTo: view.topAnchor, constant: 10+topButtonSize).isActive = true
             }
-            viewContollerLabel.font = UIFont.systemFont(ofSize: 25)
+            viewContollerLabel.font = UIFont.boldSystemFont(ofSize: 25)
         }
     }
     

@@ -8,11 +8,9 @@
 
 import UIKit
 
-class CurrentAlarmVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class CurrentAlarmVC: RootViewController , UITableViewDataSource, UITableViewDelegate {
     var activeAlarm = [Alarm]()
-    let backButton = UIButton()
     let alarmTable = UITableView()
-    //let data = ["Ula","La","La","La","Le","Yo"]
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return activeAlarm.count
@@ -49,35 +47,26 @@ class CurrentAlarmVC: UIViewController, UITableViewDataSource, UITableViewDelega
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.addNavigationBar(viewControllerName: "Current Alarms", leftButton: backButton)
         view.backgroundColor = .white
-        backButtonSetup()
+        viewControllerLabelSetup(labelType: .sub)
+        viewContollerLabel.text = "Current Alarms"
+        topLeftButtonSetup(buttonType: .square)
+        topLeftButton.setImage(#imageLiteral(resourceName: "backButton"), for: .normal)
+
         alarmTableSetup()
         fetchFromFirebase()
         alarmTable.reloadData()
     }
     
     
-    func backButtonSetup() {
-        backButton.translatesAutoresizingMaskIntoConstraints = false
-        //backButton.leadingAnchor.constraint(equalTo: navView.leadingAnchor, constant: 5).isActive = true
-        //backButton.bottomAnchor.constraint(equalTo: navView.bottomAnchor, constant: -5).isActive = true
-        backButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
-        backButton.widthAnchor.constraint(equalToConstant: 30).isActive = true
-        //backButton.backgroundColor = .blue
-        backButton.setBackgroundImage(UIImage(named: "backButton"), for: .normal)
-        backButton.contentMode = .scaleAspectFill
-        backButton.addTarget(self, action: #selector(backButtonClicked), for: .touchUpInside)
-    }
-    
-    @objc func backButtonClicked() {
+    override func topLeftButtonTapped() {
         dismiss(animated: true, completion: nil)
     }
     
     func alarmTableSetup() {
         view.addSubview(alarmTable)
         alarmTable.translatesAutoresizingMaskIntoConstraints = false
-        alarmTable.topAnchor.constraint(equalTo: view.topAnchor, constant: 90).isActive = true
+        alarmTable.topAnchor.constraint(equalTo: view.topAnchor, constant: 70).isActive = true
         alarmTable.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         alarmTable.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
         alarmTable.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
