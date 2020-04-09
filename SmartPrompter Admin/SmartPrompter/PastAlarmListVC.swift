@@ -10,7 +10,7 @@ import UIKit
 import SQLite3
 import GRDB
 
-class PastAlarmsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class PastAlarmListVC: RootViewController, UITableViewDelegate, UITableViewDataSource {
     
     var inactiveAlarm = [Alarm]()
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -19,20 +19,20 @@ class PastAlarmsVC: UIViewController, UITableViewDelegate, UITableViewDataSource
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = alarmTable.dequeueReusableCell(withIdentifier: "tableCell", for: indexPath as IndexPath) as! UITableViewCell
+        cell.textLabel?.font = UIFont.systemFont(ofSize: 22)
         cell.textLabel?.text = inactiveAlarm[indexPath.row].label
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let vc = AlarmView()
+        let vc = PastAlarmViewVC()
         vc.screenName = inactiveAlarm[indexPath.row].label!
         vc.editable = false
-        
-        //vc.cancelButton.isHidden = true
         vc.statusStatusLabel.text = "Status: \(inactiveAlarm[indexPath.row].status!)"
         vc.alarm = inactiveAlarm[indexPath.row]
         vc.editable = false
         vc.modalTransitionStyle = .crossDissolve
+        vc.modalPresentationStyle = .fullScreen
         present(vc, animated: true, completion: nil)
     }
 
@@ -41,35 +41,30 @@ class PastAlarmsVC: UIViewController, UITableViewDelegate, UITableViewDataSource
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        view.addNavigationBar(viewControllerName: "Past Alarms", leftButton: backButton)
+
         view.backgroundColor = .white
-        backButtonSetup()
+        viewControllerLabelSetup(labelType: .sub)
+        viewContollerLabel.text = "Current Alarms"
+        topLeftButtonSetup(buttonType: .square)
+        topLeftButton.setImage(#imageLiteral(resourceName: "backButton"), for: .normal)
+        
         alarmTableSetup()
         fetchFromFirebase()
         alarmTable.reloadData()
     }
     
-    func backButtonSetup() {
-        backButton.translatesAutoresizingMaskIntoConstraints = false
-        //backButton.leadingAnchor.constraint(equalTo: navView.leadingAnchor, constant: 5).isActive = true
-        //backButton.bottomAnchor.constraint(equalTo: navView.bottomAnchor, constant: -5).isActive = true
-        backButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
-        backButton.widthAnchor.constraint(equalToConstant: 30).isActive = true
-        //backButton.backgroundColor = .blue
-        backButton.setBackgroundImage(UIImage(named: "backButton"), for: .normal)
-        backButton.contentMode = .scaleAspectFill
-        backButton.addTarget(self, action: #selector(backButtonClicked), for: .touchUpInside)
-    }
-    
-    @objc func backButtonClicked() {
+    override func topLeftButtonTapped() {
         dismiss(animated: true, completion: nil)
     }
     
     func alarmTableSetup() {
         view.addSubview(alarmTable)
         alarmTable.translatesAutoresizingMaskIntoConstraints = false
-        alarmTable.topAnchor.constraint(equalTo: view.topAnchor, constant: 60).isActive = true
+        if #available(iOS 11.0, *) {
+            alarmTable.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 70).isActive = true
+        } else {
+            alarmTable.topAnchor.constraint(equalTo: view.topAnchor, constant: 70).isActive = true
+        }
         alarmTable.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         alarmTable.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
         alarmTable.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
