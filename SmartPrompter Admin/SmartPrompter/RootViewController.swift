@@ -23,6 +23,7 @@ class RootViewController: UIViewController {
         topLeftButtonSetup()
         viewControllerLabelSetup()
         topRightButtonSetup()
+        buttonStackSetup()
     }
     
     func topLeftButtonSetup(){
@@ -85,3 +86,5 @@ class RootViewController: UIViewController {
     }
 
 }
+
+
