@@ -107,7 +107,7 @@ class PastAlarmViewVC: RootViewController, UITextFieldDelegate {
         
         if alarm.completedHour != nil && alarm.completedMinute != nil {
             detailTextView.text.append("""
-                Acknowledge Time: \(alarm.completedHour!):\(alarm.completedMinute!)
+                Completed Time: \(alarm.completedHour!):\(alarm.completedMinute!)
         """)
         }
                 
