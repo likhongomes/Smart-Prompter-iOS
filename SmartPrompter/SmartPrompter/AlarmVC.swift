@@ -527,8 +527,8 @@ extension AlarmVC {
         pictureSlider.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -40).isActive = true
         pictureSlider.heightAnchor.constraint(equalToConstant: 20).isActive = true
         pictureSlider.center = self.view.center
-        pictureSlider.minimumTrackTintColor = .gray
-        pictureSlider.maximumTrackTintColor = .gray
+        pictureSlider.minimumTrackTintColor = .red
+        pictureSlider.maximumTrackTintColor = .green
         pictureSlider.thumbTintColor = .purple
         
         pictureSlider.maximumValue = 100
