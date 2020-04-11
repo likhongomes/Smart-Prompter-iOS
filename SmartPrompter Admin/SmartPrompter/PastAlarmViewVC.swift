@@ -81,10 +81,7 @@ class PastAlarmViewVC: RootViewController, UITextFieldDelegate {
     
     func prepareDataforDetailTextView(){
         
-        
-        
-        
-        
+
         detailTextView.text = """
         Scheduled Date:  \(alarm.scheduledMonth!)/\(alarm.scheduledDay!)/\(alarm.scheduledYear!)
         Scheduled Time:  \(alarm.scheduledHour!%12):\(alarm.scheduledMinute!)\n\n
