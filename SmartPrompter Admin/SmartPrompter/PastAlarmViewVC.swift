@@ -48,7 +48,7 @@ class PastAlarmViewVC: RootViewController, UITextFieldDelegate {
         
         viewControllerLabelSetup(labelType: .sub)
         viewContollerLabel.text = screenName
-        cancelButtonSetup()
+        //cancelButtonSetup()
 
         imageViewSetup()
         statusStatusLabelSetup()
@@ -57,13 +57,16 @@ class PastAlarmViewVC: RootViewController, UITextFieldDelegate {
         //showData()
     }
     
+    override func topLeftButtonTapped() {
+        dismiss(animated: true, completion: nil)
+    }
 
     func detailTextViewSetup(){
         view.addSubview(detailTextView)
         detailTextView.translatesAutoresizingMaskIntoConstraints = false
         detailTextView.leadingAnchor.constraint(equalTo: view.leadingAnchor,constant: 20).isActive = true
         detailTextView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
-        detailTextView.bottomAnchor.constraint(equalTo: cancelButton.topAnchor,constant: -10).isActive = true
+        detailTextView.bottomAnchor.constraint(equalTo: view.bottomAnchor,constant: -10).isActive = true
         detailTextView.topAnchor.constraint(equalTo: statusStatusLabel.bottomAnchor, constant: 10).isActive = true
         detailTextView.isSelectable = false
         detailTextView.isEditable = false
@@ -117,7 +120,7 @@ class PastAlarmViewVC: RootViewController, UITextFieldDelegate {
     func imageViewSetup(){
         view.addSubview(imageView)
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.topAnchor.constraint(equalTo: view.topAnchor, constant: 60).isActive = true
+        imageView.topAnchor.constraint(equalTo: view.topAnchor, constant: 70).isActive = true
         imageView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         imageView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
         imageView.heightAnchor.constraint(equalToConstant: 300).isActive = true
