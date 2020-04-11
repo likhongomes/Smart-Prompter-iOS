@@ -44,7 +44,7 @@ class PastAlarmListVC: RootViewController, UITableViewDelegate, UITableViewDataS
 
         view.backgroundColor = .white
         viewControllerLabelSetup(labelType: .sub)
-        viewContollerLabel.text = "Current Alarms"
+        viewContollerLabel.text = "Past Alarms"
         topLeftButtonSetup(buttonType: .square)
         topLeftButton.setImage(#imageLiteral(resourceName: "backButton"), for: .normal)
         
