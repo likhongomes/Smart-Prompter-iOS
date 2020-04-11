@@ -101,13 +101,13 @@ class PastAlarmViewVC: RootViewController, UITextFieldDelegate {
 
         if alarm.completedMonth != nil && alarm.completedDay != nil && alarm.completedYear != nil {
             detailTextView.text.append("""
-                \nCompleted Date: \(alarm.completedMonth!)/\(alarm.completedDay!)/\(alarm.completedYear!)\n
+                \nCompletion Date: \(alarm.completedMonth!)/\(alarm.completedDay!)/\(alarm.completedYear!)\n
         """)
         }
         
         if alarm.completedHour != nil && alarm.completedMinute != nil {
             detailTextView.text.append("""
-                Completed Time: \(alarm.completedHour!):\(alarm.completedMinute!)
+                Completion Time: \(alarm.completedHour!):\(alarm.completedMinute!)
         """)
         }
                 
