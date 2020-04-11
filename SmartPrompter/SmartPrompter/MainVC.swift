@@ -95,13 +95,17 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         }
         
         dateFormatter.dateStyle = .none
-        dateFormatter.timeStyle = .medium
-        timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updateTimeLabel), userInfo: nil, repeats: false)
+        dateFormatter.timeStyle = .short
         
-                
-        
+        timer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(updateTimeLabel), userInfo: nil, repeats: true)
         
     }
+    
+    @objc func updateTimeLabel() {
+        alarmTable.reloadData()
+        clockLabel.text = dateFormatter.string(from: Date())
+    }
+    
     
     @objc func reloadTable() {
         
@@ -109,14 +113,6 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         alarmTable.reloadData()
         refreshControl.endRefreshing()
     }
-    
-    @objc func updateTimeLabel() {
-        alarmTable.reloadData()
-        clockLabel.text = dateFormatter.string(from: Date())
-        print("xxxxxxxx")
-        //print("")
-    }
-    
     
     
     @objc func logoutButtonClicked() {
