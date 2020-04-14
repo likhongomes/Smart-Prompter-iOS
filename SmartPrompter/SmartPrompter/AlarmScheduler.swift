@@ -9,8 +9,14 @@
 import Foundation
 import NotificationCenter
 
-
+///Alarm scheduling class to schedule alarm
 class AlarmScheduler {
+    
+    /// Function to schedule alarm for the first time after doanloaded from Firebase. Simply call this function and it will push the alarm to the OS notification center
+    /// - Parameters:
+    ///   - title: alarm identifier string
+    ///   - dateComponents: The date of the alarm when it should be triggered
+    ///   - id: Firebase ID fetched from firebase just tracking the alarm data
     func scheduleNotification(title:String, dateComponents:DateComponents, id:String?) {
         if #available(iOS 10.0, *) {
             let content = UNMutableNotificationContent()
@@ -44,6 +50,11 @@ class AlarmScheduler {
         
     }
     
+    
+    /// Reschedule alam once the the alarm is delayed
+    /// - Parameters:
+    ///   - title: alarm identifier string
+    ///   - id: Firebase ID fetched from firebase just tracking the alarm data
     public func rescheduleNotification(title:String, id:String?){
         
         var x = 0
@@ -86,6 +97,9 @@ class AlarmScheduler {
         
     }
     
+    
+    /// Request OS to remove notification from pending list and clear the notification list already delivered
+    /// - Parameter title: Alarm identifier string
     func clearNotifications(title:String){
         var x = 0
         while (x<5){
