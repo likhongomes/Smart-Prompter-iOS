@@ -65,8 +65,6 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
         refreshControl.addTarget(self, action: #selector(reloadTable), for: UIControl.Event.valueChanged)
         alarmTable.addSubview(refreshControl)
-        //self.ref.child("Patients").child(Auth.auth().currentUser!.uid).child("Alarms").child("0").setValue(["label":"Water the dog","hour":"06","minute":"30", "active":"true"])
-        
         
         
         let userID = Auth.auth().currentUser?.uid
@@ -86,7 +84,7 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         if #available(iOS 10.0, *) {
             UNUserNotificationCenter.current().delegate = self
         } else {
-            // Fallback on earlier versions
+            
         }
         
         dateFormatter.dateStyle = .none
