@@ -22,13 +22,7 @@ extension MainVC: AlarmVCDelegate {
 
 class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
-    let newAlarmButton = UIButton()
-    let viewAlarmButton = UIButton()
-    let pastAlarmsButton = UIButton()
-    let stack = UIStackView()
-    
-    let upperQuad = UIView()
-    let lowerQuad = UIView()
+
     let welcomeTextView = UILabel()
     let clockLabel = UILabel()
     let topBar = UIView()
@@ -59,7 +53,7 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         print("alarm count ... \(activeAlarm.count)")
         //view.addNavigationBar(viewControllerName: "SmartPrompter Admin")
         topViewSetup()
-        stackSetup()
+
         welcomeTextViewSetup()
         timeLabelSetup()
         clockLabelSetup()
@@ -150,28 +144,7 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     
     
-    @objc func newAlarmButtonClicked() {
-        let vc = AlarmVC()
-        vc.modalTransitionStyle = .crossDissolve
-        present(vc, animated: true, completion: nil)
-    }
-    
-    
-    
-    @objc func viewAlarmButtonClicked() {
-        let vc = CurrentAlarmVC()
-        vc.modalTransitionStyle = .crossDissolve
-        present(vc, animated: true, completion: nil)
-    }
 
-    
-    
-    
-    @objc func pastAlarmButtonClicked() {
-        let vc = PastAlarmsVC()
-        vc.modalTransitionStyle = .crossDissolve
-        present(vc, animated: true, completion: nil)
-    }
     
     func fetchFromFirebase(){
         let userID = Auth.auth().currentUser?.uid
@@ -406,15 +379,10 @@ extension MainVC: UNUserNotificationCenterDelegate {
         } else {
             welcomeTextView.topAnchor.constraint(equalTo: view.topAnchor, constant: 10).isActive = true
         }
-        //welcomeTextView.heightAnchor.constraint(equalToConstant: 70).isActive = true
-        //welcomeTextView.backgroundColor = .clear
-        //welcomeTextView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        //welcomeTextView.bottomAnchor.constraint(equalTo: stack.topAnchor, constant: -50).isActive = true
         welcomeTextView.text = "SmartPrompter"
         welcomeTextView.textAlignment = .center
         welcomeTextView.font = UIFont.boldSystemFont(ofSize: 20)
         welcomeTextView.textColor = .white
-        //welcomeTextView.backgroundColor = .black
     }
     
     func clockLabelSetup() {
@@ -422,11 +390,7 @@ extension MainVC: UNUserNotificationCenterDelegate {
         clockLabel.translatesAutoresizingMaskIntoConstraints = false
         clockLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
         clockLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        //clockLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
         clockLabel.topAnchor.constraint(equalTo: timeLabel.bottomAnchor, constant: 5).isActive = true
-        //clockLabel.heightAnchor.constraint(equalToConstant: 100).isActive = true
-        //clockLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        //clockLabel.bottomAnchor.constraint(equalTo: stack.topAnchor, constant: -50).isActive = true
         clockLabel.text = "08:31:33 AM"
         clockLabel.textAlignment = .center
         clockLabel.font = UIFont.boldSystemFont(ofSize: 40)
@@ -438,52 +402,7 @@ extension MainVC: UNUserNotificationCenterDelegate {
         alarmTable.reloadData()
     }
     
-    func stackSetup() {
-        view.addSubview(stack)
-        stack.translatesAutoresizingMaskIntoConstraints = false
-        stack.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        stack.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -20).isActive = true
-        stack.axis = .vertical
-        stack.distribution = .fillEqually
-        stack.spacing = 15
-        stack.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
-        stack.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
-        stack.addArrangedSubview(newAlarmButton)
-        stack.addArrangedSubview(viewAlarmButton)
-        stack.addArrangedSubview(pastAlarmsButton)
-    }
     
-    func newAlarmButtonSetup() {
-        //view.addSubview(newAlarmButton)
-        newAlarmButton.translatesAutoresizingMaskIntoConstraints = false
-        newAlarmButton.backgroundColor = .red
-        newAlarmButton.setTitle("Create New Alarm", for: .normal)
-        //newAlarmButton.widthAnchor.constraint(equalToConstant: 200).isActive = true
-        newAlarmButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
-        newAlarmButton.addTarget(self, action: #selector(newAlarmButtonClicked), for: .touchUpInside)
-    }
-    
-    func viewAlarmButtonSetup() {
-        //view.addSubview(viewAlarmButton)
-        viewAlarmButton.translatesAutoresizingMaskIntoConstraints = false
-        viewAlarmButton.backgroundColor = .red
-        viewAlarmButton.setTitle("View Current Alarm", for: .normal)
-        //viewAlarmButton.widthAnchor.constraint(equalToConstant: 200).isActive = true
-        viewAlarmButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
-        viewAlarmButton.topAnchor.constraint(equalTo: newAlarmButton.bottomAnchor, constant: 10).isActive = true
-        viewAlarmButton.addTarget(self, action: #selector(viewAlarmButtonClicked), for: .touchUpInside)
-    }
-    
-    func pastAlarmsButtonSetup() {
-        //view.addSubview(pastAlarmsButton)
-        pastAlarmsButton.translatesAutoresizingMaskIntoConstraints = false
-        pastAlarmsButton.backgroundColor = .red
-        pastAlarmsButton.setTitle("View Past Alarms", for: .normal)
-        //pastAlarmsButton.widthAnchor.constraint(equalToConstant: 200).isActive = true
-        pastAlarmsButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
-        pastAlarmsButton.topAnchor.constraint(equalTo: viewAlarmButton.bottomAnchor, constant: 10).isActive = true
-        pastAlarmsButton.addTarget(self, action: #selector(pastAlarmButtonClicked), for: .touchUpInside)
-    }
     
 }
 
