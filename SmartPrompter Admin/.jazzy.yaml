@@ -1,0 +1,4 @@
+module: SmartPrompter_Admin
+author: Temple University Likhon Gomes, Chiu Tan, Sarah Lehman
+theme: jony
+min_acl: private smartprompter
