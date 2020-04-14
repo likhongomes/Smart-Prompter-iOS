@@ -1,0 +1,55 @@
+e: Observing Resources
+#     children:
+#     - ResourceObserver
+#     - ResourceObserverClosure
+#     - ResourceEvent
+
+#   - name: Requests
+#     children:
+#     - Request
+#     - RequestMethod
+#     - RequestState
+#     - RequestError
+#     - Response
+#     - ResponseInfo
+
+#   - name: Request Customization
+#     children:
+#     - RequestChainAction
+#     - RequestDelegate
+#     - RequestCompletionHandler
+
+#   - name: Response Pipeline
+#     children:
+#     - Pipeline
+#     - PipelineStage
+#     - PipelineStageKey
+#     - ResponseTransformer
+#     - ResponseContentTransformer
+#     - StandardTransformer
+#     - JSONResponseTransformer(_:)
+#     - TextResponseTransformer(_:)
+#     - ImageResponseTransformer(_:)
+
+#   - name: Logging
+#     children:
+#     - SiestaLog
+
+#   - name: Caching
+#     children:
+#     - EntityCache
+
+#   - name: UI Helpers
+#     children:
+#     - ResourceStatusOverlay
+#     - RemoteImageView
+
+#   - name: Network Layer
+#     children:
+#     - NetworkingProvider
+#     - NetworkingProviderConvertible
+#     - RequestNetworking
+#     - RequestNetworkingCompletionCallback
+#     - RequestTransferMetrics
+#     - URLSessionProvider
+#     - SessionTaskContainer

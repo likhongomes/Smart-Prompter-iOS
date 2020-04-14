@@ -8,14 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		128DF816866D880778131049 /* Pods_SmartPrompterTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D9840CEF262C226AE015B341 /* Pods_SmartPrompterTests.framework */; };
-		6E27F52B232856ED00FDEAFC /* CurrentAlarmVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E27F52A232856ED00FDEAFC /* CurrentAlarmVC.swift */; };
-		6E27F52D2328571300FDEAFC /* PastAlarmsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E27F52C2328571300FDEAFC /* PastAlarmsVC.swift */; };
 		6E27F52F23343DDB00FDEAFC /* AppDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E27F52E23343DDB00FDEAFC /* AppDatabase.swift */; };
 		6E27F5312334475D00FDEAFC /* Alarm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E27F5302334475D00FDEAFC /* Alarm.swift */; };
 		6E2ABB1D2326154800AC7B86 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E2ABB1C2326154800AC7B86 /* Extensions.swift */; };
 		6E2ABB1F23261C1500AC7B86 /* AlarmVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E2ABB1E23261C1500AC7B86 /* AlarmVC.swift */; };
 		6E30BF7F2320BFDD005ABEFC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E30BF7E2320BFDD005ABEFC /* AppDelegate.swift */; };
-		6E30BF812320BFDD005ABEFC /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E30BF802320BFDD005ABEFC /* ViewController.swift */; };
 		6E30BF862320BFE0005ABEFC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6E30BF852320BFE0005ABEFC /* Assets.xcassets */; };
 		6E30BF892320BFE0005ABEFC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6E30BF872320BFE0005ABEFC /* LaunchScreen.storyboard */; };
 		6E30BF942320BFE0005ABEFC /* SmartPrompterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E30BF932320BFE0005ABEFC /* SmartPrompterTests.swift */; };
@@ -24,7 +21,6 @@
 		6E80670123F8FCA200CA7D14 /* RewardVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E80670023F8FCA200CA7D14 /* RewardVC.swift */; };
 		6E860AC72442326900F32A80 /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E860AC62442326900F32A80 /* RootViewController.swift */; };
 		6E9461A4241F1F6A00B5D622 /* sweet_text.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 6E9461A3241F1F6A00B5D622 /* sweet_text.mp3 */; };
-		6E95C050233D759E001AA782 /* NewAlarmVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E95C04F233D759E001AA782 /* NewAlarmVC.swift */; };
 		6ECDC4F92383AA1A004A856F /* SignInVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ECDC4F82383AA1A004A856F /* SignInVC.swift */; };
 		6ED01611237A6CB5004B9DD7 /* AlarmScheduler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ED01610237A6CB5004B9DD7 /* AlarmScheduler.swift */; };
 		6ED01613237A6DA5004B9DD7 /* FirebaseUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ED01612237A6DA5004B9DD7 /* FirebaseUtil.swift */; };
@@ -56,15 +52,12 @@
 		3EE574B6777E7C73599AB4CB /* Pods-SmartPrompter.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SmartPrompter.release.xcconfig"; path = "Target Support Files/Pods-SmartPrompter/Pods-SmartPrompter.release.xcconfig"; sourceTree = "<group>"; };
 		41E0933D7A3561136C40C96E /* Pods-SmartPrompterUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SmartPrompterUITests.release.xcconfig"; path = "Target Support Files/Pods-SmartPrompterUITests/Pods-SmartPrompterUITests.release.xcconfig"; sourceTree = "<group>"; };
 		50F9DC58E97968C80F3F8FDA /* Pods_SmartPrompter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SmartPrompter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		6E27F52A232856ED00FDEAFC /* CurrentAlarmVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentAlarmVC.swift; sourceTree = "<group>"; };
-		6E27F52C2328571300FDEAFC /* PastAlarmsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PastAlarmsVC.swift; sourceTree = "<group>"; };
 		6E27F52E23343DDB00FDEAFC /* AppDatabase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDatabase.swift; sourceTree = "<group>"; };
 		6E27F5302334475D00FDEAFC /* Alarm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alarm.swift; sourceTree = "<group>"; };
 		6E2ABB1C2326154800AC7B86 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		6E2ABB1E23261C1500AC7B86 /* AlarmVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmVC.swift; sourceTree = "<group>"; };
 		6E30BF7B2320BFDD005ABEFC /* SmartPrompter Patient.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SmartPrompter Patient.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6E30BF7E2320BFDD005ABEFC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		6E30BF802320BFDD005ABEFC /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		6E30BF852320BFE0005ABEFC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		6E30BF882320BFE0005ABEFC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		6E30BF8A2320BFE0005ABEFC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -79,7 +72,6 @@
 		6E80670023F8FCA200CA7D14 /* RewardVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RewardVC.swift; sourceTree = "<group>"; };
 		6E860AC62442326900F32A80 /* RootViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootViewController.swift; sourceTree = "<group>"; };
 		6E9461A3241F1F6A00B5D622 /* sweet_text.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = sweet_text.mp3; sourceTree = "<group>"; };
-		6E95C04F233D759E001AA782 /* NewAlarmVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewAlarmVC.swift; sourceTree = "<group>"; };
 		6ECDC4F82383AA1A004A856F /* SignInVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignInVC.swift; sourceTree = "<group>"; };
 		6ED01610237A6CB5004B9DD7 /* AlarmScheduler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmScheduler.swift; sourceTree = "<group>"; };
 		6ED01612237A6DA5004B9DD7 /* FirebaseUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseUtil.swift; sourceTree = "<group>"; };
@@ -156,27 +148,23 @@
 		6E30BF7D2320BFDD005ABEFC /* SmartPrompter */ = {
 			isa = PBXGroup;
 			children = (
-				6E6ADAFC23388BC400ACE15B /* SmartPrompter.entitlements */,
+				6E27F52E23343DDB00FDEAFC /* AppDatabase.swift */,
 				6E30BF7E2320BFDD005ABEFC /* AppDelegate.swift */,
 				6ECDC4F82383AA1A004A856F /* SignInVC.swift */,
-				6E30BF802320BFDD005ABEFC /* ViewController.swift */,
 				6E9461A3241F1F6A00B5D622 /* sweet_text.mp3 */,
 				6E30BF852320BFE0005ABEFC /* Assets.xcassets */,
 				6E30BF872320BFE0005ABEFC /* LaunchScreen.storyboard */,
 				6EF38CBE234B01790030B169 /* GoogleService-Info.plist */,
-				6E30BF8A2320BFE0005ABEFC /* Info.plist */,
 				6E30BFAC2320D07C005ABEFC /* MainVC.swift */,
 				6ED01612237A6DA5004B9DD7 /* FirebaseUtil.swift */,
 				6E860AC62442326900F32A80 /* RootViewController.swift */,
 				6ED01610237A6CB5004B9DD7 /* AlarmScheduler.swift */,
-				6E95C04F233D759E001AA782 /* NewAlarmVC.swift */,
 				6E2ABB1E23261C1500AC7B86 /* AlarmVC.swift */,
-				6E27F52C2328571300FDEAFC /* PastAlarmsVC.swift */,
-				6E27F52A232856ED00FDEAFC /* CurrentAlarmVC.swift */,
 				6E2ABB1C2326154800AC7B86 /* Extensions.swift */,
 				6E27F5302334475D00FDEAFC /* Alarm.swift */,
 				6E80670023F8FCA200CA7D14 /* RewardVC.swift */,
-				6E27F52E23343DDB00FDEAFC /* AppDatabase.swift */,
+				6E6ADAFC23388BC400ACE15B /* SmartPrompter.entitlements */,
+				6E30BF8A2320BFE0005ABEFC /* Info.plist */,
 			);
 			path = SmartPrompter;
 			sourceTree = "<group>";
@@ -454,7 +442,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6E30BF812320BFDD005ABEFC /* ViewController.swift in Sources */,
 				6E30BFAD2320D07C005ABEFC /* MainVC.swift in Sources */,
 				6ED01613237A6DA5004B9DD7 /* FirebaseUtil.swift in Sources */,
 				6ED01611237A6CB5004B9DD7 /* AlarmScheduler.swift in Sources */,
@@ -462,10 +449,7 @@
 				6E860AC72442326900F32A80 /* RootViewController.swift in Sources */,
 				6ECDC4F92383AA1A004A856F /* SignInVC.swift in Sources */,
 				6E27F52F23343DDB00FDEAFC /* AppDatabase.swift in Sources */,
-				6E27F52B232856ED00FDEAFC /* CurrentAlarmVC.swift in Sources */,
-				6E27F52D2328571300FDEAFC /* PastAlarmsVC.swift in Sources */,
 				6E2ABB1F23261C1500AC7B86 /* AlarmVC.swift in Sources */,
-				6E95C050233D759E001AA782 /* NewAlarmVC.swift in Sources */,
 				6E30BF7F2320BFDD005ABEFC /* AppDelegate.swift in Sources */,
 				6E2ABB1D2326154800AC7B86 /* Extensions.swift in Sources */,
 				6E80670123F8FCA200CA7D14 /* RewardVC.swift in Sources */,
