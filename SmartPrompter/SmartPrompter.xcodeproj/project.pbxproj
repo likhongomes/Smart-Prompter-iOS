@@ -150,11 +150,11 @@
 			children = (
 				6E27F52E23343DDB00FDEAFC /* AppDatabase.swift */,
 				6E30BF7E2320BFDD005ABEFC /* AppDelegate.swift */,
-				6ECDC4F82383AA1A004A856F /* SignInVC.swift */,
 				6E9461A3241F1F6A00B5D622 /* sweet_text.mp3 */,
 				6E30BF852320BFE0005ABEFC /* Assets.xcassets */,
 				6E30BF872320BFE0005ABEFC /* LaunchScreen.storyboard */,
 				6EF38CBE234B01790030B169 /* GoogleService-Info.plist */,
+				6ECDC4F82383AA1A004A856F /* SignInVC.swift */,
 				6E30BFAC2320D07C005ABEFC /* MainVC.swift */,
 				6ED01612237A6DA5004B9DD7 /* FirebaseUtil.swift */,
 				6E860AC62442326900F32A80 /* RootViewController.swift */,
