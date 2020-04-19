@@ -14,6 +14,7 @@ protocol AlarmVCDelegate {
     func reloadTableDelegate()
 }
 
+/// The alarm view controller that is show after a row on the table is tapped
 class AlarmVC: UIViewController, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
     
     let backButton = UIButton()
@@ -49,6 +50,7 @@ class AlarmVC: UIViewController, UINavigationControllerDelegate, UIImagePickerCo
     
     
     
+    /// Main function of the view controller, all the important UI and rest of the alarm meta data are downloaded here.
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
@@ -78,7 +80,7 @@ class AlarmVC: UIViewController, UINavigationControllerDelegate, UIImagePickerCo
         
         
         
-        
+        ///Downoloading all the alarm meta data available from firebase
         ref.child("Patients").child(userID!).child("Alarms").child(alarm.firebaseID!).child("acknowledgeHour").setValue(calendar.component(.hour, from: date))
         ref.child("Patients").child(userID!).child("Alarms").child(alarm.firebaseID!).child("acknowledgeMinute").setValue(calendar.component(.minute, from: date))
         ref.child("Patients").child(userID!).child("Alarms").child(alarm.firebaseID!).child("acknowledgeMonth").setValue(calendar.component(.month, from: date))
@@ -93,7 +95,7 @@ class AlarmVC: UIViewController, UINavigationControllerDelegate, UIImagePickerCo
 
     }
     
-
+    ///Sets up the size/location/shape and style of the imageview
     func imageViewSetup() {
         view.addSubview(imageView)
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -124,7 +126,7 @@ class AlarmVC: UIViewController, UINavigationControllerDelegate, UIImagePickerCo
     
     
     
-    
+    ///Sets up the size/location/shape and style of the date picker
     func showDatePicker(){
         //Formate Date
         datePicker.datePickerMode = .date
@@ -143,6 +145,7 @@ class AlarmVC: UIViewController, UINavigationControllerDelegate, UIImagePickerCo
         
     }
     
+    ///Sets up the size/location/shape and style of the imageview for take image
     func takenImageViewSetup() {
         view.addSubview(takenImageViewer)
         takenImageViewer.translatesAutoresizingMaskIntoConstraints = false
@@ -153,6 +156,7 @@ class AlarmVC: UIViewController, UINavigationControllerDelegate, UIImagePickerCo
         takenImageViewer.contentMode = .scaleAspectFit
     }
     
+    ///Sets up the size/location/shape and style of the time picker
     func showTimePicker(){
         //Formate Date
         timePicker.datePickerMode = .time
@@ -171,6 +175,7 @@ class AlarmVC: UIViewController, UINavigationControllerDelegate, UIImagePickerCo
         
     }
     
+    ///action when done button is tapped on date picker
     @objc func donedatePicker(){
         
         let formatter = DateFormatter()
@@ -179,6 +184,7 @@ class AlarmVC: UIViewController, UINavigationControllerDelegate, UIImagePickerCo
         self.view.endEditing(true)
     }
     
+    ///action when done button is tapped on time picker
     @objc func donetimePicker(){
         
         let formatter = DateFormatter()
@@ -187,6 +193,7 @@ class AlarmVC: UIViewController, UINavigationControllerDelegate, UIImagePickerCo
         self.view.endEditing(true)
     }
     
+    ///Action to cancel date picker and make it disappear
     @objc func cancelDatePicker(){
         self.view.endEditing(true)
     }
@@ -196,6 +203,8 @@ class AlarmVC: UIViewController, UINavigationControllerDelegate, UIImagePickerCo
     
     
     
+    /// Action when slider value is changed. Updates the current status of the alarm based on the direction of slide. If left, then add delay to the alarm. If right, update the data on firebase and prompt the user to the next step
+    /// - Parameter sender: The slider object itself
     @objc func changeValue(_ sender: UISlider) {
         print("value is" , Int(sender.value));
         if(sender.value == 0){
@@ -255,13 +264,8 @@ class AlarmVC: UIViewController, UINavigationControllerDelegate, UIImagePickerCo
     }
     
     
-    
-    
-    
-    
-    
-    
-    
+    /// Action when slider value is changed. Updates the current status of the alarm based on the direction of slide. If left, then add delay to the alarm. If right, update the data on firebase and prompt the user to the next step
+    /// - Parameter sender: The slider object itself
     @objc func changeValuePictureSlider(_ sender: UISlider) {
         //print("value is" , Int(sender.value));
         if(sender.value == 0){
@@ -311,6 +315,7 @@ class AlarmVC: UIViewController, UINavigationControllerDelegate, UIImagePickerCo
     
     
     
+    /// Action when image picker is done picking image and returns it. It also uploads the image to firebase and updates the status of the alarm
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         picker.dismiss(animated: true)
         
@@ -395,7 +400,7 @@ class AlarmVC: UIViewController, UINavigationControllerDelegate, UIImagePickerCo
 
 extension AlarmVC {
     
-
+    ///Sets up the size/location/shape and style of the alarm date text field
     func alarmDateTextFieldSetup() {
         let date = Date()
         let format = DateFormatter()
@@ -415,6 +420,7 @@ extension AlarmVC {
         alarmDateTextField.isEnabled = false
     }
     
+    ///Sets up the size/location/shape and style of the instruction label
     func instructionLabelSetup() {
         view.addSubview(instructionLabel)
         instructionLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -433,6 +439,7 @@ extension AlarmVC {
         
     }
     
+    ///Sets up the size/location/shape and style of the alarm details label
     func alarmDetailsLabelSetup() {
         view.addSubview(alarmDetailsLabel)
         alarmDetailsLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -444,6 +451,7 @@ extension AlarmVC {
         
     }
     
+    ///Sets up the size/location/shape and style of the alarm name text field
     func alarmNameTextFieldSetup() {
         view.addSubview(alarmNameTextField)
         alarmNameTextField.translatesAutoresizingMaskIntoConstraints = false
@@ -455,14 +463,10 @@ extension AlarmVC {
         alarmNameTextField.text = alarm.label
         alarmNameTextField.font = UIFont.boldSystemFont(ofSize: 22)
         alarmNameTextField.isEnabled = false
-        
-        //alarmNameTextField.layer.borderColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
-        //alarmNameTextField.layer.borderWidth = 0.5
-        //alarmNameTextField.
     }
     
     
-    
+    ///Sets up the size/location/shape and style of the back button
     func backButtonSetup() {
         backButton.translatesAutoresizingMaskIntoConstraints = false
         backButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
@@ -473,11 +477,12 @@ extension AlarmVC {
     }
     
     
-    
+    ///Action for back button when clicked, takes the user back to the previous screen
     @objc func backButtonClicked() {
         dismiss(animated: true, completion: nil)
     }
     
+    ///Sets up the size/location/shape and style of the label for the status label
     func statusStatusLabelSetup() {
         view.addSubview(statusStatusLabel)
         statusStatusLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -495,6 +500,7 @@ extension AlarmVC {
         statusStatusLabel.font = UIFont.boldSystemFont(ofSize: 20)
     }
     
+    ///Sets up the size/location/shape and style of the slider
     func sliderSetup() {
         self.view.addSubview(slider)
         //slider.frame = CGRect(x: 0, y: 0, width: 250, height: 35)
@@ -518,6 +524,7 @@ extension AlarmVC {
         
     }
     
+    ///Sets up the size/location/shape and style of the slider
     func pictureSliderSetup() {
         self.view.addSubview(pictureSlider)
         //slider.frame = CGRect(x: 0, y: 0, width: 250, height: 35)

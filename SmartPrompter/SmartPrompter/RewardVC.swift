@@ -46,6 +46,7 @@ class RewardVC: UIViewController {
 }
 
 extension RewardVC {
+    ///Sets up the size/location/shape and style of the imageview
     func imageViewSetup(){
         view.addSubview(imageView)
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -57,37 +58,28 @@ extension RewardVC {
         imageView.image = #imageLiteral(resourceName: "meme2")
     }
 
+    ///Sets up the size/location/shape and style of the progress circle
     func progressCircleSetup(){
         let circlePath2 = UIBezierPath(arcCenter: view.center, radius: CGFloat(100), startAngle: CGFloat(Double.pi * 1.5), endAngle: CGFloat((Double.pi*1.5 + Double.pi * 2)), clockwise: true)
-        
-
         let shapeLayer2 = CAShapeLayer()
         shapeLayer2.path = circlePath2.cgPath
-
         //change the fill color
         shapeLayer2.fillColor = UIColor.clear.cgColor
         //you can change the stroke color
         shapeLayer2.strokeColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
         //you can change the line width
         shapeLayer2.lineWidth = 10.0
-
         view.layer.addSublayer(shapeLayer2)
-        
         let circlePath = UIBezierPath(arcCenter: view.center, radius: CGFloat(100), startAngle: CGFloat(Double.pi * 1.5), endAngle: CGFloat((Double.pi*1.5 + Double.pi * 2*fraction)), clockwise: true)
-        
-
         let shapeLayer = CAShapeLayer()
         shapeLayer.path = circlePath.cgPath
-
         //change the fill color
         shapeLayer.fillColor = UIColor.clear.cgColor
         //you can change the stroke color
         shapeLayer.strokeColor = UIColor.purple.cgColor
         //you can change the line width
         shapeLayer.lineWidth = 10.0
-
         view.layer.addSublayer(shapeLayer)
-        
         view.addSubview(percentageLabel)
         percentageLabel.translatesAutoresizingMaskIntoConstraints = false
         percentageLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
@@ -97,6 +89,7 @@ extension RewardVC {
         percentageLabel.font = UIFont.boldSystemFont(ofSize: 50)
     }
     
+    ///Sets up the size/location/shape and style of the button
     func buttonSetup(){
         view.addSubview(button)
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -109,10 +102,12 @@ extension RewardVC {
         button.addTarget(self, action: #selector(buttonClicked), for: .touchUpInside)
     }
     
+    ///Action when the button is tapped. Takes user back
     @objc func buttonClicked(){
         dismiss(animated: true, completion: nil)
     }
     
+    ///Sets up the size/location/shape and style of the textview
     func textViewSetup(){
         view.addSubview(textView)
         textView.translatesAutoresizingMaskIntoConstraints = false

@@ -11,6 +11,11 @@ import UIKit
 
 extension UIView {
     
+    /// Add navigation top bar to the view controller.
+    /// - Parameters:
+    ///   - viewControllerName: Name to be put on the bar
+    ///   - leftButton: UIButton to be put on the top left corner of screen
+    ///   - rightButton: UIButton to be put on the top right corner of screen
     func addNavigationBar(viewControllerName:String, leftButton:UIButton = UIButton(), rightButton:UIButton = UIButton())  {
         let navView = UIView()
         addSubview(navView)
@@ -53,18 +58,23 @@ extension UIView {
 }
 
 extension UIViewController {
+    
+    
+    /// Enables current view controller to hide keyboard when tapped outside the keyboard area
     func hideKeyboardWhenTappedAround() {
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(UIViewController.dismissKeyboard))
         tap.cancelsTouchesInView = false
         view.addGestureRecognizer(tap)
     }
-
+    ///Action to hide the keybaord
     @objc func dismissKeyboard() {
         view.endEditing(true)
     }
 }
 
 extension DateComponents {
+    
+    /// Adds a minute to the date
     mutating func addAMinute() {
         if(self.minute != 59){
             self.minute! += 1

@@ -32,6 +32,7 @@ var completedTask = Double()
 
 @available(iOS 10.0, *)
 @UIApplicationMain
+/// Main fuction of the whole app, it decides which viewcontroller to present firstt when the app launches. Checks wether the user is logged and presents viewcontroller based on that
 class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
 
     var window: UIWindow?
@@ -88,6 +89,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         return true
     }
     
+    /// Background fetch function. Tries the fetch data when the app is in background
+    /// - Parameters:
+    ///   - application: The current application
+    ///   - completionHandler: checks whether new data has been fetched
     func application(_ application: UIApplication,
                      performFetchWithCompletionHandler completionHandler:
                      @escaping (UIBackgroundFetchResult) -> Void) {
@@ -149,7 +154,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         didFailToRegisterForRemoteNotificationsWithError error: Error) {
         print("Failed to register: \(error)")
     }
-
+    
+    ///Sets up the internal swl database which is currently not in use
     private func setupDatabase(_ application: UIApplication) throws {
         let databaseURL = try FileManager.default
             .url(for: .applicationSupportDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
@@ -161,6 +167,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         dbQueue.setupMemoryManagement(in: application)
     }
     
+    ///Registers the app for push notification
     func registerForPushNotifications() {
         if #available(iOS 10.0, *) {
             UNUserNotificationCenter.current() // 1
@@ -174,7 +181,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     }
     
     
-    
+    ///Gets the notification settings for  local notification
     func getNotificationSettings() {
         if #available(iOS 10.0, *) {
             UNUserNotificationCenter.current().getNotificationSettings { settings in
@@ -185,29 +192,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         }
     }
     
-    
-    var alarms = [Alarm]()
-    func fetchFromFirebase(){
-        let userID = Auth.auth().currentUser?.uid
-        ref.child("Patients").child(userID!).child("Alarms").observe(.childAdded, with: { (snapshot) in
-            
-        
-          let value = snapshot.value as? NSDictionary
-            let singleAlarm = Alarm()
-            singleAlarm.active = value?["active"] as? Bool
-            singleAlarm.hour = value?["hour"] as? Int
-            singleAlarm.minute = value?["minute"] as? Int
-            singleAlarm.label = value?["label"] as? String
-            
-            activeAlarm.append(singleAlarm)
-            
-            print("Printing snapshot \(snapshot)")
-            //print("printing data ..... \(self.alarms[0].minute)")
-          // ...
-          }) { (error) in
-            print(error.localizedDescription)
-        }
-    }
+
+
     
     
     // This function will be called when the app receive notification
@@ -237,7 +223,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
          completionHandler()
        }
 
-    
+    ///Download the custom notifcation sound that's to be used
     func downloadNotificationSound(){
         
         let fileManager = FileManager.default
@@ -275,6 +261,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     
 }
 
+///Get the document directory
 func getDocumentsDirectory() -> URL {
     let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
     return paths[0]
@@ -282,6 +269,7 @@ func getDocumentsDirectory() -> URL {
 
 @available(iOS 11.0, *)
 extension UIDevice {
+    ///Checks if the current phone has a notch
     var hasNotch: Bool {
         let bottom = UIApplication.shared.keyWindow?.safeAreaInsets.bottom ?? 0
         return bottom > 0

@@ -12,7 +12,7 @@ import Firebase
 class FirebaseUtil {
     
     
-    /// Fetch one particular firebase object using the given firebase ID
+    /// Fetch one particular firebase object using the given firebase ID. Returns a single alarm
     /// - Parameter firebaseID: The id of the element trying to fetch from firebase
     func fetchOneObject(firebaseID:String) -> Alarm {
         let singleAlarm = Alarm()
