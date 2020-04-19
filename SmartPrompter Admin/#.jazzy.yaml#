@@ -1,0 +1,4 @@
+module: smartprompter
+author: Temple University Likhon Gomes, Chiu Tan, Sarah Lehman
+theme: jony
+jazzy --min-acl internal --author "Likhon Rockstar Gomes"

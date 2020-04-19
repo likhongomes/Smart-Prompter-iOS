@@ -11,6 +11,9 @@ import Firebase
 
 class FirebaseUtil {
     
+    
+    /// Fetch one particular firebase object using the given firebase ID
+    /// - Parameter firebaseID: The id of the element trying to fetch from firebase
     func fetchOneObject(firebaseID:String) -> Alarm {
         let singleAlarm = Alarm()
         let userID = Auth.auth().currentUser?.uid
@@ -36,18 +39,11 @@ class FirebaseUtil {
             scheduler.scheduleNotification(title: singleAlarm.label!, dateComponents: dateComponents, id:singleAlarm.firebaseID!)
 
             print("Printing snapshot \(snapshot)")
-            
-            //print("printing data ..... \(self.alarms[0].minute)")
-          // ...
+
           }
         return singleAlarm
     }
         
-    func updateSingleData(firebaseId: String = "", label:String = "", active:Bool, hour:Int,minute:Int){
-        
-        //ref.child("Patients").child(userID!).child("Alarms").child("\(firebaseId)").setValue(["active": username])
-        
-    }
 
     
     

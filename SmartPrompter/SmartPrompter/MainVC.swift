@@ -20,9 +20,10 @@ extension MainVC: AlarmVCDelegate {
 }
 
 
-class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
+/// The main view controlller of the app. Users often see this view controller as a default. This is where all the alarms are fetched from firebase and alarm requests are made to the OS.
+class MainVC: UIViewController {
     
-
+    
     let welcomeTextView = UILabel()
     let clockLabel = UILabel()
     let topBar = UIView()
@@ -43,6 +44,7 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
 
     
+    /// This is tha main function where all the important tasks are called, such as loading the UI, Fetching from firebase and loading data into array
     override func viewDidLoad() {
         ref = Database.database().reference()
 
@@ -72,7 +74,6 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
           // Get user value
           let value = snapshot.value as? NSDictionary
           let username = value?["label"] as? String ?? ""
-          //let user = User(username: username)
             print(username)
           // ...
           }) { (error) in
@@ -94,6 +95,7 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         
     }
     
+    ///Updates the time label for the clock shown on screen. Also refreshes the table view after certain time period
     @objc func updateTimeLabel() {
         alarmTable.reloadData()
         if activeAlarm.count != 0 {
@@ -105,14 +107,14 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         clockLabel.text = dateFormatter.string(from: Date())
     }
     
-    
+    ///Reloads data in the table view
     @objc func reloadTable() {
-        
         print("refreshing")
         alarmTable.reloadData()
         refreshControl.endRefreshing()
     }
     
+    ///Sets up the summary label. This label shows how many alarms are remaining to be completed for the day.
     func summaryLabelSetup(){
         topBar.addSubview(summaryLabel)
         summaryLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -123,9 +125,10 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         summaryLabel.font = UIFont.systemFont(ofSize: 20)
         summaryLabel.textColor = .white
         summaryLabel.textAlignment = .center
-        summaryLabel.text = "adasd "
+        summaryLabel.text = " "
     }
     
+    ///Logout button action. Logout the user from the app
     @objc func logoutButtonClicked() {
         print("logout clicked")
         let firebaseAuth = Auth.auth()
@@ -140,10 +143,7 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         }
     }
     
-    
-    
-
-    
+    ///Fetches data from firebase and loads them in an array to be supplied to table view
     func fetchFromFirebase(){
         let userID = Auth.auth().currentUser?.uid
         ref.child("Patients").child(userID!).child("Alarms").observe(.childChanged, with: { (DataSnapshot) in
@@ -231,18 +231,24 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
 }
 
 
-extension MainVC: UNUserNotificationCenterDelegate {
+extension MainVC: UNUserNotificationCenterDelegate, UITableViewDelegate, UITableViewDataSource {
     
+    ///Built in tablie view function. Determines how many rows to be shown in the table
+    /// - Parameters:
+    ///   - tableView: table view class
+    ///   - section: number of rows
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return activeAlarm.count
     }
     
+    ///Sorts out the data to be shown in each row of the table
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = alarmTable.dequeueReusableCell(withIdentifier: "tableCell", for: indexPath as IndexPath) as! UITableViewCell
         cell.textLabel?.text = activeAlarm[indexPath.row].label
         return cell
     }
     
+    ///Action to be done when a row is tapped
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let vc = AlarmVC()
         vc.alarm = activeAlarm[indexPath.row]
@@ -260,6 +266,7 @@ extension MainVC: UNUserNotificationCenterDelegate {
         present(vc, animated: true, completion: nil)
         //scheduleNotification()
     }
+    
     
     @available(iOS 10.0, *)
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
@@ -313,6 +320,7 @@ extension MainVC: UNUserNotificationCenterDelegate {
       completionHandler()
     }
     
+    ///Sets up the size/location/shape and style of the logout button
     func logoutButtonSetup(){
         view.addSubview(logoutButton)
         logoutButton.translatesAutoresizingMaskIntoConstraints = false
@@ -331,6 +339,7 @@ extension MainVC: UNUserNotificationCenterDelegate {
         //logoutButton.backgroundColor = .black
     }
     
+    ///Sets up the size/location/shape and style of the alarm table
     func alarmTableSetup() {
         view.addSubview(alarmTable)
         alarmTable.translatesAutoresizingMaskIntoConstraints = false
@@ -344,7 +353,7 @@ extension MainVC: UNUserNotificationCenterDelegate {
         
     }
     
-    
+    ///Sets up the size/location/shape and style of the top view
     func topViewSetup() {
         view.addSubview(topBar)
         topBar.translatesAutoresizingMaskIntoConstraints = false
@@ -355,6 +364,7 @@ extension MainVC: UNUserNotificationCenterDelegate {
         topBar.backgroundColor = #colorLiteral(red: 0.1843137255, green: 0.2039215686, blue: 0.5647058824, alpha: 1)
     }
     
+    ///Sets up the size/location/shape and style of the time label
     func timeLabelSetup() {
         view.addSubview(timeLabel)
         timeLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -366,7 +376,7 @@ extension MainVC: UNUserNotificationCenterDelegate {
     }
     
     
-    
+    ///Sets up the size/location/shape and style of the welcome text
     func welcomeTextViewSetup() {
         view.addSubview(welcomeTextView)
         welcomeTextView.translatesAutoresizingMaskIntoConstraints = false
@@ -383,6 +393,7 @@ extension MainVC: UNUserNotificationCenterDelegate {
         welcomeTextView.textColor = .white
     }
     
+    ///Sets up the size/location/shape and style of the clock label
     func clockLabelSetup() {
         view.addSubview(clockLabel)
         clockLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -395,6 +406,7 @@ extension MainVC: UNUserNotificationCenterDelegate {
         clockLabel.textColor = .white
     }
     
+    ///Refreshes the data in the alarm table when the view is loaded
     override func viewWillAppear(_ animated: Bool) {
         print("table should be cleared")
         alarmTable.reloadData()
