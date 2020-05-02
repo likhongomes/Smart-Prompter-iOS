@@ -1,0 +1,5 @@
+# activeAlarm
+
+``` swift
+var activeAlarm
+```

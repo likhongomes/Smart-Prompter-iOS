@@ -8,6 +8,7 @@
 
 import UIKit
 
+///View controller that asks for user's information
 class UserInfoVC: UIViewController, UITextFieldDelegate {
     
     let careTakerFirstNameTF = UITextField()
