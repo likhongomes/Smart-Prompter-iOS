@@ -10,6 +10,7 @@ import UIKit
 import AVFoundation
 import Firebase
 
+///Class for recording audio for alarm sound
 class AudioRecordVC: RootViewController, AVAudioRecorderDelegate, AVAudioPlayerDelegate {
 
 //    var recordButton = UIButton()
@@ -67,6 +68,7 @@ class AudioRecordVC: RootViewController, AVAudioRecorderDelegate, AVAudioPlayerD
         
     }
     
+    ///loads the audio player to play the sound on device
     func loadAudioPlayer() {
         let audioURL = getDocumentsDirectory().appendingPathComponent("recording.m4a")
         //MARK: Audio Player
@@ -79,12 +81,13 @@ class AudioRecordVC: RootViewController, AVAudioRecorderDelegate, AVAudioPlayerD
         }
     }
     
+    ///Checks if the audio player finished playing the sound, then change the play button
     func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
         playButton.isSelected = false
         print("audio stopped")
     }
     
-
+    ///Loads the button button to record. Sets title and adds target
     func loadRecordingUI() {
         //recordButton = UIButton(frame: CGRect(x: 64, y: 64, width: 128, height: 64))
         recordButton.setTitle("Tap to Record", for: .normal)
@@ -94,7 +97,7 @@ class AudioRecordVC: RootViewController, AVAudioRecorderDelegate, AVAudioPlayerD
     }
     
     
-    
+    ///Starts the recording session on device
     func startRecording() {
         audioFilename = getDocumentsDirectory().appendingPathComponent("recording.m4a")
         //directoryString = audioFilename
@@ -118,11 +121,13 @@ class AudioRecordVC: RootViewController, AVAudioRecorderDelegate, AVAudioPlayerD
         }
     }
     
+    ///Gets the documents directory of the audio stored
     func getDocumentsDirectory() -> URL {
         let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
         return paths[0]
     }
     
+    ///Finishes the recording session and clears memory to nil
     func finishRecording(success: Bool) {
         audioRecorder.stop()
         audioRecorder = nil
@@ -136,10 +141,12 @@ class AudioRecordVC: RootViewController, AVAudioRecorderDelegate, AVAudioPlayerD
         }
     }
     
+    ///Action for top left button when tapped. Takes the user back to the main vc
     override func topLeftButtonTapped() {
         dismiss(animated: true, completion: nil)
     }
     
+    ///action for when the record button is tapped. Starts the audio session or stops
     @objc func recordTapped() {
         if audioRecorder == nil {
             startRecording()
@@ -149,12 +156,14 @@ class AudioRecordVC: RootViewController, AVAudioRecorderDelegate, AVAudioPlayerD
         }
     }
     
+    ///Checks if the audio recorder did finish recording. Sets the flag according to that
     func audioRecorderDidFinishRecording(_ recorder: AVAudioRecorder, successfully flag: Bool) {
         if !flag {
             finishRecording(success: false)
         }
     }
     
+    ///Uploads the recorded audio to firebase
     func uploadToFirebase() {
         print("uploading audio to firebase")
         let audioName = NSUUID().uuidString //You'll get unique audioFile name
@@ -191,7 +200,7 @@ class AudioRecordVC: RootViewController, AVAudioRecorderDelegate, AVAudioPlayerD
 }
 
 extension AudioRecordVC {
-    
+    ///Setup function for  play button on the view. Specifies the location, size and the syle of it
     func playButtonSetup(){
         view.addSubview(playButton)
         playButton.translatesAutoresizingMaskIntoConstraints = false
@@ -208,6 +217,7 @@ extension AudioRecordVC {
         playButton.addTarget(self, action: #selector(playButtonTapped), for: .touchUpInside)
     }
     
+    ///action for when play button is tapped. Plays the audio if not playing, stops the audio if playing
     @objc func playButtonTapped(){
         if playButton.isSelected == true {
             playButton.isSelected = false
@@ -219,6 +229,7 @@ extension AudioRecordVC {
         }
     }
     
+    ///Setup function for  record button on the view. Specifies the location, size and the syle of it
     func recordButtonSetup() {
         view.addSubview(recordButton)
         recordButton.translatesAutoresizingMaskIntoConstraints = false
@@ -231,8 +242,7 @@ extension AudioRecordVC {
         recordButton.setTitle("Record", for: .normal)
     }
     
-
-    
+    ///Setup function for  instruction text view on the view. Specifies the location, size and the syle of it
     func instructionTextViewSetup(){
         view.addSubview(instruction)
         instruction.translatesAutoresizingMaskIntoConstraints = false
@@ -251,12 +261,8 @@ extension AudioRecordVC {
         instruction.textColor = .white
     }
     
-    
-    
-    @objc func backButtonClicked(){
-        dismiss(animated: true, completion: nil)
-    }
-    
+
+    ///Setup function for  next button on the view. Specifies the location, size and the syle of it
     func nextButtonSetup() {
         view.addSubview(nextButton)
         nextButton.translatesAutoresizingMaskIntoConstraints = false
@@ -266,6 +272,7 @@ extension AudioRecordVC {
         nextButton.addTarget(self, action: #selector(nextButtonTapped), for: .touchUpInside)
     }
     
+    ///Action for when next buton is tapped. Takes the usre to Main VC
     @objc func nextButtonTapped(){
         let vc = MainVC()
         vc.modalPresentationStyle = .fullScreen

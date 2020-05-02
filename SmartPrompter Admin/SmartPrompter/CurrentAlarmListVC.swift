@@ -8,6 +8,7 @@
 
 import UIKit
 
+///view controller to show list of current alarms
 class CurrentAlarmListVC: RootViewController , UITableViewDataSource, UITableViewDelegate {
     var activeAlarm = [Alarm]()
     let alarmTable = UITableView()
@@ -64,6 +65,7 @@ class CurrentAlarmListVC: RootViewController , UITableViewDataSource, UITableVie
         dismiss(animated: true, completion: nil)
     }
     
+    ///Setup function for  alarm table on the view. Specifies the location, size and the syle of it
     func alarmTableSetup() {
         view.addSubview(alarmTable)
         alarmTable.translatesAutoresizingMaskIntoConstraints = false
@@ -81,6 +83,7 @@ class CurrentAlarmListVC: RootViewController , UITableViewDataSource, UITableVie
         
     }
 
+    ///fetch data from firebase
     func fetchFromFirebase(){
         print("Firebase called")
         activeAlarm = [Alarm]()

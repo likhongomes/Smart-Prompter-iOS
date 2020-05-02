@@ -10,6 +10,7 @@ import UIKit
 import Firebase
 import FirebaseStorage
 
+///View controller for create new alarm
 class CreateNewAlarmVC: RootViewController, UITextFieldDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
     
 
@@ -76,6 +77,7 @@ class CreateNewAlarmVC: RootViewController, UITextFieldDelegate, UINavigationCon
         buttonStack.addArrangedSubview(saveButton)
     }
     
+    
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         picker.dismiss(animated: true)
 
@@ -94,6 +96,7 @@ class CreateNewAlarmVC: RootViewController, UITextFieldDelegate, UINavigationCon
         imageBackButton.isHidden = true
     }
     
+    ///Setup function for  image button stacks on the view. Specifies the location, size and the syle of it
     func imageButtonStackSetup(){
         topImageView.addSubview(imageButtonStack)
         imageButtonStack.translatesAutoresizingMaskIntoConstraints = false
@@ -107,7 +110,7 @@ class CreateNewAlarmVC: RootViewController, UITextFieldDelegate, UINavigationCon
     }
     
     
-    
+    ///Setup function for  top image view on the view. Specifies the location, size and the syle of it
     func topImageViewSetup(){
         view.addSubview(topImageView)
         topImageView.translatesAutoresizingMaskIntoConstraints = false
@@ -121,7 +124,7 @@ class CreateNewAlarmVC: RootViewController, UITextFieldDelegate, UINavigationCon
     }
     
     
-    
+    ///Setup function for  add image button on the view. Specifies the location, size and the syle of it
     func addImageButtonSetup(){
         imageButtonStack.addArrangedSubview(addImageButton)
         addImageButton.translatesAutoresizingMaskIntoConstraints = false
@@ -133,6 +136,7 @@ class CreateNewAlarmVC: RootViewController, UITextFieldDelegate, UINavigationCon
         addImageButton.addTarget(self, action: #selector(addImageTapped), for: .touchUpInside)
     }
     
+    ///action for when add image is tapped. Opens image picker
     @objc func addImageTapped(){
         UIView.animate(withDuration: 0.2) {
             self.cameraButton.isHidden = false
@@ -143,6 +147,7 @@ class CreateNewAlarmVC: RootViewController, UITextFieldDelegate, UINavigationCon
         
     }
     
+    ///Setup function for  camera button on the view. Specifies the location, size and the syle of it
     func cameraButtonSetup(){
         imageButtonStack.addArrangedSubview(cameraButton)
         cameraButton.translatesAutoresizingMaskIntoConstraints = false
@@ -153,6 +158,7 @@ class CreateNewAlarmVC: RootViewController, UITextFieldDelegate, UINavigationCon
         cameraButton.isHidden = true
     }
     
+    ///action for when camera button is tapped. Opens the camera
     @objc func cameraButtonTapped(){
         let vc = UIImagePickerController()
         vc.sourceType = .camera
@@ -161,6 +167,7 @@ class CreateNewAlarmVC: RootViewController, UITextFieldDelegate, UINavigationCon
         present(vc, animated: true)
     }
     
+    ///Setup function for  image picker button on the view. Specifies the location, size and the syle of it
     func imagePickerButtonSetup(){
         imageButtonStack.addArrangedSubview(imagePickerButton)
         imagePickerButton.translatesAutoresizingMaskIntoConstraints = false
@@ -171,6 +178,7 @@ class CreateNewAlarmVC: RootViewController, UITextFieldDelegate, UINavigationCon
         imagePickerButton.isHidden = true
     }
     
+    ///action for when image picker button is tapped. Set the image to be displayed
     @objc func imagePickerButtonTapped(){
         let vc = UIImagePickerController()
         vc.sourceType = .savedPhotosAlbum
@@ -179,6 +187,7 @@ class CreateNewAlarmVC: RootViewController, UITextFieldDelegate, UINavigationCon
         present(vc, animated: true)
     }
     
+    ///Setup function for  image back button on the view. Specifies the location, size and the syle of it
     func imageBackButtonSetup(){
         view.addSubview(imageBackButton)
         imageBackButton.translatesAutoresizingMaskIntoConstraints = false
@@ -191,6 +200,7 @@ class CreateNewAlarmVC: RootViewController, UITextFieldDelegate, UINavigationCon
         imageBackButton.isHidden = true
     }
     
+    ///action for when image back button is tapped.
     @objc func imageBackButonTapped(){
         UIView.animate(withDuration: 0.2) {
             self.cameraButton.isHidden = true
@@ -200,10 +210,12 @@ class CreateNewAlarmVC: RootViewController, UITextFieldDelegate, UINavigationCon
         }
     }
     
+    ///action for when top left button is clicked. Takes the user back to the previous screen
     override func topLeftButtonTapped() {
         dismiss(animated: true, completion: nil)
     }
     
+    ///Setup function for  view controller name on the view. Specifies the location, size and the syle of it
     func vcNmaeSetup(){
         view.addSubview(vcName)
         vcName.translatesAutoresizingMaskIntoConstraints = false
@@ -218,6 +230,8 @@ class CreateNewAlarmVC: RootViewController, UITextFieldDelegate, UINavigationCon
         vcName.topAnchor.constraint(equalTo: topImageView.bottomAnchor, constant: 10).isActive = true
     }
     
+    
+    ///show the data in alarm textfield
     func showData(){
         if(editable == false){
             alarmNameTextField.text = alarm.label
@@ -227,6 +241,7 @@ class CreateNewAlarmVC: RootViewController, UITextFieldDelegate, UINavigationCon
 
     }
     
+    ///checks if the textfield did begin editing, set the inputview accordingly
     func textFieldDidBeginEditing(_ textField: UITextField) {
         if(textField == alarmTimeTextField){
             alarmTimeTextField.inputView = datePicker
@@ -240,6 +255,7 @@ class CreateNewAlarmVC: RootViewController, UITextFieldDelegate, UINavigationCon
         selectedTextField = textField
     }
     
+    ///checks if textfield did end editing then format the date accordingly
     func textFieldDidEndEditing(_ textField: UITextField) {
         if(textField == alarmTimeTextField){
             let formatter = DateFormatter()
@@ -256,7 +272,7 @@ class CreateNewAlarmVC: RootViewController, UITextFieldDelegate, UINavigationCon
 
     
     
-        
+    ///shows the date picker on screen
     func showDatePicker(){
         //Formate Date
         datePicker.datePickerMode = .date
@@ -274,22 +290,25 @@ class CreateNewAlarmVC: RootViewController, UITextFieldDelegate, UINavigationCon
         
     }
     
-
+    ///done editing the date picker
     @objc func donedatePicker(){
         self.view.endEditing(true)
     }
     
+    ///done editing the time picker
     @objc func donetimePicker(){
         
         self.view.endEditing(true)
     }
     
+    
+    ///cancels editing the date picker
     @objc func cancelDatePicker(){
         self.view.endEditing(true)
     }
     
 
-    
+    ///Setup function for  alarm name text field on the view. Specifies the location, size and the syle of it
     func alarmNameTextFieldSetup() {
         view.addSubview(alarmNameTextField)
         alarmNameTextField.translatesAutoresizingMaskIntoConstraints = false
@@ -304,9 +323,8 @@ class CreateNewAlarmVC: RootViewController, UITextFieldDelegate, UINavigationCon
         alarmNameTextField.isEnabled = editable
     }
     
+    ///Setup function for  alarm date text field on the view. Specifies the location, size and the syle of it
     func alarmDateTextFieldSetup() {
-        
-        
         view.addSubview(alarmDateTextField)
         alarmDateTextField.translatesAutoresizingMaskIntoConstraints = false
         alarmDateTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10).isActive = true
@@ -321,6 +339,7 @@ class CreateNewAlarmVC: RootViewController, UITextFieldDelegate, UINavigationCon
         alarmDateTextField.delegate = self
     }
     
+    ///Setup function for  alarm time textfield on the view. Specifies the location, size and the syle of it
     func alarmTimeTextFieldSetup() {
         view.addSubview(alarmTimeTextField)
         alarmTimeTextField.translatesAutoresizingMaskIntoConstraints = false
@@ -336,7 +355,7 @@ class CreateNewAlarmVC: RootViewController, UITextFieldDelegate, UINavigationCon
         alarmTimeTextField.delegate = self
     }
 
-    
+    ///Setup function for  alarm name label on the view. Specifies the location, size and the syle of it
     func alarmNameLabelSetup() {
         view.addSubview(alarmNameLabel)
         alarmNameLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -346,7 +365,7 @@ class CreateNewAlarmVC: RootViewController, UITextFieldDelegate, UINavigationCon
         alarmNameLabel.text = "Label"
     }
 
-    
+    ///Setup function for  date label on the view. Specifies the location, size and the syle of it
     func dateLabelSetup() {
         view.addSubview(dateLabel)
         dateLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -356,6 +375,7 @@ class CreateNewAlarmVC: RootViewController, UITextFieldDelegate, UINavigationCon
         dateLabel.text = "Date"
     }
     
+    ///Setup function for  time label on the view. Specifies the location, size and the syle of it
     func timeLabelSetup() {
         view.addSubview(timeLabel)
         timeLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -365,11 +385,12 @@ class CreateNewAlarmVC: RootViewController, UITextFieldDelegate, UINavigationCon
         timeLabel.text = "Time"
     }
 
-    
+    ///action for when save button is clicked
     @objc func backButtonClicked() {
         dismiss(animated: true, completion: nil)
     }
 
+    ///Setup function for  save button on the view. Specifies the location, size and the syle of it
     func saveButtonSetup() {
         saveButton.translatesAutoresizingMaskIntoConstraints = false
         saveButton.setTitle("Save", for: .normal)
@@ -377,6 +398,7 @@ class CreateNewAlarmVC: RootViewController, UITextFieldDelegate, UINavigationCon
         saveButton.addTarget(self, action: #selector(saveButtonClicked), for: .touchUpInside)
     }
     
+    ///action for when save button is clicked. Creates an alarm and send it to firebase
     @objc func saveButtonClicked() {
         
         if(alarmTimeTextField.text != "" && alarmDateTextField.text != "" && alarmNameTextField.text != ""){
@@ -438,10 +460,7 @@ class CreateNewAlarmVC: RootViewController, UITextFieldDelegate, UINavigationCon
         
     }
     
-    
-    
-    
-    
+    ///Setup function for  lable for status label on the view. Specifies the location, size and the syle of it
     func statusStatusLabelSetup() {
         view.addSubview(statusStatusLabel)
         statusStatusLabel.translatesAutoresizingMaskIntoConstraints = false

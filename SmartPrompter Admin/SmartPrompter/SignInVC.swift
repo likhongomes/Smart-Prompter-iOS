@@ -11,6 +11,7 @@ import FirebaseAnalytics
 import Firebase
 import FirebaseAuth
 
+///View controller to handle sign in functionalities
 class SignInVC: UIViewController {
     
     let loginButton = UIButton()
@@ -22,11 +23,13 @@ class SignInVC: UIViewController {
     let logoImage = UIImageView()
     let errorMessageView = UITextView()
     
+    ///Attaches a user listener before the view appears
     override func viewWillAppear(_ animated: Bool) {
         var handle = Auth.auth().addStateDidChangeListener { (auth, user) in
         }
     }
     
+    ///raises the view when the keyboard shows up
     @objc func keyboardWillShow(notification: NSNotification) {
         if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
             if self.view.frame.origin.y == 0 {
@@ -35,6 +38,7 @@ class SignInVC: UIViewController {
         }
     }
     
+    ///lowers the view when the keyboard disappears
     @objc func keyboardWillHide(notification: NSNotification) {
         if self.view.frame.origin.y != 0 {
             self.view.frame.origin.y = 0
@@ -57,6 +61,7 @@ class SignInVC: UIViewController {
         errorMessageViewSetup()
     }
     
+    ///Setup function for  logo on the view. Specifies the location, size and the syle of it
     func logoImageSetup() {
         view.addSubview(logoImage)
         logoImage.translatesAutoresizingMaskIntoConstraints = false
@@ -68,6 +73,7 @@ class SignInVC: UIViewController {
         logoImage.contentMode = .scaleAspectFit
     }
     
+    ///Setup function for  login button on the view. Specifies the location, size and the syle of it
     func loginButtonSetup() {
         view.addSubview(loginButton)
         loginButton.translatesAutoresizingMaskIntoConstraints = false
@@ -82,6 +88,7 @@ class SignInVC: UIViewController {
         
     }
     
+    ///action for when login button is tapped. Checks with firebase and logs the user in
     @objc func loginButtonTapped() {
         Auth.auth().signIn(withEmail: self.emailTF.text!, password: self.passwordTF.text!) { [weak self] authResult, error in
             guard let strongSelf = self else { return }
@@ -98,6 +105,7 @@ class SignInVC: UIViewController {
         }
     }
     
+    ///Setup function for  error mesage on the view. Specifies the location, size and the syle of it
     func errorMessageViewSetup(){
         view.addSubview(errorMessageView)
         errorMessageView.translatesAutoresizingMaskIntoConstraints = false
@@ -113,6 +121,7 @@ class SignInVC: UIViewController {
         errorMessageView.isHidden = true
     }
     
+    ///Setup function for  signup button on the view. Specifies the location, size and the syle of it
     func signUpButtonSetup() {
         view.addSubview(signUpButton)
         signUpButton.translatesAutoresizingMaskIntoConstraints = false
@@ -126,6 +135,7 @@ class SignInVC: UIViewController {
         signUpButton.addTarget(self, action: #selector(signUpButtonTapped), for: .touchUpInside)
     }
     
+    ///action for when signup button is tapped. It registers the user on firebase
     @objc func signUpButtonTapped() {
         if(emailTF.text != "" && passwordTF.text != ""){
             Auth.auth().createUser(withEmail: self.emailTF.text!, password: self.passwordTF.text!) { authResult, error in
@@ -144,7 +154,7 @@ class SignInVC: UIViewController {
         }
     }
     
-    
+    ///Setup function for  email textfield on the view. Specifies the location, size and the syle of it
     func emailTFSetup() {
         view.addSubview(emailTF)
         emailTF.translatesAutoresizingMaskIntoConstraints = false
@@ -161,6 +171,7 @@ class SignInVC: UIViewController {
         //emailTF.placeholder = "Username"
     }
     
+    ///Setup function for  password textfield on the view. Specifies the location, size and the syle of it
     func passwordTFSetup() {
         view.addSubview(passwordTF)
         passwordTF.translatesAutoresizingMaskIntoConstraints = false
@@ -177,6 +188,7 @@ class SignInVC: UIViewController {
         //passwordTF.placeholder = "Password"
     }
     
+    ///Setup function for  back button on the view. Specifies the location, size and the syle of it
     func backButtonSetup() {
         view.addSubview(backButton)
         backButton.translatesAutoresizingMaskIntoConstraints = false

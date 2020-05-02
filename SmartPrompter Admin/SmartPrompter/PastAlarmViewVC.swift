@@ -10,6 +10,7 @@ import UIKit
 import Firebase
 import FirebaseStorage
 
+///View controller to show past alarms
 class PastAlarmViewVC: RootViewController, UITextFieldDelegate {
     
     let backButton = UIButton()
@@ -57,10 +58,12 @@ class PastAlarmViewVC: RootViewController, UITextFieldDelegate {
         //showData()
     }
     
+    ///action for when the top left button is tapped. Takes the user back to the previous view controller
     override func topLeftButtonTapped() {
         dismiss(animated: true, completion: nil)
     }
 
+    ///Setup function for  detail text view on the view. Specifies the location, size and the syle of it
     func detailTextViewSetup(){
         view.addSubview(detailTextView)
         detailTextView.translatesAutoresizingMaskIntoConstraints = false
@@ -78,7 +81,7 @@ class PastAlarmViewVC: RootViewController, UITextFieldDelegate {
     }
         
     
-    
+    ///prepares the data to be show on detail text view
     func prepareDataforDetailTextView(){
         
 
@@ -113,7 +116,7 @@ class PastAlarmViewVC: RootViewController, UITextFieldDelegate {
                 
     }
    
-    
+    ///Setup function for  image view on the view. Specifies the location, size and the syle of it
     func imageViewSetup(){
         view.addSubview(imageView)
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -139,24 +142,23 @@ class PastAlarmViewVC: RootViewController, UITextFieldDelegate {
         }
     }
     
-        
-    
-    
+    ///done function for when date picker is done
     @objc func donedatePicker(){
         self.view.endEditing(true)
     }
     
+    ///done function for when time picker is done
     @objc func donetimePicker(){
         
         self.view.endEditing(true)
     }
     
+    ///cancels the date picker
     @objc func cancelDatePicker(){
         self.view.endEditing(true)
     }
     
-
-    
+    ///Setup function for  alarm name text field on the view. Specifies the location, size and the syle of it
     func alarmNameTextFieldSetup() {
         view.addSubview(alarmNameTextField)
         alarmNameTextField.translatesAutoresizingMaskIntoConstraints = false
@@ -171,9 +173,8 @@ class PastAlarmViewVC: RootViewController, UITextFieldDelegate {
         alarmNameTextField.isEnabled = editable
     }
     
+    ///Setup function for  alarm date text field on the view. Specifies the location, size and the syle of it
     func alarmDateTextFieldSetup() {
-        
-        
         view.addSubview(alarmDateTextField)
         alarmDateTextField.translatesAutoresizingMaskIntoConstraints = false
         alarmDateTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10).isActive = true
@@ -188,6 +189,7 @@ class PastAlarmViewVC: RootViewController, UITextFieldDelegate {
         alarmDateTextField.delegate = self
     }
     
+    ///Setup function for  alarm time text field on the view. Specifies the location, size and the syle of it
     func alarmTimeTextFieldSetup() {
         view.addSubview(alarmTimeTextField)
         alarmTimeTextField.translatesAutoresizingMaskIntoConstraints = false
@@ -203,6 +205,7 @@ class PastAlarmViewVC: RootViewController, UITextFieldDelegate {
         alarmTimeTextField.delegate = self
     }
     
+    ///Setup function for  status label on the view. Specifies the location, size and the syle of it
     func statusLabelSetup() {
         view.addSubview(statusLabel)
         statusLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -214,6 +217,7 @@ class PastAlarmViewVC: RootViewController, UITextFieldDelegate {
         }
     }
     
+    ///Setup function for  alarm name label on the view. Specifies the location, size and the syle of it
     func alarmNameLabelSetup() {
         view.addSubview(alarmNameLabel)
         alarmNameLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -223,6 +227,7 @@ class PastAlarmViewVC: RootViewController, UITextFieldDelegate {
         alarmNameLabel.text = "Label"
     }
     
+    ///Setup function for  alarm detail lable on the view. Specifies the location, size and the syle of it
     func alarmDetailsLabelSetup() {
         view.addSubview(alarmDetailsLabel)
         alarmDetailsLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -233,7 +238,7 @@ class PastAlarmViewVC: RootViewController, UITextFieldDelegate {
         alarmDetailsLabel.font = UIFont.systemFont(ofSize: 30)
     }
 
-    
+    ///Setup function for  date label on the view. Specifies the location, size and the syle of it
     func dateLabelSetup() {
         view.addSubview(dateLabel)
         dateLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -243,6 +248,7 @@ class PastAlarmViewVC: RootViewController, UITextFieldDelegate {
         dateLabel.text = "Date"
     }
     
+    ///Setup function for  time label on the view. Specifies the location, size and the syle of it
     func timeLabelSetup() {
         view.addSubview(timeLabel)
         timeLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -253,31 +259,8 @@ class PastAlarmViewVC: RootViewController, UITextFieldDelegate {
     }
 
 
-    
-    
-    
-    
-    func backButtonSetup() {
-        func backButtonSetup() {
-            view.addSubview(backButton)
-            backButton.translatesAutoresizingMaskIntoConstraints = false
-            backButton.heightAnchor.constraint(equalToConstant: 60).isActive = true
-            backButton.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-            backButton.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-            //backButton.setBackgroundImage(UIImage(named: "backButton"), for: .normal)
-            //backButton.contentMode = .scaleAspectFill
-            backButton.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
-            backButton.setTitle("Back", for: .normal)
-            backButton.backgroundColor = .red
-            backButton.addTarget(self, action: #selector(backButtonClicked), for: .touchUpInside)
-        }
-    }
-    
-    @objc func backButtonClicked() {
-        dismiss(animated: true, completion: nil)
-    }
 
-        
+    ///Setup function for  cancel button on the view. Specifies the location, size and the syle of it
     func cancelButtonSetup() {
         view.addSubview(cancelButton)
         cancelButton.translatesAutoresizingMaskIntoConstraints = false
@@ -290,10 +273,12 @@ class PastAlarmViewVC: RootViewController, UITextFieldDelegate {
         cancelButton.addTarget(self, action: #selector(cancelButtonClicked), for: .touchUpInside)
     }
     
+    ///action for when cancel button is clicked
     @objc func cancelButtonClicked() {
         dismiss(animated: true, completion: nil)
     }
     
+    ///Setup function for  delete button on the view. Specifies the location, size and the syle of it
     func deleteButtonSetup() {
         deleteButton.translatesAutoresizingMaskIntoConstraints = false
         deleteButton.setTitle("Delete", for: .normal)
@@ -301,11 +286,12 @@ class PastAlarmViewVC: RootViewController, UITextFieldDelegate {
         deleteButton.addTarget(self, action: #selector(deleteButtonClicked), for: .touchUpInside)
     }
     
+    ///action place holder for delete button
     @objc func deleteButtonClicked() {
         print(alarm.label)
     }
 
-    
+    ///Setup function for  status lable on the view. Specifies the location, size and the syle of it
     func statusStatusLabelSetup() {
         view.addSubview(statusStatusLabel)
         statusStatusLabel.translatesAutoresizingMaskIntoConstraints = false

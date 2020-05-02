@@ -35,11 +35,11 @@ class UserInfoVC: UIViewController, UITextFieldDelegate {
         
     }
     
-    
+    ///Checks when the text field begins editing, assigns the responder based on that
     func textFieldDidBeginEditing(_ textField: UITextField) {
         selectedTextField = textField
     }
-    
+    ///raises the view when keyboard appears
     @objc func keyboardWillShow(notification: NSNotification) {
         if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
             func textFieldDidBeginEditing(_ textField: UITextField) {
@@ -47,13 +47,13 @@ class UserInfoVC: UIViewController, UITextFieldDelegate {
             }
         }
     }
-    
+    ///lowers the view when keybaord disappers
     @objc func keyboardWillHide(notification: NSNotification) {
         if self.view.frame.origin.y != 0 {
             self.view.frame.origin.y = 0
         }
     }
-    
+    ///Setup function for  information label on the view. Specifies the location, size and the syle of it
     func informationLabelSetup() {
         view.addSubview(informationLabel)
         informationLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -64,6 +64,7 @@ class UserInfoVC: UIViewController, UITextFieldDelegate {
         informationLabel.textColor = .white
     }
     
+    ///Setup function for  caretaker first name textfield on the view. Specifies the location, size and the syle of it
     func careTakerFirstNameTFSetup() {
         view.addSubview(careTakerFirstNameTF)
         careTakerFirstNameTF.delegate = self
@@ -78,7 +79,7 @@ class UserInfoVC: UIViewController, UITextFieldDelegate {
         careTakerFirstNameTF.backgroundColor = .white
         careTakerFirstNameTF.layer.borderWidth = 0.5
     }
-    
+    ///Setup function for  care taker last name textfield on the view. Specifies the location, size and the syle of it
     func careTakerLastNameTFSetup() {
         view.addSubview(careTakerLastNameTF)
         careTakerLastNameTF.delegate = self
@@ -93,7 +94,7 @@ class UserInfoVC: UIViewController, UITextFieldDelegate {
         careTakerLastNameTF.backgroundColor = .white
         careTakerLastNameTF.layer.borderWidth = 0.5
     }
-    
+    ///Setup function for  patient first name text field on the view. Specifies the location, size and the syle of it
     func patientFirstNameTFSetup() {
         view.addSubview(patientFirstNameTF)
         patientFirstNameTF.delegate = self
@@ -108,7 +109,7 @@ class UserInfoVC: UIViewController, UITextFieldDelegate {
         patientFirstNameTF.backgroundColor = .white
         patientFirstNameTF.layer.borderWidth = 0.5
     }
-    
+    ///Setup function for  patient last name text field on the view. Specifies the location, size and the syle of it
     func patientLastNameTFSetup() {
         view.addSubview(patientLastNameTF)
         patientLastNameTF.delegate = self
@@ -124,6 +125,7 @@ class UserInfoVC: UIViewController, UITextFieldDelegate {
         patientLastNameTF.layer.borderWidth = 0.5
     }
     
+    ///Setup function for  done button on the view. Specifies the location, size and the syle of it
     func doneButtonSetup(){
         view.addSubview(doneButton)
         doneButton.translatesAutoresizingMaskIntoConstraints = false
@@ -137,6 +139,7 @@ class UserInfoVC: UIViewController, UITextFieldDelegate {
         doneButton.setTitleColor(.black, for: .normal)
     }
     
+    ///action for when the done button is tapped. It uploads the data to firebase
     @objc func doneButtonClicked() {
         ref.child("Patients").child(userID!).child("PatientData").setValue(["patientFirstName": patientFirstNameTF.text!,"patientLastName":patientLastNameTF.text!,"careTakerFirstName":careTakerFirstNameTF.text!,"careTakerLastName":careTakerLastNameTF.text!])
         

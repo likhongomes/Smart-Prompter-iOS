@@ -29,7 +29,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     //var dbQueue: DatabaseQueue!
     //let alarmDB = AlarmDB()
 
-        
+    ///main function of the app delegate
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         FirebaseApp.configure()

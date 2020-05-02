@@ -12,6 +12,12 @@ import UIKit
 
 extension UIView {
     
+    
+    /// add navigationbar to a view controller
+    /// - Parameters:
+    ///   - viewControllerName: add name of view controller
+    ///   - leftButton: button to be put on the top left side of the view
+    ///   - rightButton: button to be put on the top right side of the view
     func addNavigationBar(viewControllerName:String, leftButton:UIButton = UIButton(), rightButton:UIButton = UIButton())  {
         let navView = UIView()
         addSubview(navView)
@@ -61,12 +67,14 @@ extension UIView {
 }
 
 extension UIViewController {
+    ///hides the keyboard when tapped around
     func hideKeyboardWhenTappedAround() {
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(UIViewController.dismissKeyboard))
         tap.cancelsTouchesInView = false
         view.addGestureRecognizer(tap)
     }
-
+    
+    ///dismisses the keybaord
     @objc func dismissKeyboard() {
         view.endEditing(true)
     }

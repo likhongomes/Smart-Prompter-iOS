@@ -10,6 +10,7 @@ import UIKit
 import Firebase
 import CoreData
 
+///The main view controller of the app, users see this viewcontroller first when they open the app
 class MainVC: RootViewController {
     
     let newAlarmButton = UIButton()
@@ -69,6 +70,7 @@ class MainVC: RootViewController {
         }
     }
     
+    ///action for when the top left button is tapped. It prompts the user to record the alarm sound and preview it
     override func topLeftButtonTapped() {
         let vc = AudioRecordVC()
         vc.modalTransitionStyle = .crossDissolve
@@ -76,6 +78,7 @@ class MainVC: RootViewController {
         present(vc, animated: true, completion: nil)
     }
     
+    ///Action for when the top right button is tapped. Here it logs out the user
     override func topRightButtonTapped() {
         let firebaseAuth = Auth.auth()
         do {
@@ -89,12 +92,9 @@ class MainVC: RootViewController {
         }
     }
     
-    @objc func logoutButtonClicked() {
-        
-    }
     
 
-    
+    ///Setup function for  second text view on the view. Specifies the location, size and the syle of it
     func secondTextViewSetup() {
         view.addSubview(secondTextView)
         secondTextView.translatesAutoresizingMaskIntoConstraints = false
@@ -113,9 +113,7 @@ class MainVC: RootViewController {
         secondTextView.backgroundColor = .clear
     }
     
-    
-    
-    
+    ///Setup function for  new alarm button on the view. Specifies the location, size and the syle of it
     func newAlarmButtonSetup() {
         //view.addSubview(newAlarmButton)
         newAlarmButton.translatesAutoresizingMaskIntoConstraints = false
@@ -128,6 +126,7 @@ class MainVC: RootViewController {
         newAlarmButton.layer.cornerRadius = 20
     }
     
+    ///Action for when new alarm button is clicked. It takes the user to Create New Alarm View Controller
     @objc func newAlarmButtonClicked() {
         let vc = CreateNewAlarmVC()
         vc.modalTransitionStyle = .crossDissolve
@@ -135,6 +134,7 @@ class MainVC: RootViewController {
         present(vc, animated: true, completion: nil)
     }
     
+    ///Setup function for  view alarm button on the view. Specifies the location, size and the syle of it
     func viewAlarmButtonSetup() {
         //view.addSubview(viewAlarmButton)
         viewAlarmButton.translatesAutoresizingMaskIntoConstraints = false
@@ -148,6 +148,7 @@ class MainVC: RootViewController {
         viewAlarmButton.layer.cornerRadius = 20
     }
     
+    ///action for when the view alarm button is clicked. Takes the user to Current Alarm ListVC
     @objc func viewAlarmButtonClicked() {
         let vc = CurrentAlarmListVC()
         vc.modalTransitionStyle = .crossDissolve
@@ -156,6 +157,7 @@ class MainVC: RootViewController {
     }
 
     
+    ///Setup function for  past alarm button on the view. Specifies the location, size and the syle of it
     func pastAlarmsButtonSetup() {
         //view.addSubview(pastAlarmsButton)
         pastAlarmsButton.translatesAutoresizingMaskIntoConstraints = false
@@ -169,6 +171,7 @@ class MainVC: RootViewController {
         pastAlarmsButton.layer.cornerRadius = 20
     }
     
+    ///Action for when past alarm button is clicked. Presents pastAlarmVC
     @objc func pastAlarmButtonClicked() {
         let vc = PastAlarmListVC()
         vc.modalTransitionStyle = .crossDissolve
@@ -177,10 +180,3 @@ class MainVC: RootViewController {
     }
 }
 
-
-extension MainVC {
-    
-    
-    
-    
-}

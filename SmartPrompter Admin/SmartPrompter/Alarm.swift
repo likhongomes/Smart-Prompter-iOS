@@ -9,6 +9,7 @@
 import Foundation
 import GRDB
 
+///data structure the alarm
 class Alarm: PersistableRecord, Codable, FetchableRecord {
     
     var id:Int?
@@ -48,9 +49,9 @@ class Alarm: PersistableRecord, Codable, FetchableRecord {
 //    }
     
     
-    
+    ///empty initializer
     init(){}
-    
+    ///initializer
     init(label:String, hour:Int, minute:Int, year:Int, month:Int, day:Int, active:Bool, status:String) {
         self.label = label
         self.scheduledHour = hour
@@ -64,6 +65,7 @@ class Alarm: PersistableRecord, Codable, FetchableRecord {
     }
 }
 
+///Alarm database class to load alarm in and from sql database
 class AlarmDB{
     
     init() {
@@ -83,12 +85,15 @@ class AlarmDB{
         }
     }
     
+    /// insert an alarm
+    /// - Parameter user: alarm to be inserted
     func insert(user:Alarm) {
         try! dbQueue.write { db in
             try! user.insert(db)
         }
     }
     
+    /// get all alarms from the database
     func getAll() -> [Alarm] {
         
         //    let dbQueue = try! DatabaseQueue(path: pathToDatabase.absoluteString)
@@ -100,6 +105,7 @@ class AlarmDB{
         return allAlarm
     }
     
+    /// get only active alarms from the database
     func getActiveAlarms() -> [Alarm] {
         var presenters = Array<Alarm>()
         try! dbQueue.read { db in
@@ -108,6 +114,7 @@ class AlarmDB{
         return presenters
     }
     
+    /// get all inactive alarms from the database
     func getInactiveAlarms() -> [Alarm] {
         var presenters = Array<Alarm>()
         try! dbQueue.read { db in

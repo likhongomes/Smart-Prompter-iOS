@@ -11,12 +11,14 @@ import UIKit
 import Firebase
 import FirebaseStorage
 
+///Controller for firebase actions
 class FirebaseController {
     
     init() {
 
     }
     
+    ///upload image to firebase
     func uploadImage(image:UIImage, imageName:String){
         guard let imageData = image.jpegData(compressionQuality: 0.1) else {
             return

@@ -10,6 +10,7 @@ import UIKit
 import SQLite3
 import GRDB
 
+///View controller to show list of past alarms
 class PastAlarmListVC: RootViewController, UITableViewDelegate, UITableViewDataSource {
     
     var inactiveAlarm = [Alarm]()
@@ -53,10 +54,12 @@ class PastAlarmListVC: RootViewController, UITableViewDelegate, UITableViewDataS
         alarmTable.reloadData()
     }
     
+    ///action button for top left button. Takes the user back
     override func topLeftButtonTapped() {
         dismiss(animated: true, completion: nil)
     }
     
+    ///Setup function for  table view on the view. Specifies the location, size and the syle of it
     func alarmTableSetup() {
         view.addSubview(alarmTable)
         alarmTable.translatesAutoresizingMaskIntoConstraints = false
@@ -74,6 +77,7 @@ class PastAlarmListVC: RootViewController, UITableViewDelegate, UITableViewDataS
 
     }
     
+    ///fetch data from firebase
     func fetchFromFirebase(){
         //activeAlarm = [Alarm]()
         inactiveAlarm = [Alarm]()

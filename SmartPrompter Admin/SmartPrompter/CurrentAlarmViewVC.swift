@@ -10,6 +10,7 @@ import UIKit
 import Firebase
 import FirebaseStorage
 
+///Current view controller that shows current alarms active
 class CurrentAlarmViewVC: RootViewController, UITextFieldDelegate {
     
     let backButton = UIButton()
@@ -76,19 +77,21 @@ class CurrentAlarmViewVC: RootViewController, UITextFieldDelegate {
         self.hideKeyboardWhenTappedAround()
     }
     
+    ///action for when top left button is tapped. Takes the user back to the previous screen.
     override func topLeftButtonTapped() {
         dismiss(animated: true, completion: nil)
     }
     
+    ///Show the data in textviews
     func showData(){
         if(editable == false){
             alarmNameTextField.text = alarm.label
             alarmTimeTextField.text = "\(alarm.scheduledHour!):\(alarm.scheduledMinute!)"
             alarmDateTextField.text = "\(alarm.scheduledMonth!)/\(alarm.scheduledDay!)/\(alarm.scheduledYear!)"
         }
-
     }
     
+    ///Check if text view did beging editing, set the keyboard to date picker
     func textFieldDidBeginEditing(_ textField: UITextField) {
         if(textField == alarmTimeTextField){
             alarmTimeTextField.inputView = datePicker
@@ -102,6 +105,7 @@ class CurrentAlarmViewVC: RootViewController, UITextFieldDelegate {
         selectedTextField = textField
     }
     
+    ///Checks if the text field did end editing. Formats the date accordingly and put on textview
     func textFieldDidEndEditing(_ textField: UITextField) {
         if(textField == alarmTimeTextField){
             let formatter = DateFormatter()
@@ -116,7 +120,7 @@ class CurrentAlarmViewVC: RootViewController, UITextFieldDelegate {
         }
     }
 
-    
+    ///Setup function for  imageview on the view. Specifies the location, size and the syle of it
     func imageViewSetup(){
         if(alarm.label! != nil){
             view.addSubview(imageView)
@@ -145,7 +149,7 @@ class CurrentAlarmViewVC: RootViewController, UITextFieldDelegate {
         
     }
     
-        
+    ///Setup function for  date picker on the view. Specifies the location, size and the syle of it
     func showDatePicker(){
         //Formate Date
         datePicker.datePickerMode = .date
@@ -163,22 +167,22 @@ class CurrentAlarmViewVC: RootViewController, UITextFieldDelegate {
         
     }
     
-
+    ///wrapper function for when date picker is done
     @objc func donedatePicker(){
         self.view.endEditing(true)
     }
     
+    ///wrapper function for when timer is done
     @objc func donetimePicker(){
-        
         self.view.endEditing(true)
     }
-    
+    ///wrapper function when cancel date
     @objc func cancelDatePicker(){
         self.view.endEditing(true)
     }
     
 
-    
+    ///Setup function for  alarm name textfield on the view. Specifies the location, size and the syle of it
     func alarmNameTextFieldSetup() {
         view.addSubview(alarmNameTextField)
         alarmNameTextField.translatesAutoresizingMaskIntoConstraints = false
@@ -194,9 +198,8 @@ class CurrentAlarmViewVC: RootViewController, UITextFieldDelegate {
         alarmNameTextField.delegate = self
     }
     
+    ///Setup function for  alarm date textfield on the view. Specifies the location, size and the syle of it
     func alarmDateTextFieldSetup() {
-        
-        
         view.addSubview(alarmDateTextField)
         alarmDateTextField.translatesAutoresizingMaskIntoConstraints = false
         alarmDateTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10).isActive = true
@@ -211,6 +214,7 @@ class CurrentAlarmViewVC: RootViewController, UITextFieldDelegate {
         alarmDateTextField.delegate = self
     }
     
+    ///Setup function for  alarm time text field on the view. Specifies the location, size and the syle of it
     func alarmTimeTextFieldSetup() {
         view.addSubview(alarmTimeTextField)
         alarmTimeTextField.translatesAutoresizingMaskIntoConstraints = false
@@ -226,6 +230,7 @@ class CurrentAlarmViewVC: RootViewController, UITextFieldDelegate {
         alarmTimeTextField.delegate = self
     }
     
+    ///Setup function for  logo on the view. Specifies the location, size and the syle of it
     func statusLabelSetup() {
         view.addSubview(statusLabel)
         statusLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -237,6 +242,7 @@ class CurrentAlarmViewVC: RootViewController, UITextFieldDelegate {
         }
     }
     
+    ///Setup function for  alarm name label on the view. Specifies the location, size and the syle of it
     func alarmNameLabelSetup() {
         view.addSubview(alarmNameLabel)
         alarmNameLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -246,6 +252,7 @@ class CurrentAlarmViewVC: RootViewController, UITextFieldDelegate {
         alarmNameLabel.text = "Label"
     }
     
+    ///Setup function for  alarm details label on the view. Specifies the location, size and the syle of it
     func alarmDetailsLabelSetup() {
         view.addSubview(alarmDetailsLabel)
         alarmDetailsLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -256,7 +263,7 @@ class CurrentAlarmViewVC: RootViewController, UITextFieldDelegate {
         alarmDetailsLabel.font = UIFont.systemFont(ofSize: 30)
     }
 
-    
+    ///Setup function for  date label on the view. Specifies the location, size and the syle of it
     func dateLabelSetup() {
         view.addSubview(dateLabel)
         dateLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -266,6 +273,7 @@ class CurrentAlarmViewVC: RootViewController, UITextFieldDelegate {
         dateLabel.text = "Date"
     }
     
+    ///Setup function for  time label on the view. Specifies the location, size and the syle of it
     func timeLabelSetup() {
         view.addSubview(timeLabel)
         timeLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -275,11 +283,7 @@ class CurrentAlarmViewVC: RootViewController, UITextFieldDelegate {
         timeLabel.text = "Time"
     }
 
-
-    
-    
-    
-    
+    ///Setup function for  back button on the view. Specifies the location, size and the syle of it
     func backButtonSetup() {
         backButton.translatesAutoresizingMaskIntoConstraints = false
         backButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
@@ -289,10 +293,12 @@ class CurrentAlarmViewVC: RootViewController, UITextFieldDelegate {
         backButton.addTarget(self, action: #selector(backButtonClicked), for: .touchUpInside)
     }
     
+    ///action for when button is clicked
     @objc func backButtonClicked() {
         dismiss(animated: true, completion: nil)
     }
 
+    ///Setup function for  save button on the view. Specifies the location, size and the syle of it
     func saveButtonSetup() {
         saveButton.translatesAutoresizingMaskIntoConstraints = false
         saveButton.setTitle("Save", for: .normal)
@@ -300,6 +306,7 @@ class CurrentAlarmViewVC: RootViewController, UITextFieldDelegate {
         saveButton.addTarget(self, action: #selector(saveButtonClicked), for: .touchUpInside)
     }
     
+    ///action button for when save button is clicked. Updates data on firebase
     @objc func saveButtonClicked() {
         
         if(alarmTimeTextField.text != "" && alarmDateTextField.text != "" && alarmNameTextField.text != ""){
@@ -356,11 +363,12 @@ class CurrentAlarmViewVC: RootViewController, UITextFieldDelegate {
     }
     
 
-    
+    ///actiong for when cancel button is clicked
     @objc func cancelButtonClicked() {
         dismiss(animated: true, completion: nil)
     }
     
+    ///Setup function for  delete button on the view. Specifies the location, size and the syle of it
     func deleteButtonSetup() {
         deleteButton.translatesAutoresizingMaskIntoConstraints = false
         deleteButton.setTitle("Delete", for: .normal)
@@ -368,15 +376,15 @@ class CurrentAlarmViewVC: RootViewController, UITextFieldDelegate {
         deleteButton.addTarget(self, action: #selector(deleteButtonClicked), for: .touchUpInside)
     }
     
+    ///action for when delete button is clicked. Send a request to firebase to delete the data
     @objc func deleteButtonClicked() {
         print(alarm.label)
         alarm.deleteRequest = "Requested"
         ref.child("Patients").child(Auth.auth().currentUser!.uid).child("Alarms").child("\(alarm.firebaseID!)").child("deleteRequest").setValue("Requested")
         dismiss(animated: true, completion: nil)
     }
-
     
-    
+    ///Setup function for  label for status lable on the view. Specifies the location, size and the syle of it
     func statusStatusLabelSetup() {
         view.addSubview(statusStatusLabel)
         statusStatusLabel.translatesAutoresizingMaskIntoConstraints = false
