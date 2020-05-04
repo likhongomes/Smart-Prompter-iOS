@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SmartPrompter - SmartPrompter</title>
+    <title>SmartPrompter - AlarmScheduler</title>
     <base href="https://likhongomes.github.io/Smart-Prompter-iOS/"/>
     <style type="text/css">
     :root {
@@ -1198,127 +1198,135 @@ nav li[class] {
     <nav>
         <div class="wrapper">
             <h2>On This Page</h2>
-            <ol><li><a href="#classes">Classes</a></li><li><a href="#structures">Structures</a></li><li><a href="#protocols">Protocols</a></li></ol>
+            <ol><li><a href="#methods">Methods</a><ul><li class="method"><a href="#alarmscheduler.schedulenotification(title:datecomponents:id:)">schedule​Notification(title:​date​Components:​id:​)</a></li><li class="method"><a href="#alarmscheduler.reschedulenotification(title:id:)">reschedule​Notification(title:​id:​)</a></li><li class="method"><a href="#alarmscheduler.clearnotifications(title:)">clear​Notifications(title:​)</a></li></ul></li></ol>
         </div>
     </nav>
 
     <main>
         <article>
-                <section id="classes">
-        <h2>Classes</h2>
-        <dl>
-            <dt class="class">
-    <a href="Alarm" title="class - Alarm">
-        Alarm
-    </a>
-</dt>
-<dd>
-    
-</dd>
-<dt class="class">
-    <a href="AlarmDB" title="class - AlarmDB">
-        Alarm​DB
-    </a>
-</dt>
-<dd>
-    
-</dd>
-<dt class="class">
-    <a href="AlarmScheduler" title="class - AlarmScheduler">
-        Alarm​Scheduler
-    </a>
-</dt>
-<dd>
+            <h1>
+    <small>Class</small>
+    <code class="name">Alarm​Scheduler</code>
+</h1>
+
+<html><body><pre class="highlight"><code><span class="keyword">class</span> <span class="type">AlarmScheduler</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
     <p>Alarm scheduling class to schedule alarm</p>
 
-</dd>
-<dt class="class">
-    <a href="AlarmVC" title="class - AlarmVC">
-        Alarm​VC
-    </a>
-</dt>
-<dd>
-    <p>The alarm view controller that is show after a row on the table is tapped</p>
+</div>
 
-</dd>
-<dt class="class">
-    <a href="AppDelegate" title="class - AppDelegate">
-        App​Delegate
-    </a>
-</dt>
-<dd>
-    
-</dd>
-<dt class="class">
-    <a href="FirebaseUtil" title="class - FirebaseUtil">
-        Firebase​Util
-    </a>
-</dt>
-<dd>
-    
-</dd>
-<dt class="class">
-    <a href="MainVC" title="class - MainVC">
-        Main​VC
-    </a>
-</dt>
-<dd>
-    <p>The main view controlller of the app. Users often see this view controller as a default. This is where all the alarms are fetched from firebase and alarm requests are made to the OS.</p>
+    <section id="methods">
+        <h2>Methods</h2>
 
-</dd>
-<dt class="class">
-    <a href="RewardVC" title="class - RewardVC">
-        Reward​VC
-    </a>
-</dt>
-<dd>
-    
-</dd>
-<dt class="class">
-    <a href="RootViewController" title="class - RootViewController">
-        Root​View​Controller
-    </a>
-</dt>
-<dd>
-    
-</dd>
-<dt class="class">
-    <a href="SignInVC" title="class - SignInVC">
-        Sign​InVC
-    </a>
-</dt>
-<dd>
-    
-</dd>
-        </dl>
-    </section>
-    <section id="structures">
-        <h2>Structures</h2>
-        <dl>
-            <dt class="structure">
-    <a href="AppDatabase" title="structure - AppDatabase">
-        App​Database
-    </a>
-</dt>
-<dd>
-    <p>A type responsible for initializing the application database.</p>
+        <div role="article" class="class" id="alarmscheduler.schedulenotification(title:datecomponents:id:)">
+    <h3>
+        <code>schedule​Notification(title:​date​Components:​id:​)</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">scheduleNotification</span>(<span class="variable">title</span>: <span class="type">String</span>, <span class="variable">dateComponents</span>: <span class="type">DateComponents</span>, <span class="variable">id</span>: <span class="type">String</span>?)</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Function to schedule alarm for the first time after doanloaded from Firebase. Simply call this function and it will push the alarm to the OS notification center</p>
 
-</dd>
-        </dl>
+</div>
+<h4>Parameters</h4>
+
+<table class="parameters">
+  <thead hidden>
+  <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+  </tr>
+  </thead>
+  <tbody>
+    <tr>
+    <th>title</th>
+    <td><code class="type">String</code></td></td>
+    <td><p>alarm identifier string</p>
+</td>
+</tr>
+<tr>
+    <th>date​Components</th>
+    <td><code class="type">Date​Components</code></td></td>
+    <td><p>The date of the alarm when it should be triggered</p>
+</td>
+</tr>
+<tr>
+    <th>id</th>
+    <td><code class="type">String?</code></td></td>
+    <td><p>Firebase ID fetched from firebase just tracking the alarm data</p>
+</td>
+</tr>
+  </tbody>
+</table>
+</div>
+<div role="article" class="class" id="alarmscheduler.reschedulenotification(title:id:)">
+    <h3>
+        <code>reschedule​Notification(title:​id:​)</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">rescheduleNotification</span>(<span class="variable">title</span>: <span class="type">String</span>, <span class="variable">id</span>: <span class="type">String</span>?)</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Reschedule alam once the the alarm is delayed</p>
+
+</div>
+<h4>Parameters</h4>
+
+<table class="parameters">
+  <thead hidden>
+  <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+  </tr>
+  </thead>
+  <tbody>
+    <tr>
+    <th>title</th>
+    <td><code class="type">String</code></td></td>
+    <td><p>alarm identifier string</p>
+</td>
+</tr>
+<tr>
+    <th>id</th>
+    <td><code class="type">String?</code></td></td>
+    <td><p>Firebase ID fetched from firebase just tracking the alarm data</p>
+</td>
+</tr>
+  </tbody>
+</table>
+</div>
+<div role="article" class="class" id="alarmscheduler.clearnotifications(title:)">
+    <h3>
+        <code>clear​Notifications(title:​)</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">clearNotifications</span>(<span class="variable">title</span>: <span class="type">String</span>)</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Request OS to remove notification from pending list and clear the notification list already delivered</p>
+
+</div>
+<h4>Parameters</h4>
+
+<table class="parameters">
+  <thead hidden>
+  <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+  </tr>
+  </thead>
+  <tbody>
+    <tr>
+    <th>title</th>
+    <td><code class="type">String</code></td></td>
+    <td><p>Alarm identifier string</p>
+</td>
+</tr>
+  </tbody>
+</table>
+</div>
     </section>
-    <section id="protocols">
-        <h2>Protocols</h2>
-        <dl>
-            <dt class="protocol">
-    <a href="AlarmVCDelegate" title="protocol - AlarmVCDelegate">
-        Alarm​VCDelegate
-    </a>
-</dt>
-<dd>
-    
-</dd>
-        </dl>
-    </section>
+
+
+
         </article>
     </main>
 

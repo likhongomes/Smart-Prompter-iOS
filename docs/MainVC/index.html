@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SmartPrompter - SmartPrompter</title>
+    <title>SmartPrompter - MainVC</title>
     <base href="https://likhongomes.github.io/Smart-Prompter-iOS/"/>
     <style type="text/css">
     :root {
@@ -1198,127 +1198,416 @@ nav li[class] {
     <nav>
         <div class="wrapper">
             <h2>On This Page</h2>
-            <ol><li><a href="#classes">Classes</a></li><li><a href="#structures">Structures</a></li><li><a href="#protocols">Protocols</a></li></ol>
+            <ol><li><a href="#relationships">Relationships</a><ul><li><a href="#relationships">Conforms To</a></li></ul></li><li><a href="#properties">Properties</a><ul><li class="property"><a href="#mainvc.welcometextview">welcome​Text​View</a></li><li class="property"><a href="#mainvc.clocklabel">clock​Label</a></li><li class="property"><a href="#mainvc.topbar">top​Bar</a></li><li class="property"><a href="#mainvc.timelabel">time​Label</a></li><li class="property"><a href="#mainvc.timer">timer</a></li><li class="property"><a href="#mainvc.date">date</a></li><li class="property"><a href="#mainvc.calendar">calendar</a></li><li class="property"><a href="#mainvc.dateformatter">date​Formatter</a></li><li class="property"><a href="#mainvc.logoutbutton">logout​Button</a></li><li class="property"><a href="#mainvc.refreshcontrol">refresh​Control</a></li><li class="property"><a href="#mainvc.summarylabel">summary​Label</a></li><li class="property"><a href="#mainvc.ref">ref</a></li><li class="property"><a href="#mainvc.alarmtable">alarm​Table</a></li></ul></li><li><a href="#methods">Methods</a><ul><li class="method"><a href="#mainvc.reloadtabledelegate()">reload​Table​Delegate()</a></li><li class="method"><a href="#mainvc.viewdidload()">view​Did​Load()</a></li><li class="method"><a href="#mainvc.updatetimelabel()">update​Time​Label()</a></li><li class="method"><a href="#mainvc.reloadtable()">reload​Table()</a></li><li class="method"><a href="#mainvc.summarylabelsetup()">summary​Label​Setup()</a></li><li class="method"><a href="#mainvc.logoutbuttonclicked()">logout​Button​Clicked()</a></li><li class="method"><a href="#mainvc.fetchfromfirebase()">fetch​From​Firebase()</a></li><li class="method"><a href="#mainvc.tableview(_:numberofrowsinsection:)">table​View(_:​number​OfRows​InSection:​)</a></li><li class="method"><a href="#mainvc.tableview(_:cellforrowat:)">table​View(_:​cell​For​Row​At:​)</a></li><li class="method"><a href="#mainvc.tableview(_:didselectrowat:)">table​View(_:​did​Select​Row​At:​)</a></li><li class="method"><a href="#mainvc.usernotificationcenter(_:willpresent:withcompletionhandler:)">user​Notification​Center(_:​will​Present:​with​Completion​Handler:​)</a></li><li class="method"><a href="#mainvc.usernotificationcenter(_:didreceive:withcompletionhandler:)">user​Notification​Center(_:​did​Receive:​with​Completion​Handler:​)</a></li><li class="method"><a href="#mainvc.logoutbuttonsetup()">logout​Button​Setup()</a></li><li class="method"><a href="#mainvc.alarmtablesetup()">alarm​Table​Setup()</a></li><li class="method"><a href="#mainvc.topviewsetup()">top​View​Setup()</a></li><li class="method"><a href="#mainvc.timelabelsetup()">time​Label​Setup()</a></li><li class="method"><a href="#mainvc.welcometextviewsetup()">welcome​Text​View​Setup()</a></li><li class="method"><a href="#mainvc.clocklabelsetup()">clock​Label​Setup()</a></li><li class="method"><a href="#mainvc.viewwillappear(_:)">view​Will​Appear(_:​)</a></li></ul></li></ol>
         </div>
     </nav>
 
     <main>
         <article>
-                <section id="classes">
-        <h2>Classes</h2>
-        <dl>
-            <dt class="class">
-    <a href="Alarm" title="class - Alarm">
-        Alarm
-    </a>
-</dt>
-<dd>
-    
-</dd>
-<dt class="class">
-    <a href="AlarmDB" title="class - AlarmDB">
-        Alarm​DB
-    </a>
-</dt>
-<dd>
-    
-</dd>
-<dt class="class">
-    <a href="AlarmScheduler" title="class - AlarmScheduler">
-        Alarm​Scheduler
-    </a>
-</dt>
-<dd>
-    <p>Alarm scheduling class to schedule alarm</p>
+            <h1>
+    <small>Class</small>
+    <code class="name">Main​VC</code>
+</h1>
 
-</dd>
-<dt class="class">
-    <a href="AlarmVC" title="class - AlarmVC">
-        Alarm​VC
-    </a>
-</dt>
-<dd>
-    <p>The alarm view controller that is show after a row on the table is tapped</p>
-
-</dd>
-<dt class="class">
-    <a href="AppDelegate" title="class - AppDelegate">
-        App​Delegate
-    </a>
-</dt>
-<dd>
-    
-</dd>
-<dt class="class">
-    <a href="FirebaseUtil" title="class - FirebaseUtil">
-        Firebase​Util
-    </a>
-</dt>
-<dd>
-    
-</dd>
-<dt class="class">
-    <a href="MainVC" title="class - MainVC">
-        Main​VC
-    </a>
-</dt>
-<dd>
+<html><body><pre class="highlight"><code><span class="keyword">class</span> <span class="type">MainVC</span>: <span class="type">UIViewController</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
     <p>The main view controlller of the app. Users often see this view controller as a default. This is where all the alarms are fetched from firebase and alarm requests are made to the OS.</p>
 
-</dd>
-<dt class="class">
-    <a href="RewardVC" title="class - RewardVC">
-        Reward​VC
-    </a>
-</dt>
-<dd>
-    
-</dd>
-<dt class="class">
-    <a href="RootViewController" title="class - RootViewController">
-        Root​View​Controller
-    </a>
-</dt>
-<dd>
-    
-</dd>
-<dt class="class">
-    <a href="SignInVC" title="class - SignInVC">
-        Sign​InVC
-    </a>
-</dt>
-<dd>
-    
-</dd>
-        </dl>
-    </section>
-    <section id="structures">
-        <h2>Structures</h2>
-        <dl>
-            <dt class="structure">
-    <a href="AppDatabase" title="structure - AppDatabase">
-        App​Database
-    </a>
-</dt>
-<dd>
-    <p>A type responsible for initializing the application database.</p>
+</div>
+<section id="relationships">
+    <h2 hidden>Relationships</h2>
+        <figure>
+    <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.42.3 (20191010.1750)
+ -->
+<!-- Title: %3 Pages: 1 -->
+<svg width="1301pt" height="268pt"
+ viewBox="0.00 0.00 1300.77 268.35" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 264.35)">
+<title>%3</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-264.35 1296.77,-264.35 1296.77,4 -4,4"/>
+<!-- MainVC -->
+<g id="node1" class="node class current">
+<title>MainVC</title>
+<g id="a_node1"><a xlink:href="/MainVC" xlink:title="MainVC">
+<path fill="none" stroke="black" stroke-width="3" d="M751.29,-138.57C751.29,-138.57 559.29,-138.57 559.29,-138.57 553.29,-138.57 547.29,-132.57 547.29,-126.57 547.29,-126.57 547.29,-114.57 547.29,-114.57 547.29,-108.57 553.29,-102.57 559.29,-102.57 559.29,-102.57 751.29,-102.57 751.29,-102.57 757.29,-102.57 763.29,-108.57 763.29,-114.57 763.29,-114.57 763.29,-126.57 763.29,-126.57 763.29,-132.57 757.29,-138.57 751.29,-138.57"/>
+<text text-anchor="middle" x="655.29" y="-117.52" font-family="Menlo" font-size="14.00">MainVC</text>
+</a>
+</g>
+</g>
+<!-- UNUserNotificationCenterDelegate -->
+<g id="node2" class="node unknown">
+<title>UNUserNotificationCenterDelegate</title>
+<path fill="none" stroke="black" d="M1148.33,-44.75C1148.33,-44.75 886.89,-44.75 886.89,-44.75 880.89,-44.75 874.89,-38.75 874.89,-32.75 874.89,-32.75 874.89,-20.75 874.89,-20.75 874.89,-14.75 880.89,-8.75 886.89,-8.75 886.89,-8.75 1148.33,-8.75 1148.33,-8.75 1154.33,-8.75 1160.33,-14.75 1160.33,-20.75 1160.33,-20.75 1160.33,-32.75 1160.33,-32.75 1160.33,-38.75 1154.33,-44.75 1148.33,-44.75"/>
+<text text-anchor="middle" x="1017.61" y="-23.7" font-family="Menlo" font-size="14.00">UNUserNotificationCenterDelegate</text>
+</g>
+<!-- MainVC&#45;&gt;UNUserNotificationCenterDelegate -->
+<g id="edge3" class="edge conformsTo">
+<title>MainVC&#45;&gt;UNUserNotificationCenterDelegate</title>
+<path fill="none" stroke="black" d="M725.15,-102.48C786.05,-86.71 874.35,-63.84 937.97,-47.37"/>
+<polygon fill="black" stroke="black" points="939.16,-50.68 947.96,-44.78 937.41,-43.9 939.16,-50.68"/>
+</g>
+<!-- AlarmVCDelegate -->
+<g id="node3" class="node protocol">
+<title>AlarmVCDelegate</title>
+<g id="a_node3"><a xlink:href="/AlarmVCDelegate" xlink:title="AlarmVCDelegate">
+<path fill="none" stroke="black" d="M445.6,-36C445.6,-36 253.6,-36 253.6,-36 247.6,-36 241.6,-30 241.6,-24 241.6,-24 241.6,-12 241.6,-12 241.6,-6 247.6,0 253.6,0 253.6,0 445.6,0 445.6,0 451.6,0 457.6,-6 457.6,-12 457.6,-12 457.6,-24 457.6,-24 457.6,-30 451.6,-36 445.6,-36"/>
+<text text-anchor="middle" x="349.6" y="-14.95" font-family="Menlo" font-size="14.00">AlarmVCDelegate</text>
+</a>
+</g>
+</g>
+<!-- MainVC&#45;&gt;AlarmVCDelegate -->
+<g id="edge1" class="edge conformsTo">
+<title>MainVC&#45;&gt;AlarmVCDelegate</title>
+<path fill="none" stroke="black" d="M601.34,-102.47C548.71,-84.81 468.66,-57.95 413.01,-39.28"/>
+<polygon fill="black" stroke="black" points="413.86,-35.87 403.27,-36.01 411.63,-42.51 413.86,-35.87"/>
+</g>
+<!-- UIViewController -->
+<g id="node4" class="node unknown">
+<title>UIViewController</title>
+<path fill="none" stroke="black" d="M204,-170.58C204,-170.58 12,-170.58 12,-170.58 6,-170.58 0,-164.58 0,-158.58 0,-158.58 0,-146.58 0,-146.58 0,-140.58 6,-134.58 12,-134.58 12,-134.58 204,-134.58 204,-134.58 210,-134.58 216,-140.58 216,-146.58 216,-146.58 216,-158.58 216,-158.58 216,-164.58 210,-170.58 204,-170.58"/>
+<text text-anchor="middle" x="108" y="-149.53" font-family="Menlo" font-size="14.00">UIViewController</text>
+</g>
+<!-- MainVC&#45;&gt;UIViewController -->
+<g id="edge4" class="edge conformsTo">
+<title>MainVC&#45;&gt;UIViewController</title>
+<path fill="none" stroke="black" d="M547.16,-126.89C454.74,-132.3 321.96,-140.07 226.64,-145.64"/>
+<polygon fill="black" stroke="black" points="226.15,-142.17 216.37,-146.24 226.56,-149.15 226.15,-142.17"/>
+</g>
+<!-- UITableViewDataSource -->
+<g id="node5" class="node unknown">
+<title>UITableViewDataSource</title>
+<path fill="none" stroke="black" d="M1280.77,-182.76C1280.77,-182.76 1088.77,-182.76 1088.77,-182.76 1082.77,-182.76 1076.77,-176.76 1076.77,-170.76 1076.77,-170.76 1076.77,-158.76 1076.77,-158.76 1076.77,-152.76 1082.77,-146.76 1088.77,-146.76 1088.77,-146.76 1280.77,-146.76 1280.77,-146.76 1286.77,-146.76 1292.77,-152.76 1292.77,-158.76 1292.77,-158.76 1292.77,-170.76 1292.77,-170.76 1292.77,-176.76 1286.77,-182.76 1280.77,-182.76"/>
+<text text-anchor="middle" x="1184.77" y="-161.7" font-family="Menlo" font-size="14.00">UITableViewDataSource</text>
+</g>
+<!-- MainVC&#45;&gt;UITableViewDataSource -->
+<g id="edge5" class="edge conformsTo">
+<title>MainVC&#45;&gt;UITableViewDataSource</title>
+<path fill="none" stroke="black" d="M763.4,-129.59C851.44,-136.94 975.57,-147.3 1066.3,-154.87"/>
+<polygon fill="black" stroke="black" points="1066.1,-158.36 1076.36,-155.71 1066.68,-151.39 1066.1,-158.36"/>
+</g>
+<!-- UITableViewDelegate -->
+<g id="node6" class="node unknown">
+<title>UITableViewDelegate</title>
+<path fill="none" stroke="black" d="M724.53,-260.35C724.53,-260.35 532.53,-260.35 532.53,-260.35 526.53,-260.35 520.53,-254.35 520.53,-248.35 520.53,-248.35 520.53,-236.35 520.53,-236.35 520.53,-230.35 526.53,-224.35 532.53,-224.35 532.53,-224.35 724.53,-224.35 724.53,-224.35 730.53,-224.35 736.53,-230.35 736.53,-236.35 736.53,-236.35 736.53,-248.35 736.53,-248.35 736.53,-254.35 730.53,-260.35 724.53,-260.35"/>
+<text text-anchor="middle" x="628.53" y="-239.3" font-family="Menlo" font-size="14.00">UITableViewDelegate</text>
+</g>
+<!-- MainVC&#45;&gt;UITableViewDelegate -->
+<g id="edge2" class="edge conformsTo">
+<title>MainVC&#45;&gt;UITableViewDelegate</title>
+<path fill="none" stroke="black" d="M651.28,-138.8C646.91,-158.71 639.85,-190.84 634.75,-214.04"/>
+<polygon fill="black" stroke="black" points="631.29,-213.47 632.56,-223.99 638.13,-214.98 631.29,-213.47"/>
+</g>
+</g>
+</svg>
 
-</dd>
-        </dl>
+
+    <figcaption hidden>Inheritance graph for MainVC.</figcaption>
+</figure>
+        <h3>Conforms To</h3>
+<dl>
+    <dt class="protocol"><code><a href="AlarmVCDelegate">AlarmVCDelegate</a></code></dt>
+<dd></dd>
+<dt class="unknown"><code>UITableViewDataSource</code></dt>
+<dt class="unknown"><code>UITableViewDelegate</code></dt>
+<dt class="unknown"><code>UIViewController</code></dt>
+<dt class="unknown"><code>UNUserNotificationCenterDelegate</code></dt>
+</dl>
+</section>
+    <section id="properties">
+        <h2>Properties</h2>
+
+        <div role="article" class="class" id="mainvc.welcometextview">
+    <h3>
+        <code>welcome​Text​View</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">let</span> <span class="variable">welcomeTextView</span></code></pre></body></html>
+</div>
+<div role="article" class="class" id="mainvc.clocklabel">
+    <h3>
+        <code>clock​Label</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">let</span> <span class="variable">clockLabel</span></code></pre></body></html>
+</div>
+<div role="article" class="class" id="mainvc.topbar">
+    <h3>
+        <code>top​Bar</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">let</span> <span class="variable">topBar</span></code></pre></body></html>
+</div>
+<div role="article" class="class" id="mainvc.timelabel">
+    <h3>
+        <code>time​Label</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">let</span> <span class="variable">timeLabel</span></code></pre></body></html>
+</div>
+<div role="article" class="class" id="mainvc.timer">
+    <h3>
+        <code>timer</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">var</span> <span class="variable">timer</span></code></pre></body></html>
+</div>
+<div role="article" class="class" id="mainvc.date">
+    <h3>
+        <code>date</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">var</span> <span class="variable">date</span></code></pre></body></html>
+</div>
+<div role="article" class="class" id="mainvc.calendar">
+    <h3>
+        <code>calendar</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">let</span> <span class="variable">calendar</span></code></pre></body></html>
+</div>
+<div role="article" class="class" id="mainvc.dateformatter">
+    <h3>
+        <code>date​Formatter</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">let</span> <span class="variable">dateFormatter</span></code></pre></body></html>
+</div>
+<div role="article" class="class" id="mainvc.logoutbutton">
+    <h3>
+        <code>logout​Button</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">let</span> <span class="variable">logoutButton</span></code></pre></body></html>
+</div>
+<div role="article" class="class" id="mainvc.refreshcontrol">
+    <h3>
+        <code>refresh​Control</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">var</span> <span class="variable">refreshControl</span></code></pre></body></html>
+</div>
+<div role="article" class="class" id="mainvc.summarylabel">
+    <h3>
+        <code>summary​Label</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">let</span> <span class="variable">summaryLabel</span></code></pre></body></html>
+</div>
+<div role="article" class="class" id="mainvc.ref">
+    <h3>
+        <code>ref</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">var</span> <span class="variable">ref</span>: <span class="type">DatabaseReference</span>!</code></pre></body></html>
+</div>
+<div role="article" class="class" id="mainvc.alarmtable">
+    <h3>
+        <code>alarm​Table</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">let</span> <span class="variable">alarmTable</span></code></pre></body></html>
+</div>
     </section>
-    <section id="protocols">
-        <h2>Protocols</h2>
-        <dl>
-            <dt class="protocol">
-    <a href="AlarmVCDelegate" title="protocol - AlarmVCDelegate">
-        Alarm​VCDelegate
-    </a>
-</dt>
-<dd>
-    
-</dd>
-        </dl>
+    <section id="methods">
+        <h2>Methods</h2>
+
+        <div role="article" class="class" id="mainvc.reloadtabledelegate()">
+    <h3>
+        <code>reload​Table​Delegate()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">reloadTableDelegate</span>()</code></pre></body></html>
+</div>
+<div role="article" class="class" id="mainvc.viewdidload()">
+    <h3>
+        <code>view​Did​Load()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="attribute">override</span> <span class="keyword">func</span> <span class="function">viewDidLoad</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>This is tha main function where all the important tasks are called, such as loading the UI, Fetching from firebase and loading data into array</p>
+
+</div>
+</div>
+<div role="article" class="class" id="mainvc.updatetimelabel()">
+    <h3>
+        <code>update​Time​Label()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="attribute">@</span><span class="attribute">objc</span> <span class="keyword">func</span> <span class="function">updateTimeLabel</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Updates the time label for the clock shown on screen. Also refreshes the table view after certain time period</p>
+
+</div>
+</div>
+<div role="article" class="class" id="mainvc.reloadtable()">
+    <h3>
+        <code>reload​Table()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="attribute">@</span><span class="attribute">objc</span> <span class="keyword">func</span> <span class="function">reloadTable</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Reloads data in the table view</p>
+
+</div>
+</div>
+<div role="article" class="class" id="mainvc.summarylabelsetup()">
+    <h3>
+        <code>summary​Label​Setup()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">summaryLabelSetup</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Sets up the summary label. This label shows how many alarms are remaining to be completed for the day.</p>
+
+</div>
+</div>
+<div role="article" class="class" id="mainvc.logoutbuttonclicked()">
+    <h3>
+        <code>logout​Button​Clicked()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="attribute">@</span><span class="attribute">objc</span> <span class="keyword">func</span> <span class="function">logoutButtonClicked</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Logout button action. Logout the user from the app</p>
+
+</div>
+</div>
+<div role="article" class="class" id="mainvc.fetchfromfirebase()">
+    <h3>
+        <code>fetch​From​Firebase()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">fetchFromFirebase</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Fetches data from firebase and loads them in an array to be supplied to table view</p>
+
+</div>
+</div>
+<div role="article" class="class" id="mainvc.tableview(_:numberofrowsinsection:)">
+    <h3>
+        <code>table​View(_:​number​OfRows​InSection:​)</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">tableView</span>(<span class="keyword">_</span> <span class="variable">tableView</span>: <span class="type">UITableView</span>, <span class="variable">numberOfRowsInSection</span> <span class="variable">section</span>: <span class="type">Int</span>) -&gt; <span class="type">Int</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Built in tablie view function. Determines how many rows to be shown in the table</p>
+
+</div>
+<h4>Parameters</h4>
+
+<table class="parameters">
+  <thead hidden>
+  <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+  </tr>
+  </thead>
+  <tbody>
+    <tr>
+    <th>table​View</th>
+    <td><code class="type">UITable​View</code></td></td>
+    <td><p>table view class</p>
+</td>
+</tr>
+<tr>
+    <th>section</th>
+    <td><code class="type">Int</code></td></td>
+    <td><p>number of rows</p>
+</td>
+</tr>
+  </tbody>
+</table>
+</div>
+<div role="article" class="class" id="mainvc.tableview(_:cellforrowat:)">
+    <h3>
+        <code>table​View(_:​cell​For​Row​At:​)</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">tableView</span>(<span class="keyword">_</span> <span class="variable">tableView</span>: <span class="type">UITableView</span>, <span class="variable">cellForRowAt</span> <span class="variable">indexPath</span>: <span class="type">IndexPath</span>) -&gt; <span class="type">UITableViewCell</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Sorts out the data to be shown in each row of the table</p>
+
+</div>
+</div>
+<div role="article" class="class" id="mainvc.tableview(_:didselectrowat:)">
+    <h3>
+        <code>table​View(_:​did​Select​Row​At:​)</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">tableView</span>(<span class="keyword">_</span> <span class="variable">tableView</span>: <span class="type">UITableView</span>, <span class="variable">didSelectRowAt</span> <span class="variable">indexPath</span>: <span class="type">IndexPath</span>)</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Action to be done when a row is tapped</p>
+
+</div>
+</div>
+<div role="article" class="class" id="mainvc.usernotificationcenter(_:willpresent:withcompletionhandler:)">
+    <h3>
+        <code>user​Notification​Center(_:​will​Present:​with​Completion​Handler:​)</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="attribute">@</span><span class="attribute">available</span>(<span class="keyword">iOS</span> <span class="number literal">10.0</span>, *) <span class="keyword">func</span> <span class="function">userNotificationCenter</span>(<span class="keyword">_</span> <span class="variable">center</span>: <span class="type">UNUserNotificationCenter</span>, <span class="variable">willPresent</span> <span class="variable">notification</span>: <span class="type">UNNotification</span>, <span class="variable">withCompletionHandler</span> <span class="variable">completionHandler</span>: <span class="attribute">@</span><span class="attribute">escaping</span> (<span class="type">UNNotificationPresentationOptions</span>) -&gt; <span class="type">Void</span>)</code></pre></body></html>
+</div>
+<div role="article" class="class" id="mainvc.usernotificationcenter(_:didreceive:withcompletionhandler:)">
+    <h3>
+        <code>user​Notification​Center(_:​did​Receive:​with​Completion​Handler:​)</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="attribute">@</span><span class="attribute">available</span>(<span class="keyword">iOS</span> <span class="number literal">10.0</span>, *) <span class="keyword">func</span> <span class="function">userNotificationCenter</span>(<span class="keyword">_</span> <span class="variable">center</span>: <span class="type">UNUserNotificationCenter</span>, <span class="variable">didReceive</span> <span class="variable">response</span>: <span class="type">UNNotificationResponse</span>, <span class="variable">withCompletionHandler</span> <span class="variable">completionHandler</span>: <span class="attribute">@</span><span class="attribute">escaping</span> () -&gt; <span class="type">Void</span>)</code></pre></body></html>
+</div>
+<div role="article" class="class" id="mainvc.logoutbuttonsetup()">
+    <h3>
+        <code>logout​Button​Setup()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">logoutButtonSetup</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Sets up the size/location/shape and style of the logout button</p>
+
+</div>
+</div>
+<div role="article" class="class" id="mainvc.alarmtablesetup()">
+    <h3>
+        <code>alarm​Table​Setup()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">alarmTableSetup</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Sets up the size/location/shape and style of the alarm table</p>
+
+</div>
+</div>
+<div role="article" class="class" id="mainvc.topviewsetup()">
+    <h3>
+        <code>top​View​Setup()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">topViewSetup</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Sets up the size/location/shape and style of the top view</p>
+
+</div>
+</div>
+<div role="article" class="class" id="mainvc.timelabelsetup()">
+    <h3>
+        <code>time​Label​Setup()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">timeLabelSetup</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Sets up the size/location/shape and style of the time label</p>
+
+</div>
+</div>
+<div role="article" class="class" id="mainvc.welcometextviewsetup()">
+    <h3>
+        <code>welcome​Text​View​Setup()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">welcomeTextViewSetup</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Sets up the size/location/shape and style of the welcome text</p>
+
+</div>
+</div>
+<div role="article" class="class" id="mainvc.clocklabelsetup()">
+    <h3>
+        <code>clock​Label​Setup()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">clockLabelSetup</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Sets up the size/location/shape and style of the clock label</p>
+
+</div>
+</div>
+<div role="article" class="class" id="mainvc.viewwillappear(_:)">
+    <h3>
+        <code>view​Will​Appear(_:​)</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="attribute">override</span> <span class="keyword">func</span> <span class="function">viewWillAppear</span>(<span class="keyword">_</span> <span class="variable">animated</span>: <span class="type">Bool</span>)</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Refreshes the data in the alarm table when the view is loaded</p>
+
+</div>
+</div>
     </section>
+
+
+
         </article>
     </main>
 
